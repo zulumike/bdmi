@@ -2,7 +2,7 @@ import React from "react";
 
 function MemberForm() {
     return (
-        <form id="memberform" action="javascript:addMember()">
+        <form id="memberform">
             <input 
                 type="text" 
                 name="firstname" 
