@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+
+// const [addMemberFName, setaddMemberFName] = useState("");
+// const [addMemberLName, setAddMemberLName] = useState("");
+// const [addMemberEmail, setaddMemberEmail] = useState("");
+// const [addMemberPhone, setaddMemberPhone] = useState("");
+// const addMemberRole = "member";
+// const addMemberStatus = "registered";
+// let saveToDBOK = false;
 
 function MemberForm() {
     return (
-        <form id="memberform" action="javascript:addMember()">
+        <form id="memberform">
             <input 
                 type="text" 
                 name="firstname" 
