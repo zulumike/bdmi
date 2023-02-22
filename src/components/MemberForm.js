@@ -36,3 +36,5 @@ function MemberForm() {
 
     )
 }
+
+export default MemberForm;
