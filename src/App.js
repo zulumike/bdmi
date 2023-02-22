@@ -3,8 +3,9 @@ import MemberForm from './components/MemberForm.js';
 
 function App() {
   const value = 'World';
-  return 
+  return (
     <MemberForm />
+  )
 }
 
 export default App;
