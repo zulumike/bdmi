@@ -1,8 +1,9 @@
 import React from 'react';
+import MemberForm from './components/MemberForm.js';
 
 function App() {
   const value = 'World';
-  return <div><h1>Hello {value}</h1></div>;
+  return MemberForm();
 }
 
 export default App;
