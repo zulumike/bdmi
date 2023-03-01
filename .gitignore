@@ -26,3 +26,5 @@ yarn-error.log*
 /playwright/.cache/
 
 /Docu
+local.settings.json
+.env

@@ -1,6 +1,5 @@
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
-
     const firstName = (req.query.firstname || (req.body && req.body.firstname));
     const lastName = (req.query.lastname || (req.body && req.body.lastname));
     const email = (req.query.email || (req.body && req.body.email));
