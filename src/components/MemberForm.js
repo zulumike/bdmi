@@ -13,7 +13,7 @@ import React, { useState } from "react";
 function addMemberToDB(formData, memberRole, memberStatus) {
     // const saveToDBURL = "http://localhost:7071/api/DBWrite";
     let saveToDBURL = '';
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV === 'production') {
         saveToDBURL = process.env.REACT_APP_saveToDBURL
     }
     else {
