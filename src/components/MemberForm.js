@@ -12,6 +12,13 @@ import React, { useState } from "react";
 
 function addMemberToDB(formData, memberRole, memberStatus) {
     // const saveToDBURL = "http://localhost:7071/api/DBWrite";
+    if (process.env.NODE_ENV == 'production') {
+        const saveToDBURL = process.env.REACT_APP_saveToDBURL
+    }
+    else {
+        const saveToDBURL = process.env.REACT_APP_saveToDBURL_local
+
+    }
     const saveToDBURL = process.env.REACT_APP_saveToDBURL;
     console.log("SaveToDBURL: " + saveToDBURL);
     let xhr = new XMLHttpRequest();
@@ -33,7 +40,6 @@ function addMemberToDB(formData, memberRole, memberStatus) {
 // If code match call function addMemberToDB
 
 function MemberForm() {
-
     const [formInputs, setFormInputs] = useState({});
 
     const formChange = (event) => {
