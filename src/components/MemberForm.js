@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 //***********************
 // FUNCTION addMemberToDB
@@ -12,14 +12,14 @@ import React, { useState } from "react";
 
 function addMemberToDB(formData, memberRole, memberStatus) {
     // const saveToDBURL = "http://localhost:7071/api/DBWrite";
+    let saveToDBURL = '';
     if (process.env.NODE_ENV == 'production') {
-        const saveToDBURL = process.env.REACT_APP_saveToDBURL
+        saveToDBURL = process.env.REACT_APP_saveToDBURL
     }
     else {
-        const saveToDBURL = process.env.REACT_APP_saveToDBURL_local
+        saveToDBURL = process.env.REACT_APP_saveToDBURL_local
 
     }
-    const saveToDBURL = process.env.REACT_APP_saveToDBURL;
     console.log("SaveToDBURL: " + saveToDBURL);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", saveToDBURL);
