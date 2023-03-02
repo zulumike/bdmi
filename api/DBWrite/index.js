@@ -8,9 +8,9 @@ module.exports = async function (context, req) {
     const createdDate = (req.query.createddate || (req.body && req.body.createddate));
     const deactivatedDate = (req.query.deactivateddate || (req.body && req.body.deactivateddate));
     const status = (req.query.status || (req.body && req.body.status));
-        const responseMessage = firstName + " " + lastName
-        ? "Success"
-        : "This HTTP triggered function executed successfully.";
+    const responseMessage = firstName + " " + lastName
+    ? "Success"
+    : "This HTTP triggered function executed successfully.";
     context.bindings.outputDocument = JSON.stringify({
             // create a random ID
             id: new Date().toISOString() + Math.random().toString().substring(2, 10),

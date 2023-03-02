@@ -61,8 +61,8 @@ function sendCodeByEmail(mailAddress, code) {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = () => console.log(xhr.responseText);
     messageData.mailAddress = mailAddress;
-    messageData.subject = 'Velkommen til Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å fullføre registreringen: ' + code;
+    messageData.subject = 'Verifisering av kode Bevar Dovrefjell';
+    messageData.text = 'Tast inn følgende kode for å verifisere: ' + code;
     let data = JSON.stringify(messageData);
     xhr.send(data);
 };
@@ -73,7 +73,7 @@ function sendCodeByEmail(mailAddress, code) {
 // and asks for confirmation of that code.
 // If code match call function addMemberToDB
 
-function MemberForm() {
+function MemberFormAdmin() {
     const [formInputs, setFormInputs] = useState({});
 
     const formChange = (event) => {
@@ -159,4 +159,4 @@ function MemberForm() {
     )
 }
 
-export default MemberForm;
+export default MemberFormAdmin;
