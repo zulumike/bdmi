@@ -49,7 +49,7 @@ function addMemberToDB(formData, memberRole, memberStatus) {
 function sendCodeByEmail(mailAddress, code) {
     let sendMailURL = '';
     if (process.env.NODE_ENV === 'production') {
-        sendMailURL = '/api/DBWrite';
+        sendMailURL = '/api/SendEmail';
     }
     else {
         sendMailURL = 'http://localhost:7071/api/SendEmail';
