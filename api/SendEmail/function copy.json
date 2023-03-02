@@ -14,6 +14,16 @@
       "type": "http",
       "direction": "out",
       "name": "res"
+    },
+    {
+      "type": "sendGrid",
+      "name": "message",
+      "direction": "out",
+      "apiKey": "SendGridApiKey",
+      "from": "Bevar Dovrefjell <post@bevardovrefjell.no>",
+      "to": "{customerEmail}",
+      "subject": "",
+      "text": ""
     }
   ]
 }

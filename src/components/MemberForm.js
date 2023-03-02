@@ -24,7 +24,7 @@ function addMemberToDB(formData, memberRole, memberStatus) {
     xhr.open("POST", saveToDBURL);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = () => {
-        console.log(xhr.responseText);
+        console.log('WriteDB api status: ', xhr.responseText);
         if (xhr.responseText === 'Success') {
             alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene");
         }
@@ -59,7 +59,7 @@ function sendCodeByEmail(mailAddress, code) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", sendMailURL);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => console.log(xhr.responseText);
+    xhr.onload = () => console.log('sendEmail api status: ', xhr.responseText);
     messageData.mailAddress = mailAddress;
     messageData.subject = 'Velkommen til Bevar Dovrefjell';
     messageData.text = 'Tast inn følgende kode for å fullføre registreringen: ' + code;

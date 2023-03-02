@@ -2,12 +2,13 @@ module.exports = function (context, req) {
 
     // using Twilio SendGrid's v3 Node.js Library
     // https://github.com/sendgrid/sendgrid-nodejs
-
+    context.log('JavaScript HTTP trigger function processed a request to SendEmail Api.');
     const mailAddress = (req.query.mailAddress || (req.body && req.body.mailAddress));
     const subject = (req.query.subject || (req.body && req.body.subject));
     const text = (req.query.text || (req.body && req.body.text));
-    // const msgText = '<strong>' + text + '</strong>';
-
+    const responseMessage = mailAddress
+    ? "Success"
+    : "This HTTP triggered function executed successfully.";
     const sgMail = require('@sendgrid/mail')
     sgMail.setApiKey(process.env.SendGridApiKey)
     const msg = {
@@ -25,21 +26,9 @@ module.exports = function (context, req) {
     .catch((error) => {
         context.log(error)
     })
-
-
-//    var message = {
-//         "personalizations": [ { "to": [ { "email": mailAddress } ] } ],
-//         from: { email: "post@bevardovrefjell.no" },
-//         subject: subject,
-//         content: [{
-//             type: 'text/plain',
-//             value: text        
-//         }]
-//     };
-//     context.res = {
-//         body: message
-//     };
-//     return message;
-
+    context.res = {
+        // status: 200, /* Defaults to 200 */
+        body: responseMessage
+    };
 
 };
