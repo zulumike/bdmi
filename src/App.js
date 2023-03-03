@@ -1,11 +1,10 @@
 import React from 'react';
 
-import MemberForm from './components/MemberForm.js';
+import HomePage from './components/HomePage';
 
 function App() {
-  console.log(process.env.NODE_ENV);
   return (
-    <MemberForm />
+    <HomePage />
   )
 }
 

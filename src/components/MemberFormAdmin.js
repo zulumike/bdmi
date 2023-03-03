@@ -26,55 +26,48 @@ function addMemberToDB(formData, memberRole, memberStatus) {
     xhr.onload = () => {
         console.log(xhr.responseText);
         if (xhr.responseText === 'Success') {
-            alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene");
+            alert(formData.firstname + ' ' + formData.lastname + ' er registrert');
         }
         else {
-            alert("Noe gikk galt! Prøv igjen eller kontakt post@bevardovrefjell.no");
+            alert("Noe gikk galt! Prøv igjen eller kontakt itkonsulent@bevardovrefjell.no");
         }
     };
     formData.createddate = new Date();
-    formData.status = memberStatus;
-    formData.role = memberRole;
     let data = JSON.stringify(formData);
     xhr.send(data);
 };
 
-//*************************
-// FUNCTION sendCodeByEmail
-// params: 
-//      mailaddress: string from memberForm
-//      code: string with random code from memberForm
-// Calls api to send random code by email
-
-function sendCodeByEmail(mailAddress, code) {
-    let sendMailURL = '';
+function readAllMembers() {
+    let readFromDBURL = '';
     if (process.env.NODE_ENV === 'production') {
-        sendMailURL = '/api/DBWrite';
+        readFromDBURL = '/api/DBRead';
     }
     else {
-        sendMailURL = 'http://localhost:7071/api/SendEmail';
+        readFromDBURL = 'http://localhost:7071/api/DBRead';
 
     }
-    let messageData = {};
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", sendMailURL);
+    xhr.open("POST", readFromDBURL);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => console.log(xhr.responseText);
-    messageData.mailAddress = mailAddress;
-    messageData.subject = 'Verifisering av kode Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å verifisere: ' + code;
-    let data = JSON.stringify(messageData);
-    xhr.send(data);
-};
+    xhr.onload = () => {
+        console.log(xhr.responseText);
+        // if (xhr.responseText === 'Success') {
+        //     alert(formData.firstname + ' ' + formData.lastname + ' er registrert');
+        // }
+        // else {
+        //     alert("Noe gikk galt! Prøv igjen eller kontakt itkonsulent@bevardovrefjell.no");
+        // }
+    };
+    // let data = JSON.stringify(formData);
+    xhr.send();
+}
 
-//*******************
-// FUNCTION MemberForm
-// Creates form and upon submit sends random code
-// and asks for confirmation of that code.
-// If code match call function addMemberToDB
+//*************************
+// FUNCTION MemberFormAdmin
+// Creates form and upon submit stores data to db
 
 function MemberFormAdmin() {
-    const [formInputs, setFormInputs] = useState({});
+    const [formInputs, setFormInputs] = useState({'status': 'registered', 'role': 'member'});
 
     const formChange = (event) => {
         const name = event.target.name;
@@ -84,33 +77,15 @@ function MemberFormAdmin() {
 
     //********************
     // FUNCTION submitForm
-    // Creates random code, sends code by email
-    // prompts for code and checks if identical
-    // if ok calls addMemberToDB with data to be stored
+    // Calls addMemberToDB with data to be stored
 
     const submitForm = (event) => {
         event.preventDefault();
-        const randomCode = Math.floor(Math.random()*1000000)+100001;
-        sendCodeByEmail(formInputs.email, randomCode);
-        let abort = false;
-        while (abort === false) {
-            let userCode = "";
-            userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
-            if (parseInt(userCode) === randomCode) {
-                abort = true;
-                addMemberToDB(formInputs, "Member", "Registered");
-                // alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene")
-                setFormInputs("");
-            }
-            else if (userCode === null) {
-                abort = true;
-            }
-            else {
-                alert("Feil kode");
-            }   
-        }
+        console.log('Data: ', formInputs);
+        addMemberToDB(formInputs);
+        setFormInputs("");
     }
-
+    readAllMembers();
     return (
         <form id="memberform" onSubmit={submitForm}>
             <input 
@@ -153,7 +128,29 @@ function MemberFormAdmin() {
                 required
                 onChange={formChange}
                 />
-            <input type="submit" value="Send inn" />
+            <select 
+                name="status"
+                id="idstatus"
+                form="memberform"
+                required
+                value="registered"
+                onChange={formChange}
+                >
+                <option value = "registered">Registrert</option>
+                <option value = "active">Aktiv</option>
+            </select>
+            <select 
+                name="role"
+                id="idrole"
+                required
+                value="member"
+                onChange={formChange}
+                >
+                <option value = "member">Medlem</option>
+                <option value = "superuser">Superbruker</option>
+                <option value = "admin">Administrator</option>
+            </select>
+            <input type="submit" value="Registrer" />
         </form>
 
     )

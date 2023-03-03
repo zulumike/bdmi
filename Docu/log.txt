@@ -1,3 +1,8 @@
+Lesestoff:
+    sql query: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/getting-started
+
+
+
 Ny versjon av BDMI medlemsregister.
     - Ble mye rot i strukturen på den forrige versjonen. Pluss at jeg nå ønsker å utvikle med react.
     - Må få samlet alle funksjoner i en Azure functions app tror jeg.
@@ -91,4 +96,25 @@ Ny versjon av BDMI medlemsregister.
         Installerte node.js 16 på den pc    
             Prøvde først med 18, men da funker ikke swa...
     - Fjernet .env fra rota, da jeg har lagt variabler direkte i kode.
+
+
+    - Fortsatt på memberFormAdmin. 
+        Lagt til status og rolle.
+
+    - Startet på api/function for å lese db
+        Kommet så langt at jeg har laget api/function som kjører en sql query
+            Select * from documents og leser da alle dokumenter.
+            Sender dette til front-end og presenterer i Console
+            Neste blir å "stripp" json og lagre i et array.
+            Samt presentere i en tabell.
+
+
+
+
+
+
+Tips for senere:
+    - Autentisering (pluss database):
+        https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
+
     

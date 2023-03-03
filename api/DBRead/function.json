@@ -1,0 +1,28 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "name": "allDocuments",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "bdmi",
+      "collectionName": "members",
+      "sqlQuery": "SELECT * FROM Documents",
+      "connectionStringSetting": "bdmiDBConnectionString"
+    }
+  ]
+}
