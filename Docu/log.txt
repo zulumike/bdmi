@@ -1,0 +1,94 @@
+Ny versjon av BDMI medlemsregister.
+    - Ble mye rot i strukturen på den forrige versjonen. Pluss at jeg nå ønsker å utvikle med react.
+    - Må få samlet alle funksjoner i en Azure functions app tror jeg.
+    - Sendgrid er allerede satt opp og api-key opprettet. Bruker samme der tenker jeg.
+    - Samme med Cosmos DB.
+
+
+22.02.2023
+    - Opprettet Github repository fra denne malen: https://github.com/login?return_to=%2Fstaticwebdev%2Freact-basic%2Fgenerate
+    - Klonet denne lokalt i vs code
+    - Opprettet Azure static web app via vs code 
+        (F1: Azure Create Static Web App. (name: bdmi, Region: West-Europe, Build preset: React, App Location: /, Build location: build))
+
+    - Opprettet 2 stk Azure static web app functions ved å kjøre F1: Azure Static Web App: Create HTTP Function
+        - DBWrite og SendEmail
+        - Må nok opprette flere etterhvert (bl.a DBRead).
+        - Kopierte function.json og index.js fra gamle-appen.
+        - La inn application settings i Azure -portal og i local.settings.json
+            - bdmiDBConnectionString og SendGridApiKey
+
+    - Oppgraderte npm pakker pga en del advarsler under bygging.
+        Fremdeles noen igjen pga nth-check som av en eller annen grunn vil degradere react-scripts fra 5.0.1 til 2.1.3
+        Denne må bare ignoreres.
+
+23.02.2023
+    - Oppgraderer memberform til å benytte useState
+
+24.02.2023
+    - Prøve å få testet api'ene
+    - DBWrite: sliter med å få riktig data overført. 
+    Prøvd mye forskjellig, men obs obs: Må kjøre npm run build og swa-kommando ved endring!!!
+
+25.02.2023
+    - Fant ut litt mer om å sende data til api. JSON.stringify måtte gjøres litt enklere (uten {})
+    - Nå må jeg bare finne ut hvordan legge til data i formData i funksjonen addMemberToDB i MemberForm.js
+    - Det er jo easy-peasy. objekt.key = value 
+    
+28.02.2023
+    - La inn litt dokumentasjon på de forskjellige funksjonene
+    - Prøver å få til environment variabler.....
+        Ikke rett frem det der. For en react app må key navnes REACT_APP_xxx
+        Endret dette, uten at det hjalp. Prøvd å legge til local.settings.json i src mappa
+        Det fungerte heller ikke. Prøver nå å legge i rota på prosjektet... Fremdeles undefined
+        Endret til å lagre det i en fil som heter .env istedenfor local.settings.json. Det fungerte.
+        Men får cors problemer når jeg kjører run and debug. FUngerer med å starta vha swa
+
+01.03.2023
+    - Funnet ut litt mer rund environment variabler.
+        Legger variabler i .env fil på rota av prosjektet
+        Bruker deretter en if setning for å finne ut om development eller production
+        Og henter henholdsvis local eller azure verdi.
+        Det funka bra.
+
+    - Det som er irriterende nå er at jeg må starte applikasjonen via swa kommando hvis
+      api skal funke uten CORS feil.
+      Det er forsåvidt greit nok, men da må jeg kjøre npm run build og swa-kommando for hver minste
+      endring jeg ønsker å teste....
+
+    - Fant løsning på CORS:
+        La til følgende i local.settings.json:
+            "Host": {
+                "LocalHttpPort": 7071,
+                "CORS": "*"
+            }
+
+02.03.2023
+    - Prøvd å sette opp epost-sending. 
+        Foreløpig dårlig resultat.....
+
+    - Prøve med Sendgrid sin egen npm tror jeg. Men via egen api...
+        Må installere sendgrid først:
+            npm install --save @sendgrid/mail
+            NB: Måtte gjøres i api-mappen
+            Gjorde det først i rota, men da funka api ikke i azure, kun lokalt.
+        Funker etter litt om og men....
+
+    - Fått lagt om slik at får velkommen melding hvis skriving til db ok feilmelding hvis ikke.
+    
+!!  - Må få lagt inn en sjekk om e-post adresse eksisterer fra før.
+        Må derfor få laget en api og funksjon som leser databasen, kanskje inn i et array?
+        Tror derfor jeg starter på en komponent for admin.
+            Logg inn. Legge inn e.post adresse - verifisere med kode.
+            Form for å registrere nye medlemmer, nb: pluss rolle og status
+            Liste over alle medlemmer
+                Med knapper for å slette, redigere, endre rolle og status
+    - Startet med å kopiere MemberForm.js til MemberFormAdmin.js og foretok noen justeringer.
+        Mere må til....
+    
+03.03.2023
+    - klonet repository til pc på jobb.
+        Installerte node.js 16 på den pc    
+            Prøvde først med 18, men da funker ikke swa...
+    - Fjernet .env fra rota, da jeg har lagt variabler direkte i kode.
+    
