@@ -25,7 +25,17 @@ VSCode:
     - SendGridApiKey
 
 Local development: 
+    Download your app settings from azure to local.settings.json in api folder
+    add the following for cors:
+        Host": {
+            "LocalHttpPort": 7071,
+            "CORS": "*"
+        }
+
     - npm install
     - npm run build
     Start application and api (in swa)
     - swa start build --api-location api
+    - Or better, use run and debug in vscode
+        !! Do not work with node.js > 16
+        
