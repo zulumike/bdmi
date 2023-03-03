@@ -1,4 +1,4 @@
-module.exports = function (context, req) {
+module.exports = async function (context, req) {
 
     // using Twilio SendGrid's v3 Node.js Library
     // https://github.com/sendgrid/sendgrid-nodejs
@@ -27,7 +27,7 @@ module.exports = function (context, req) {
         context.log(error)
     })
     context.res = {
-        // status: 200, /* Defaults to 200 */
+        // status: 200, 200 is default
         body: responseMessage
     };
 
