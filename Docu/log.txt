@@ -105,9 +105,24 @@ Ny versjon av BDMI medlemsregister.
         Kommet så langt at jeg har laget api/function som kjører en sql query
             Select * from documents og leser da alle dokumenter.
             Sender dette til front-end og presenterer i Console
-            Neste blir å "stripp" json og lagre i et array.
+            Neste blir å "strippe" json og lagre i et array.
             Samt presentere i en tabell.
 
+04.03.2023
+    - Utfordringer med at react vil rendre data før de er klar.
+        Løste dette vha https://www.geeksforgeeks.org/how-to-wait-for-a-reactjs-component-to-finish-updating/
+    
+    - Må få laget slik at MemberForm for lest inn alle medlemmer slik at man får sjekket
+      epost eksisterer fra før.
+      Tenkte da at det kan være lurt å lage en gjenbrukbar funksjon.
+        Opprettet egen mappe under src kalt functions.
+        Opprettet readAllMembers.js
+        lager er funksjon der for å lese db og hente ut alle medlemmer til et array.
+    - Opprettet funksjon for å hente inn alle medlemmer til array
+    - Opprettet funksjon for å sjekke om e-post adresse eller telefonnummer eksisterer fra før
+    - Ordnet kontroll slik at man ikke kan registrere duplikater (e-post og telefonnummer)
+    - Opprettet en login komponent, men gjenstår en del her....
+    
 
 
 
