@@ -133,6 +133,14 @@ Ny versjon av BDMI medlemsregister.
         Dette er nå ordnet, men foreløpig uten kryptering.
         Må vurdere å lage en ny api, som henter en "nøkkel" fra 
         application settings/local.settings.json.
+    - Installert react-modal
+    - Startet med å legge til en modal i MemberList
+        Skal åpnes når man trykker på et medlem.
+    - Begynte med å forenkle api oppkallene.
+        Bruker fetch isteden for.
+        Tok litt tid før jeg fant ut hvordan man sender data til api.
+!!        Må vel også skrive om der det sendes e-post og skrives til db...
+
 
 
 
