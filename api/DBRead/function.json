@@ -23,6 +23,15 @@
       "collectionName": "members",
       "sqlQuery": "SELECT * FROM Documents",
       "connectionStringSetting": "bdmiDBConnectionString"
+    },
+    {
+      "name": "givenMember",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "bdmi",
+      "collectionName": "members",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.id = {memberid}",
+      "connectionStringSetting": "bdmiDBConnectionString"
     }
   ]
 }

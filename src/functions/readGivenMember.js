@@ -1,5 +1,5 @@
 
-async function readAllMembers() {
+async function readGivenMember(memberId) {
     let data = {};
     let readFromDBURL = '';
     if (process.env.NODE_ENV === 'production') {
@@ -12,11 +12,10 @@ async function readAllMembers() {
 
     data = await( await fetch(readFromDBURL, {
         method: "POST",
-        body: JSON.stringify({"memberid": "*"})
-    }
-    )).json();
+        body: JSON.stringify({"memberid": memberId})}
+        )).json();
 
     return data;
 }
 
-export default readAllMembers;
+export default readGivenMember;
