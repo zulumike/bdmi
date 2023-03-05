@@ -4,6 +4,13 @@ function MemberList() {
     const lasteTekst = 'Laster data......';
     const [isLoading, setIsLoading] = useState(true); // Loading state
     const [memberArray, setMemberArray] = useState({});
+
+    function editMember(memberID) {
+        console.log(memberID);
+    }
+
+
+
     useEffect(() => {
         let readFromDBURL = '';
         if (process.env.NODE_ENV === 'production') {
@@ -46,14 +53,20 @@ return (
                     <th>Navn</th>
                     <th>E-post</th>
                     <th>Telefonnummer</th>
+                    <th>Status</th>
+                    <th>Rolle</th>
                 </tr>
             </thead>
             <tbody>
                 {memberArray.map((item) => (
-                    <tr>
+                    <tr 
+                    onClick={() => editMember(item.id)}
+                        key={item.id}>
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
+                        <td>{item.status}</td>
+                        <td>{item.role}</td>
                     </tr>
                 ))}
             </tbody>

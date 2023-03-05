@@ -122,7 +122,17 @@ Ny versjon av BDMI medlemsregister.
     - Opprettet funksjon for å sjekke om e-post adresse eller telefonnummer eksisterer fra før
     - Ordnet kontroll slik at man ikke kan registrere duplikater (e-post og telefonnummer)
     - Opprettet en login komponent, men gjenstår en del her....
-    
+
+05.03.2023
+    - Opprettet en enkel variant av login.
+        prompt for e-post adresse.
+        Hvis epost adresse eksisterer og bruker er admin eller superbruker
+        får man opp admin-form og alle medlemmer listes opp.
+!!  - Vurdere å legge inn en sperre på å liste opp alle medlemmer i api...
+    - Neste blir å få lagret login-state i local storage (med kryptering-ish)
+        Dette er nå ordnet, men foreløpig uten kryptering.
+        Må vurdere å lage en ny api, som henter en "nøkkel" fra 
+        application settings/local.settings.json.
 
 
 

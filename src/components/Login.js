@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
+import sendCodeByEmail from "../functions/sendCodeByEmail";
 
 function Login() {
     global.authenticated = false;
+    global.role = 'member'
     const [formInputs, setFormInputs] = useState({});
     const formChange = (event) => {
         const name = event.target.name;
@@ -15,16 +17,30 @@ function Login() {
         const [memberExist, phoneOrEmail, role] = await checkIfMemberExist('', formInputs.email);
         console.log('rolle: ',role);
         if (memberExist) {
-            if (role == 'member') {
+            if (role === 'Member') {
                 alert(phoneOrEmail + ' har ikke rettigheter');
             }
-            else if (role == 'superuser') {
-                console.log('superuser');
-                global.authenticated = true;
-            }
-            else if (role == 'admin') {
-                console.log('Admin');
-                global.authenticated = true;
+            else {
+                const randomCode = Math.floor(Math.random()*1000000)+100001;
+                sendCodeByEmail(formInputs.email, randomCode);
+                let abort = false;
+                while (abort === false) {
+                    let userCode = "";
+                    userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
+                    if (parseInt(userCode) === randomCode) {
+                        abort = true;
+                        global.authenticated = true
+                        global.role = role;
+                        console.log('Autentisert:', global.authenticated);
+                        console.log('Rolle: ', role);
+                    }
+                    else if (userCode === null) {
+                        abort = true;
+                    }
+                    else {
+                        alert("Feil kode");
+                    }   
+                };
             }
         }
         else {
@@ -45,18 +61,7 @@ function Login() {
                 required
                 onChange={formChange}
                 />
-            <input 
-                type="password" 
-                name="password"
-                value={formInputs.password || ""}
-                id="idpassword" 
-                autoFocus={true}
-                maxLength="50" 
-                placeholder="Passord" 
-                required
-                onChange={formChange}
-                />
-            <input type="submit" value="Logg inn" />
+            <input type="submit" value="Få engangskode" />
         </form>
     )
 }

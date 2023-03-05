@@ -2,6 +2,20 @@ import React, { useState } from "react";
 import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 
+
+
+//*************************
+// FUNCTION MemberFormAdmin
+// Creates form and upon submit stores data to db
+
+function MemberFormAdmin(user) {
+    const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
+    const formChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setFormInputs(values => ({...values, [name]: value}))
+    }
+
 //***********************
 // FUNCTION addMemberToDB
 // params: 
@@ -33,18 +47,6 @@ function addMemberToDB(formData) {
     xhr.send(data);
 };
 
-//*************************
-// FUNCTION MemberFormAdmin
-// Creates form and upon submit stores data to db
-
-function MemberFormAdmin() {
-    const [formInputs, setFormInputs] = useState({'status': 'registered', 'role': 'member'});
-    const formChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setFormInputs(values => ({...values, [name]: value}))
-    }
-
     //********************
     // FUNCTION submitForm
     // Calls addMemberToDB with data to be stored
@@ -54,81 +56,81 @@ function MemberFormAdmin() {
         const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!')
         else {
+            formInputs.createdby = user.userLoggedIn;
             addMemberToDB(formInputs);
             setFormInputs({'status': 'registered', 'role': 'member'});
         };
     };
-    // readAllMembers();
-    return (
-        <div>
-            <form id="memberform" onSubmit={submitForm}>
-                <input 
-                    type="text" 
-                    name="firstname"
-                    value={formInputs.firstname || ""}
-                    id="idfirstname" 
-                    autoFocus={true}
-                    maxLength="50" 
-                    placeholder="Fornavn" 
-                    required
-                    onChange={formChange}
-                    />
-                <input 
-                    type="text" 
-                    name="lastname" 
-                    value={formInputs.lastname || ""}
-                    id="idlastname" 
-                    maxLength="50" 
-                    placeholder="Etternavn" 
-                    required
-                    onChange={formChange}
-                    />
-                <input 
-                    type="email" 
-                    name="email"
-                    value={formInputs.email || ""}
-                    id="idemail" 
-                    placeholder="E-post" 
-                    required
-                    onChange={formChange}
-                    />
-                <input 
-                    type="tel" 
-                    name="phone"
-                    value={formInputs.phone || ""}
-                    id="idphone" 
-                    placeholder="Mobilnummer" 
-                    pattern="[0-9]{8}"
-                    required
-                    onChange={formChange}
-                    />
-                <select 
-                    name="status"
-                    id="idstatus"
-                    form="memberform"
-                    required
-                    value="registered"
-                    onChange={formChange}
-                    >
-                    <option value = "registered">Registrert</option>
-                    <option value = "active">Aktiv</option>
-                </select>
-                <select 
-                    name="role"
-                    id="idrole"
-                    required
-                    value="member"
-                    onChange={formChange}
-                    >
-                    <option value = "member">Medlem</option>
-                    <option value = "superuser">Superbruker</option>
-                    <option value = "admin">Administrator</option>
-                </select>
-                <input type="submit" value="Registrer" />
-            </form>
-            <MemberList />
-        </div>
-    )
-}
 
+return (
+    <div>
+        <form id="memberform" onSubmit={submitForm}>
+            <input 
+                type="text" 
+                name="firstname"
+                value={formInputs.firstname || ""}
+                id="idfirstname" 
+                autoFocus={true}
+                maxLength="50" 
+                placeholder="Fornavn" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="text" 
+                name="lastname" 
+                value={formInputs.lastname || ""}
+                id="idlastname" 
+                maxLength="50" 
+                placeholder="Etternavn" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="email" 
+                name="email"
+                value={formInputs.email || ""}
+                id="idemail" 
+                placeholder="E-post" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="tel" 
+                name="phone"
+                value={formInputs.phone || ""}
+                id="idphone" 
+                placeholder="Mobilnummer" 
+                pattern="[0-9]{8}"
+                required
+                onChange={formChange}
+                />
+            <select 
+                name="status"
+                id="idstatus"
+                form="memberform"
+                required
+                value={formInputs.status || ""}
+                onChange={formChange}
+                >
+                <option value = "Registrert">Registrert</option>
+                <option value = "Aktiv">Aktiv</option>
+            </select>
+            <select 
+                name="role"
+                id="idrole"
+                required
+                value={formInputs.role || ""}
+                onChange={formChange}
+                >
+                <option value = "Medlem">Medlem</option>
+                <option value = "Superbruker">Superbruker</option>
+                <option value = "Administrator">Administrator</option>
+            </select>
+            <input type="submit" value="Registrer" />
+        </form>
+        <MemberList />
+    </div>
+)
+}
 export default MemberFormAdmin;

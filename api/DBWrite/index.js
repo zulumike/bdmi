@@ -8,6 +8,7 @@ module.exports = async function (context, req) {
     const createdDate = (req.query.createddate || (req.body && req.body.createddate));
     const deactivatedDate = (req.query.deactivateddate || (req.body && req.body.deactivateddate));
     const status = (req.query.status || (req.body && req.body.status));
+    const createdBy = (req.query.createdby || (req.body && req.body.createdby));
     const responseMessage = firstName + " " + lastName
     ? "Success"
     : "This HTTP triggered function executed successfully.";
@@ -22,7 +23,8 @@ module.exports = async function (context, req) {
             role: role,
             createddate: createdDate,
             deactivateddate: deactivatedDate,
-            status: status
+            status: status,
+            createdby: createdBy
         });
 
     context.res = {

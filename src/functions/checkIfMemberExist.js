@@ -17,18 +17,17 @@ async function checkIfMemberExist(phoneNumber, emailAddress) {
     let role = 'member';
     const memberList = await readAllMembers();
     for (let i = 0; i < memberList.length; i++) {
-        if (memberList[i].phone == phoneNumber) {
+        if (memberList[i].phone === phoneNumber) {
             memberExist = true;
             phoneOrEmail = 'Telefonnummer'
             role = memberList[i].role;
         }
-        else if (memberList[i].email == emailAddress) {
+        else if (memberList[i].email === emailAddress) {
             memberExist = true;
             phoneOrEmail = 'E-post adresse'
             role = memberList[i].role;
         };
     };
-    console.log('Member exist: ', memberExist, ' duplicate is ', phoneOrEmail);
     return [memberExist, phoneOrEmail, role]
 };
 
