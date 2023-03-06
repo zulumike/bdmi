@@ -5,7 +5,6 @@ import checkIfMemberExist from '../functions/checkIfMemberExist';
 import sendCodeByEmail from '../functions/sendCodeByEmail';
 
 function HomePage() {
-  console.log(process.env.NODE_ENV);
   const [loggedInUser, setLoggedInUser] = useState();
   const [loggedInUserRole, setLoggedInUserRole] = useState();
 
@@ -53,7 +52,6 @@ function HomePage() {
   }
   
   if (loggedInUser) {
-    console.log(loggedInUser, ' innlogget');
     return (
       <div>
         <h1>{loggedInUser}</h1>
@@ -63,7 +61,6 @@ function HomePage() {
     )
   }
   
-  console.log(loggedInUser, ' utlogget');
   return (
     <div>
       <MemberForm />

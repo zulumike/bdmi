@@ -15,7 +15,6 @@ function Login() {
     async function submitForm(event) {
         event.preventDefault();
         const [memberExist, phoneOrEmail, role] = await checkIfMemberExist('', formInputs.email);
-        console.log('rolle: ',role);
         if (memberExist) {
             if (role === 'Member') {
                 alert(phoneOrEmail + ' har ikke rettigheter');
@@ -31,9 +30,7 @@ function Login() {
                         abort = true;
                         global.authenticated = true
                         global.role = role;
-                        console.log('Autentisert:', global.authenticated);
-                        console.log('Rolle: ', role);
-                    }
+                        }
                     else if (userCode === null) {
                         abort = true;
                     }

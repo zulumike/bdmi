@@ -21,7 +21,6 @@ function MemberList() {
 
     async function submitForm(event) {
         event.preventDefault();
-        console.log('memberToEdit: ', memberToEdit)
         const writeResult = await updateMember(memberToEdit, formInputs);
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
         setFormInputs({});
@@ -29,11 +28,9 @@ function MemberList() {
     }
 
     function editMember(memberId) {
-        console.log(memberId);
         setMemberToEdit(memberId);
         const givenMember = readGivenMember(memberId);
         givenMember.then((member) => {
-            console.log(member[0]);
             setFormInputs(member[0]);
             setModalOpen(true);
         })

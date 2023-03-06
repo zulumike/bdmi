@@ -162,6 +162,10 @@ Ny versjon av BDMI medlemsregister.
         Dette pga at react mener memerArray må ligge i dependency på useEffect i memberList..
         Denne er litt vrien. Må få memberlist til å rendre alle medlemmer, men uten at det går i loop...
 
+    - Ryddet opp i alle komponenter og funksjoner   
+        Fjernet console.log oppføringer.
+    - Skal også rydde opp alle api-oppkallinger til å bruke fetch.
+    
 
 
 

@@ -29,7 +29,6 @@ function MemberFormAdmin(user) {
             formInputs.createdby = user.userLoggedIn;
             const writeResult = writeNewMember(formInputs);
             writeResult.then((responseMessage) => {
-                console.log(responseMessage);
                 if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
                 setFormInputs({'status': 'registered', 'role': 'member'});
             });
