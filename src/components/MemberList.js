@@ -3,19 +3,46 @@ import ReactModal from "react-modal";
 import Modal from "react-modal";
 import readAllMembers from "../functions/readAllMembers";
 import readGivenMember from "../functions/readGivenMember";
+import updateMember from "../functions/updateMember";
 
 function MemberList() {
     Modal.setAppElement('#root')
+    let memberToEdit = '';
     const lasteTekst = 'Laster data......';
     const [isLoading, setIsLoading] = useState(true); // Loading state
     const [memberArray, setMemberArray] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
+    const [formInputs, setFormInputs] = useState({});
+    const formChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setFormInputs(values => ({...values, [name]: value}))
+    }
 
-    function editMember(memberID) {
-        console.log(memberID);
-        const givenMember = readGivenMember(memberID);
-        console.log(givenMember);
-        setModalOpen(true);
+    async function submitForm(event) {
+        event.preventDefault();
+        formInputs.memberid = memberToEdit;
+        const writeResult = await updateMember(formInputs);
+        if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
+        setFormInputs({});
+        setModalOpen(false);
+            // writeResult.then((responseMessage) => {
+            //     console.log(responseMessage);
+            //     if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
+            //     setFormInputs({});
+            //     setModalOpen(false);
+            // };)
+    };
+
+    function editMember(memberId) {
+        console.log(memberId);
+        const givenMember = readGivenMember(memberId);
+        givenMember.then((member) => {
+            console.log(member[0]);
+            setFormInputs(member[0]);
+            memberToEdit = memberId;
+            setModalOpen(true);
+        })
     };
 
     function closeEditMember() {
@@ -28,28 +55,6 @@ function MemberList() {
             if (memberArray) setIsLoading(false);
         };
         readMembers();
-        // let readFromDBURL = '';
-        // if (process.env.NODE_ENV === 'production') {
-        //     readFromDBURL = '/api/DBRead';
-        // }
-        // else {
-        //     readFromDBURL = 'http://localhost:7071/api/DBRead';
-    
-        // }
-        
-        // let xhr = new XMLHttpRequest();
-        //     xhr.open("POST", readFromDBURL);
-        //     xhr.setRequestHeader("Content-Type", "application/json");
-        // try {
-            
-        //     xhr.onload = () => {
-        //         setMemberArray(JSON.parse(xhr.responseText));  
-        //         setIsLoading(false);
-        //     };
-        //     } catch(err) {
-        //     console.error(err)
-        //     }
-        //     xhr.send();
     }, []
     );
 
@@ -93,8 +98,73 @@ return (
             shouldCloseOnOverlayClick={false}
             shouldCloseOnEsc={true}
             >
-                <h1>Testing</h1>
-                <button onClick={closeEditMember}>Lukk</button>
+            <h1>Testing</h1>
+            <form id="editmemberform" onSubmit={submitForm}>
+            <input 
+                type="text" 
+                name="firstname"
+                value={formInputs.firstname || ""}
+                id="idfirstname" 
+                autoFocus={true}
+                maxLength="50" 
+                placeholder="Fornavn" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="text" 
+                name="lastname" 
+                value={formInputs.lastname || ""}
+                id="idlastname" 
+                maxLength="50" 
+                placeholder="Etternavn" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="email" 
+                name="email"
+                value={formInputs.email || ""}
+                id="idemail" 
+                placeholder="E-post" 
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="tel" 
+                name="phone"
+                value={formInputs.phone || ""}
+                id="idphone" 
+                placeholder="Mobilnummer" 
+                pattern="[0-9]{8}"
+                required
+                onChange={formChange}
+                />
+            <select 
+                name="status"
+                id="idstatus"
+                form="memberform"
+                required
+                value={formInputs.status || ""}
+                onChange={formChange}
+                >
+                <option value = "Registrert">Registrert</option>
+                <option value = "Aktiv">Aktiv</option>
+            </select>
+            <select 
+                name="role"
+                id="idrole"
+                required
+                value={formInputs.role || ""}
+                onChange={formChange}
+                >
+                <option value = "Medlem">Medlem</option>
+                <option value = "Superbruker">Superbruker</option>
+                <option value = "Administrator">Administrator</option>
+            </select>
+            <input type="submit" value="Lagre" />
+        </form>
+                <button onClick={closeEditMember}>Avbryt</button>
             </ReactModal>
     </div>
 )

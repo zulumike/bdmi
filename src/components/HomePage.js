@@ -49,6 +49,7 @@ function HomePage() {
       setLoggedInUserRole(userRole);
       localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole }));
     }
+    else alert('Feil kode!');
   }
   
   if (loggedInUser) {

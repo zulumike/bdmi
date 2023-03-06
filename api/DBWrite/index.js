@@ -9,10 +9,29 @@ module.exports = async function (context, req) {
     const deactivatedDate = (req.query.deactivateddate || (req.body && req.body.deactivateddate));
     const status = (req.query.status || (req.body && req.body.status));
     const createdBy = (req.query.createdby || (req.body && req.body.createdby));
+    const memberid = req.body.memberid;
     const responseMessage = firstName + " " + lastName
     ? "Success"
     : "This HTTP triggered function executed successfully.";
-    context.bindings.outputDocument = JSON.stringify({
+    context.log(responseMessage);
+    if (memberid !== "*") {
+        context.bindings.outputDocument = JSON.stringify({
+                // create a random ID
+                id: new Date().toISOString() + Math.random().toString().substring(2, 10),
+                name: lastName + ", " + firstName,
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
+                phone: phone,
+                role: role,
+                createddate: createdDate,
+                deactivateddate: deactivatedDate,
+                status: status,
+                createdby: createdBy
+            });
+    }
+    else {
+        context.bindings.updateDocument = JSON.stringify({
             // create a random ID
             id: new Date().toISOString() + Math.random().toString().substring(2, 10),
             name: lastName + ", " + firstName,
@@ -26,7 +45,7 @@ module.exports = async function (context, req) {
             status: status,
             createdby: createdBy
         });
-
+    }
     context.res = {
         // status: 200, /* Defaults to 200 */
         body: responseMessage

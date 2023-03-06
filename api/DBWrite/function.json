@@ -23,6 +23,16 @@
       "collectionName": "members",
       "createIfNotExists": false,
       "connectionStringSetting": "bdmiDBConnectionString"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "updateDocument",
+      "databaseName": "bdmi",
+      "collectionName": "members",
+      "createIfNotExists": false,
+      "id": "{memberid}",
+      "connectionStringSetting": "bdmiDBConnectionString"
     }
   ]
 }

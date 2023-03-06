@@ -149,7 +149,15 @@ Ny versjon av BDMI medlemsregister.
         Tok litt tid før jeg fant ut hvordan man sender data til api.
 !!        Må vel også skrive om der det sendes e-post og skrives til db...
 
-
+06.03.2023
+    - Skrevet om DBWrite api    
+        Lagt til oppslag på id, hvis id, kjøres bindingen for å oppdatere eksisterende medlem
+        Hvis ikke kjøres binding for å legge til nytt medlem.
+    - Skrevet om funksjon for lagring av nytt medlem. Lagt dette i en egen fil under functions.
+    - Lagt til funksjon i egen fil for oppdatering av eksisterende medlem.
+    - Oppdatering av eksisterende medlem funker ikke helt. 
+        Det blir opprettet nytt medlem istedenfor.
+        
 
 
 

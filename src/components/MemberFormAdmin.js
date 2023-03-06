@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
+import writeNewMember from "../functions/writeNewMember";
 
 
 
@@ -16,37 +17,6 @@ function MemberFormAdmin(user) {
         setFormInputs(values => ({...values, [name]: value}))
     }
 
-//***********************
-// FUNCTION addMemberToDB
-// params: 
-//      formData: String, Data input from form
-//      memberRole: String, role of member (rights)
-//      memberStatus: String, status of member (registered, active)
-// Called from function submitForm
-// 
-// Creates a JSON string of data to be stored and calls api with this data
-
-function addMemberToDB(formData) {
-    
-    let saveToDBURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        saveToDBURL = '/api/DBWrite';
-    }
-    else {
-        saveToDBURL = 'http://localhost:7071/api/DBWrite';
-
-    }
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", saveToDBURL);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => {
-        console.log(xhr.responseText);
-    };
-    formData.createddate = new Date();
-    let data = JSON.stringify(formData);
-    xhr.send(data);
-};
-
     //********************
     // FUNCTION submitForm
     // Calls addMemberToDB with data to be stored
@@ -57,8 +27,12 @@ function addMemberToDB(formData) {
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!')
         else {
             formInputs.createdby = user.userLoggedIn;
-            addMemberToDB(formInputs);
-            setFormInputs({'status': 'registered', 'role': 'member'});
+            const writeResult = writeNewMember(formInputs);
+            writeResult.then((responseMessage) => {
+                console.log(responseMessage);
+                if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
+                setFormInputs({'status': 'registered', 'role': 'member'});
+            });
         };
     };
 
