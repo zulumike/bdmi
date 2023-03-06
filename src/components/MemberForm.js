@@ -1,42 +1,7 @@
 import React, { useState } from "react";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
-
-//***********************
-// FUNCTION addMemberToDB
-// params: 
-//      formData: String, Data input from form
-//      memberRole: String, role of member (rights)
-//      memberStatus: String, status of member (registered, active)
-// Called from function submitForm
-// 
-// Creates a JSON string of data to be stored and calls api with this data
-
-function addMemberToDB(formData) {
-    
-    let saveToDBURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        saveToDBURL = '/api/DBWrite';
-    }
-    else {
-        saveToDBURL = 'http://localhost:7071/api/DBWrite';
-
-    }
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", saveToDBURL);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => {
-        if (xhr.responseText === 'Success') {
-            alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene");
-        }
-        else {
-            alert("Noe gikk galt! Prøv igjen eller kontakt post@bevardovrefjell.no");
-        }
-    };
-    formData.createddate = new Date();
-    let data = JSON.stringify(formData);
-    xhr.send(data);
-};
+import writeNewMember from "../functions/writeNewMember";
 
 //*******************
 // FUNCTION MemberForm
@@ -74,8 +39,17 @@ function MemberForm() {
                     formInputs.createdby = formInputs.email;
                     formInputs.role = "Medlem";
                     formInputs.status = "Registrert";
-                    addMemberToDB(formInputs);
-                    setFormInputs("");
+
+                    const writeResult = writeNewMember(formInputs);
+                    writeResult.then((responseMessage) => {
+                        if (responseMessage.status === 200) {
+                            alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
+                            setFormInputs({});
+                        }
+                        else {
+                            alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);    
+                        }
+                         });
                 }
                 else if (userCode === null) {
                     abort = true;

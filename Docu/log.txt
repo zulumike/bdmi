@@ -164,8 +164,8 @@ Ny versjon av BDMI medlemsregister.
 
     - Ryddet opp i alle komponenter og funksjoner   
         Fjernet console.log oppføringer.
-    - Skal også rydde opp alle api-oppkallinger til å bruke fetch.
-    
+    - Ryddet opp alle api-oppkallinger til å bruke fetch.
+
 
 
 
