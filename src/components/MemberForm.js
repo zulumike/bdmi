@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import checkIfMemberExist from "../functions/checkIfMemberExist";
+import sendCodeByEmail from "../functions/sendCodeByEmail";
 
 //***********************
 // FUNCTION addMemberToDB
@@ -10,7 +12,7 @@ import React, { useState } from "react";
 // 
 // Creates a JSON string of data to be stored and calls api with this data
 
-function addMemberToDB(formData, memberRole, memberStatus) {
+function addMemberToDB(formData) {
     
     let saveToDBURL = '';
     if (process.env.NODE_ENV === 'production') {
@@ -33,39 +35,37 @@ function addMemberToDB(formData, memberRole, memberStatus) {
         }
     };
     formData.createddate = new Date();
-    formData.status = memberStatus;
-    formData.role = memberRole;
     let data = JSON.stringify(formData);
     xhr.send(data);
 };
 
-//*************************
-// FUNCTION sendCodeByEmail
-// params: 
-//      mailaddress: string from memberForm
-//      code: string with random code from memberForm
-// Calls api to send random code by email
+// //*************************
+// // FUNCTION sendCodeByEmail
+// // params: 
+// //      mailaddress: string from memberForm
+// //      code: string with random code from memberForm
+// // Calls api to send random code by email
 
-function sendCodeByEmail(mailAddress, code) {
-    let sendMailURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        sendMailURL = '/api/SendEmail';
-    }
-    else {
-        sendMailURL = 'http://localhost:7071/api/SendEmail';
+// function sendCodeByEmail(mailAddress, code) {
+//     let sendMailURL = '';
+//     if (process.env.NODE_ENV === 'production') {
+//         sendMailURL = '/api/SendEmail';
+//     }
+//     else {
+//         sendMailURL = 'http://localhost:7071/api/SendEmail';
 
-    }
-    let messageData = {};
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", sendMailURL);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => console.log('sendEmail api status: ', xhr.responseText);
-    messageData.mailAddress = mailAddress;
-    messageData.subject = 'Velkommen til Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å fullføre registreringen: ' + code;
-    let data = JSON.stringify(messageData);
-    xhr.send(data);
-};
+//     }
+//     let messageData = {};
+//     let xhr = new XMLHttpRequest();
+//     xhr.open("POST", sendMailURL);
+//     xhr.setRequestHeader("Content-Type", "application/json");
+//     xhr.onload = () => console.log('sendEmail api status: ', xhr.responseText);
+//     messageData.mailAddress = mailAddress;
+//     messageData.subject = 'Velkommen til Bevar Dovrefjell';
+//     messageData.text = 'Tast inn følgende kode for å fullføre registreringen: ' + code;
+//     let data = JSON.stringify(messageData);
+//     xhr.send(data);
+// };
 
 //*******************
 // FUNCTION MemberForm
@@ -75,12 +75,11 @@ function sendCodeByEmail(mailAddress, code) {
 
 function MemberForm() {
     const [formInputs, setFormInputs] = useState({});
-
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
-    }
+    };
 
     //********************
     // FUNCTION submitForm
@@ -88,30 +87,36 @@ function MemberForm() {
     // prompts for code and checks if identical
     // if ok calls addMemberToDB with data to be stored
 
-    const submitForm = (event) => {
+    async function submitForm(event) {
         event.preventDefault();
         const randomCode = Math.floor(Math.random()*1000000)+100001;
-        sendCodeByEmail(formInputs.email, randomCode);
-        let abort = false;
-        while (abort === false) {
-            let userCode = "";
-            userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
-            if (parseInt(userCode) === randomCode) {
-                abort = true;
-                addMemberToDB(formInputs, "Member", "Registered");
-                // alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene")
-                setFormInputs("");
-            }
-            else if (userCode === null) {
-                abort = true;
-            }
-            else {
-                alert("Feil kode");
-            }   
-        }
-    }
-
+        const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
+        if (memberExist) alert(phoneOrEmail + ' er registert fra før!\nPrøv en annen eller kontakt post@bevardovrefjell.no')
+        else {
+            sendCodeByEmail(formInputs.email, randomCode);
+            let abort = false;
+            while (abort === false) {
+                let userCode = "";
+                userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
+                if (parseInt(userCode) === randomCode) {
+                    abort = true;
+                    formInputs.createdby = formInputs.email;
+                    formInputs.role = "Medlem";
+                    formInputs.status = "Registrert";
+                    addMemberToDB(formInputs);
+                    setFormInputs("");
+                }
+                else if (userCode === null) {
+                    abort = true;
+                }
+                else {
+                    alert("Feil kode");
+                }   
+            };
+        };
+    };
     return (
+        <div>
         <form id="memberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -155,7 +160,7 @@ function MemberForm() {
                 />
             <input type="submit" value="Send inn" />
         </form>
-
+        </div>
     )
 }
 

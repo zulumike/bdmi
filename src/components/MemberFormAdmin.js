@@ -1,4 +1,20 @@
 import React, { useState } from "react";
+import MemberList from './MemberList';
+import checkIfMemberExist from "../functions/checkIfMemberExist";
+
+
+
+//*************************
+// FUNCTION MemberFormAdmin
+// Creates form and upon submit stores data to db
+
+function MemberFormAdmin(user) {
+    const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
+    const formChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setFormInputs(values => ({...values, [name]: value}))
+    }
 
 //***********************
 // FUNCTION addMemberToDB
@@ -10,7 +26,7 @@ import React, { useState } from "react";
 // 
 // Creates a JSON string of data to be stored and calls api with this data
 
-function addMemberToDB(formData, memberRole, memberStatus) {
+function addMemberToDB(formData) {
     
     let saveToDBURL = '';
     if (process.env.NODE_ENV === 'production') {
@@ -25,93 +41,29 @@ function addMemberToDB(formData, memberRole, memberStatus) {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = () => {
         console.log(xhr.responseText);
-        if (xhr.responseText === 'Success') {
-            alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene");
-        }
-        else {
-            alert("Noe gikk galt! Prøv igjen eller kontakt post@bevardovrefjell.no");
-        }
     };
     formData.createddate = new Date();
-    formData.status = memberStatus;
-    formData.role = memberRole;
     let data = JSON.stringify(formData);
     xhr.send(data);
 };
 
-//*************************
-// FUNCTION sendCodeByEmail
-// params: 
-//      mailaddress: string from memberForm
-//      code: string with random code from memberForm
-// Calls api to send random code by email
-
-function sendCodeByEmail(mailAddress, code) {
-    let sendMailURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        sendMailURL = '/api/DBWrite';
-    }
-    else {
-        sendMailURL = 'http://localhost:7071/api/SendEmail';
-
-    }
-    let messageData = {};
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", sendMailURL);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => console.log(xhr.responseText);
-    messageData.mailAddress = mailAddress;
-    messageData.subject = 'Verifisering av kode Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å verifisere: ' + code;
-    let data = JSON.stringify(messageData);
-    xhr.send(data);
-};
-
-//*******************
-// FUNCTION MemberForm
-// Creates form and upon submit sends random code
-// and asks for confirmation of that code.
-// If code match call function addMemberToDB
-
-function MemberFormAdmin() {
-    const [formInputs, setFormInputs] = useState({});
-
-    const formChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setFormInputs(values => ({...values, [name]: value}))
-    }
-
     //********************
     // FUNCTION submitForm
-    // Creates random code, sends code by email
-    // prompts for code and checks if identical
-    // if ok calls addMemberToDB with data to be stored
+    // Calls addMemberToDB with data to be stored
 
-    const submitForm = (event) => {
+    async function submitForm(event) {
         event.preventDefault();
-        const randomCode = Math.floor(Math.random()*1000000)+100001;
-        sendCodeByEmail(formInputs.email, randomCode);
-        let abort = false;
-        while (abort === false) {
-            let userCode = "";
-            userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
-            if (parseInt(userCode) === randomCode) {
-                abort = true;
-                addMemberToDB(formInputs, "Member", "Registered");
-                // alert("Velkommen som medlem i Bevar Dovrefjell mellom istidene")
-                setFormInputs("");
-            }
-            else if (userCode === null) {
-                abort = true;
-            }
-            else {
-                alert("Feil kode");
-            }   
-        }
-    }
+        const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
+        if (memberExist) alert(phoneOrEmail + ' er registert fra før!')
+        else {
+            formInputs.createdby = user.userLoggedIn;
+            addMemberToDB(formInputs);
+            setFormInputs({'status': 'registered', 'role': 'member'});
+        };
+    };
 
-    return (
+return (
+    <div>
         <form id="memberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -153,10 +105,32 @@ function MemberFormAdmin() {
                 required
                 onChange={formChange}
                 />
-            <input type="submit" value="Send inn" />
+            <select 
+                name="status"
+                id="idstatus"
+                form="memberform"
+                required
+                value={formInputs.status || ""}
+                onChange={formChange}
+                >
+                <option value = "Registrert">Registrert</option>
+                <option value = "Aktiv">Aktiv</option>
+            </select>
+            <select 
+                name="role"
+                id="idrole"
+                required
+                value={formInputs.role || ""}
+                onChange={formChange}
+                >
+                <option value = "Medlem">Medlem</option>
+                <option value = "Superbruker">Superbruker</option>
+                <option value = "Administrator">Administrator</option>
+            </select>
+            <input type="submit" value="Registrer" />
         </form>
-
-    )
+        <MemberList />
+    </div>
+)
 }
-
 export default MemberFormAdmin;
