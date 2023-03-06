@@ -7,7 +7,7 @@ import updateMember from "../functions/updateMember";
 
 function MemberList() {
     Modal.setAppElement('#root')
-    let memberToEdit = '';
+    const [memberToEdit, setMemberToEdit] = useState();
     const lasteTekst = 'Laster data......';
     const [isLoading, setIsLoading] = useState(true); // Loading state
     const [memberArray, setMemberArray] = useState({});
@@ -21,26 +21,20 @@ function MemberList() {
 
     async function submitForm(event) {
         event.preventDefault();
-        formInputs.memberid = memberToEdit;
-        const writeResult = await updateMember(formInputs);
+        console.log('memberToEdit: ', memberToEdit)
+        const writeResult = await updateMember(memberToEdit, formInputs);
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
         setFormInputs({});
         setModalOpen(false);
-            // writeResult.then((responseMessage) => {
-            //     console.log(responseMessage);
-            //     if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
-            //     setFormInputs({});
-            //     setModalOpen(false);
-            // };)
-    };
+    }
 
     function editMember(memberId) {
         console.log(memberId);
+        setMemberToEdit(memberId);
         const givenMember = readGivenMember(memberId);
         givenMember.then((member) => {
             console.log(member[0]);
             setFormInputs(member[0]);
-            memberToEdit = memberId;
             setModalOpen(true);
         })
     };

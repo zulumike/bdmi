@@ -9,12 +9,13 @@ module.exports = async function (context, req) {
     const deactivatedDate = (req.query.deactivateddate || (req.body && req.body.deactivateddate));
     const status = (req.query.status || (req.body && req.body.status));
     const createdBy = (req.query.createdby || (req.body && req.body.createdby));
-    const memberid = req.body.memberid;
+    const memberid = (req.query.memberid || (req.body && req.body.memberid));
     const responseMessage = firstName + " " + lastName
     ? "Success"
     : "This HTTP triggered function executed successfully.";
     context.log(responseMessage);
-    if (memberid !== "*") {
+    if (memberid == "*") {
+        context.log('Ny kunde ', memberid);
         context.bindings.outputDocument = JSON.stringify({
                 // create a random ID
                 id: new Date().toISOString() + Math.random().toString().substring(2, 10),
@@ -31,9 +32,8 @@ module.exports = async function (context, req) {
             });
     }
     else {
+        context.log('Oppdaterer ', memberid);
         context.bindings.updateDocument = JSON.stringify({
-            // create a random ID
-            id: new Date().toISOString() + Math.random().toString().substring(2, 10),
             name: lastName + ", " + firstName,
             firstname: firstName,
             lastname: lastName,
