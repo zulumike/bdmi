@@ -96,14 +96,12 @@ Ny versjon av BDMI medlemsregister.
         Installerte node.js 16 på den pc    
             Prøvde først med 18, men da funker ikke swa...
     - Fjernet .env fra rota, da jeg har lagt variabler direkte i kode.
-<<<<<<< HEAD
     
     - Det er et problem med at sendEmail api ikke avsluttes på et vis. status i dev-console\network er pending
         Får til slutt en timeout
         Selv om e-post faktisk blir sendt.
         Endret funksjonen til å være async, ser nå ut til å fungere bedre.
         
-=======
 
 
     - Fortsatt på memberFormAdmin. 
@@ -155,9 +153,11 @@ Ny versjon av BDMI medlemsregister.
         Hvis ikke kjøres binding for å legge til nytt medlem.
     - Skrevet om funksjon for lagring av nytt medlem. Lagt dette i en egen fil under functions.
     - Lagt til funksjon i egen fil for oppdatering av eksisterende medlem.
-    - Oppdatering av eksisterende medlem funker ikke helt. 
+!!  - Oppdatering av eksisterende medlem funker ikke helt. 
         Det blir opprettet nytt medlem istedenfor.
-        
+    - I tillegg funker ikke bygging til Azure.
+        Dette pga at react mener memerArray må ligge i dependency på useEffect i memberList..
+        Denne er litt vrien. Må få memberlist til å rendre alle medlemmer, men uten at det går i loop...
 
 
 
@@ -167,4 +167,3 @@ Tips for senere:
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
 
     
->>>>>>> bdc2fa7be9fda161c2ed6320b95c4c5811a47d89
