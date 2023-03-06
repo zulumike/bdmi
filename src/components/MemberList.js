@@ -47,6 +47,7 @@ function MemberList() {
         async function readMembers() {
             setMemberArray(await readAllMembers());
             if (memberArray) setIsLoading(false);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         };
         readMembers();
     }, []
