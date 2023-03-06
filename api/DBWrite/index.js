@@ -34,6 +34,7 @@ module.exports = async function (context, req) {
     else {
         context.log('Oppdaterer ', memberid);
         context.bindings.updateDocument = JSON.stringify({
+            id: memberid,
             name: lastName + ", " + firstName,
             firstname: firstName,
             lastname: lastName,

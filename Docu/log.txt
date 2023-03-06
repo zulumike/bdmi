@@ -1,5 +1,7 @@
 Lesestoff:
     sql query: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/getting-started
+    Cosmos db API and bindings++ : https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2?tabs=in-process%2Cextensionv4&pivots=programming-language-javascript
+    
 
 
 
@@ -153,8 +155,9 @@ Ny versjon av BDMI medlemsregister.
         Hvis ikke kjøres binding for å legge til nytt medlem.
     - Skrevet om funksjon for lagring av nytt medlem. Lagt dette i en egen fil under functions.
     - Lagt til funksjon i egen fil for oppdatering av eksisterende medlem.
-!!  - Oppdatering av eksisterende medlem funker ikke helt. 
+    - Oppdatering av eksisterende medlem funker ikke helt. 
         Det blir opprettet nytt medlem istedenfor.
+        La til eksisterende id i json strengen som sendes. (naturligvis)
     - I tillegg funker ikke bygging til Azure.
         Dette pga at react mener memerArray må ligge i dependency på useEffect i memberList..
         Denne er litt vrien. Må få memberlist til å rendre alle medlemmer, men uten at det går i loop...
