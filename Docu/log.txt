@@ -92,3 +92,8 @@ Ny versjon av BDMI medlemsregister.
             Prøvde først med 18, men da funker ikke swa...
     - Fjernet .env fra rota, da jeg har lagt variabler direkte i kode.
     
+    - Det er et problem med at sendEmail api ikke avsluttes på et vis. status i dev-console\network er pending
+        Får til slutt en timeout
+        Selv om e-post faktisk blir sendt.
+        Endret funksjonen til å være async, ser nå ut til å fungere bedre.
+        
