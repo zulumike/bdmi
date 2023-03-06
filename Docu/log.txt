@@ -1,3 +1,8 @@
+Lesestoff:
+    sql query: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/getting-started
+
+
+
 Ny versjon av BDMI medlemsregister.
     - Ble mye rot i strukturen på den forrige versjonen. Pluss at jeg nå ønsker å utvikle med react.
     - Må få samlet alle funksjoner i en Azure functions app tror jeg.
@@ -91,9 +96,67 @@ Ny versjon av BDMI medlemsregister.
         Installerte node.js 16 på den pc    
             Prøvde først med 18, men da funker ikke swa...
     - Fjernet .env fra rota, da jeg har lagt variabler direkte i kode.
+<<<<<<< HEAD
     
     - Det er et problem med at sendEmail api ikke avsluttes på et vis. status i dev-console\network er pending
         Får til slutt en timeout
         Selv om e-post faktisk blir sendt.
         Endret funksjonen til å være async, ser nå ut til å fungere bedre.
         
+=======
+
+
+    - Fortsatt på memberFormAdmin. 
+        Lagt til status og rolle.
+
+    - Startet på api/function for å lese db
+        Kommet så langt at jeg har laget api/function som kjører en sql query
+            Select * from documents og leser da alle dokumenter.
+            Sender dette til front-end og presenterer i Console
+            Neste blir å "strippe" json og lagre i et array.
+            Samt presentere i en tabell.
+
+04.03.2023
+    - Utfordringer med at react vil rendre data før de er klar.
+        Løste dette vha https://www.geeksforgeeks.org/how-to-wait-for-a-reactjs-component-to-finish-updating/
+    
+    - Må få laget slik at MemberForm for lest inn alle medlemmer slik at man får sjekket
+      epost eksisterer fra før.
+      Tenkte da at det kan være lurt å lage en gjenbrukbar funksjon.
+        Opprettet egen mappe under src kalt functions.
+        Opprettet readAllMembers.js
+        lager er funksjon der for å lese db og hente ut alle medlemmer til et array.
+    - Opprettet funksjon for å hente inn alle medlemmer til array
+    - Opprettet funksjon for å sjekke om e-post adresse eller telefonnummer eksisterer fra før
+    - Ordnet kontroll slik at man ikke kan registrere duplikater (e-post og telefonnummer)
+    - Opprettet en login komponent, men gjenstår en del her....
+
+05.03.2023
+    - Opprettet en enkel variant av login.
+        prompt for e-post adresse.
+        Hvis epost adresse eksisterer og bruker er admin eller superbruker
+        får man opp admin-form og alle medlemmer listes opp.
+!!  - Vurdere å legge inn en sperre på å liste opp alle medlemmer i api...
+    - Neste blir å få lagret login-state i local storage (med kryptering-ish)
+        Dette er nå ordnet, men foreløpig uten kryptering.
+        Må vurdere å lage en ny api, som henter en "nøkkel" fra 
+        application settings/local.settings.json.
+    - Installert react-modal
+    - Startet med å legge til en modal i MemberList
+        Skal åpnes når man trykker på et medlem.
+    - Begynte med å forenkle api oppkallene.
+        Bruker fetch isteden for.
+        Tok litt tid før jeg fant ut hvordan man sender data til api.
+!!        Må vel også skrive om der det sendes e-post og skrives til db...
+
+
+
+
+
+
+Tips for senere:
+    - Autentisering (pluss database):
+        https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
+
+    
+>>>>>>> bdc2fa7be9fda161c2ed6320b95c4c5811a47d89
