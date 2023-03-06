@@ -83,7 +83,7 @@ Ny versjon av BDMI medlemsregister.
 
     - Fått lagt om slik at får velkommen melding hvis skriving til db ok feilmelding hvis ikke.
     
-!!  - Må få lagt inn en sjekk om e-post adresse eksisterer fra før.
+    - Må få lagt inn en sjekk om e-post adresse eksisterer fra før.
         Må derfor få laget en api og funksjon som leser databasen, kanskje inn i et array?
         Tror derfor jeg starter på en komponent for admin.
             Logg inn. Legge inn e.post adresse - verifisere med kode.
@@ -147,7 +147,7 @@ Ny versjon av BDMI medlemsregister.
     - Begynte med å forenkle api oppkallene.
         Bruker fetch isteden for.
         Tok litt tid før jeg fant ut hvordan man sender data til api.
-!!        Må vel også skrive om der det sendes e-post og skrives til db...
+        Må vel også skrive om der det sendes e-post og skrives til db... Det er gjort 06.03.2023
 
 06.03.2023
     - Skrevet om DBWrite api    
@@ -165,6 +165,8 @@ Ny versjon av BDMI medlemsregister.
     - Ryddet opp i alle komponenter og funksjoner   
         Fjernet console.log oppføringer.
     - Ryddet opp alle api-oppkallinger til å bruke fetch.
+
+    - Prøve å få lagt til en knapp for å slette medlem også.
 
 
 

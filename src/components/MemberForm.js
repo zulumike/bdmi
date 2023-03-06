@@ -25,7 +25,7 @@ function MemberForm() {
 
     async function submitForm(event) {
         event.preventDefault();
-        const randomCode = Math.floor(Math.random()*1000000)+100001;
+        const randomCode = Math.floor(Math.random()*999999)+100001;
         const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!\nPrøv en annen eller kontakt post@bevardovrefjell.no')
         else {

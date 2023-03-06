@@ -20,7 +20,7 @@ function Login() {
                 alert(phoneOrEmail + ' har ikke rettigheter');
             }
             else {
-                const randomCode = Math.floor(Math.random()*1000000)+100001;
+                const randomCode = Math.floor(Math.random()*999999)+100001;
                 sendCodeByEmail(formInputs.email, randomCode);
                 let abort = false;
                 while (abort === false) {

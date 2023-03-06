@@ -38,7 +38,7 @@ function HomePage() {
     event.preventDefault();
     const userEmailAddr = prompt('Skriv inn e-post adresse');
     const [memberExist, , userRole] = await checkIfMemberExist('', userEmailAddr);
-    const randomCode = Math.floor(Math.random()*1000000)+100001;
+    const randomCode = Math.floor(Math.random()*999999)+100001;
     if (memberExist && (userRole === 'Admin' || userRole === 'Superuser')) {
       sendCodeByEmail(userEmailAddr, randomCode);
     }
