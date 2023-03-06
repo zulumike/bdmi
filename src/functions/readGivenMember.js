@@ -1,16 +1,16 @@
 
 async function readGivenMember(memberId) {
     let data = {};
-    let readFromDBURL = '';
+    let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
-        readFromDBURL = '/api/DBRead';
+        apiURL = '/api/DBRead';
     }
     else {
-        readFromDBURL = 'http://localhost:7071/api/DBRead';
+        apiURL = 'http://localhost:7071/api/DBRead';
 
     }
 
-    data = await( await fetch(readFromDBURL, {
+    data = await( await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify({"memberid": memberId})}
         )).json();

@@ -1,14 +1,14 @@
 async function updateMember(id, member) {
-    let apiBURL = '';
+    let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
-        apiBURL = '/api/DBWrite';
+        apiURL = '/api/DBWrite';
     }
     else {
-        apiBURL = 'http://localhost:7071/api/DBWrite';
+        apiURL = 'http://localhost:7071/api/DBWrite';
 
     }
     member.memberid = id;
-    const data = await fetch(apiBURL, {
+    const data = await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(member)
     });
