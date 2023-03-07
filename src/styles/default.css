@@ -1,0 +1,50 @@
+body {
+    font-family: var(--main-font-family);
+    background-color: var(--main-background-color);
+    font-size: var(--text-size-medium);
+}
+
+td {
+    padding: 0.5em;
+}
+
+tr :hover {
+    cursor: pointer;
+    background-color: var(--modal-background-color);
+}
+
+.modal {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    padding: 2%;
+    border-radius: 20px;
+    background-color: var(--main-background-color);
+    font-size: var(--text-size-large);
+}
+
+.modaloverlay {
+    background-color: var(--main-background-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.toppdiv {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.toppdivmemberform {
+    width: 100%;
+    margin: auto;
+}
+
+.toppdivmemberformadmin {
+    width: 100%;
+    margin: auto;
+}

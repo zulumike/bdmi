@@ -3,6 +3,8 @@ import MemberForm from './MemberForm';
 import MemberFormAdmin from './MemberFormAdmin';
 import checkIfMemberExist from '../functions/checkIfMemberExist';
 import sendCodeByEmail from '../functions/sendCodeByEmail';
+import '../styles/default.css';
+
 
 function HomePage() {
   const [loggedInUser, setLoggedInUser] = useState();
@@ -53,8 +55,8 @@ function HomePage() {
   
   if (loggedInUser) {
     return (
-      <div>
-        <h1>{loggedInUser}</h1>
+      <div className='toppdiv'>
+        <p>{loggedInUser}</p>
         <button onClick={submitLogOut}>Logg ut</button>
         <MemberFormAdmin userLoggedIn={loggedInUser} userRole={loggedInUserRole} />
       </div>
@@ -62,7 +64,7 @@ function HomePage() {
   }
   
   return (
-    <div>
+    <div className='toppdiv'>
       <MemberForm />
       <button onClick={submitLogin}>Logg inn</button>
     </div>

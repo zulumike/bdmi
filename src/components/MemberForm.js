@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
+import '../styles/default.css';
+
 
 //*******************
 // FUNCTION MemberForm
@@ -61,7 +63,7 @@ function MemberForm() {
         };
     };
     return (
-        <div>
+        <div className='topdivmemberform'>
         <form id="memberform" onSubmit={submitForm}>
             <input 
                 type="text" 

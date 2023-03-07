@@ -181,6 +181,18 @@ Ny versjon av BDMI medlemsregister.
         Finner ikke noen måte å slette et document i cosmos db.
         Får bare markere som slettet i stedenfor.
         Sliter litt med queryen for å filtrere bort de som er merket slettet.
+        Endret query til å filtrere på kun deleted = false. Den taklet ikke å filtrere hvis property ikke er definert
+        Endret slette funksjonen til å også anonymisere document.
+    - Alle basic funksjonene er vel nå på plass.
+    - Startet med litt styling.
+
+
+    - Står igjen:
+        - pynting
+        - excel-eksport
+        - medlemskontingent
+
+
 
 
 

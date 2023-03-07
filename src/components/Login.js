@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
+import '../styles/default.css';
+
 
 function Login() {
     global.authenticated = false;

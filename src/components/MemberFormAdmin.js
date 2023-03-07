@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
+import '../styles/default.css';
+
 
 
 
@@ -27,16 +29,17 @@ function MemberFormAdmin(user) {
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!')
         else {
             formInputs.createdby = user.userLoggedIn;
+            formInputs.role = 'Medlem'
             const writeResult = writeNewMember(formInputs);
             writeResult.then((responseMessage) => {
                 if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
-                setFormInputs({'status': 'registered', 'role': 'member'});
+                setFormInputs({'status': 'Registrert', 'role': 'Medlem'});
             });
         };
     };
 
 return (
-    <div>
+    <div className='toppdivmemberformadmin'>
         <form id="memberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -88,17 +91,6 @@ return (
                 >
                 <option value = "Registrert">Registrert</option>
                 <option value = "Aktiv">Aktiv</option>
-            </select>
-            <select 
-                name="role"
-                id="idrole"
-                required
-                value={formInputs.role || ""}
-                onChange={formChange}
-                >
-                <option value = "Medlem">Medlem</option>
-                <option value = "Superbruker">Superbruker</option>
-                <option value = "Administrator">Administrator</option>
             </select>
             <input type="submit" value="Registrer" />
         </form>

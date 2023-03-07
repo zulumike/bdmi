@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import readAllMembers from "../functions/readAllMembers";
 import readGivenMember from "../functions/readGivenMember";
 import updateMember from "../functions/updateMember";
+import '../styles/default.css';
 
 function MemberList() {
     Modal.setAppElement('#root')
@@ -39,10 +40,13 @@ function MemberList() {
     async function deleteMember() {
         const confirmDelete = window.confirm("Vil du virkelig slette?");
         if (confirmDelete) {
+            formInputs.firstname = 'Slettet';
+            formInputs.lastname = 'Slettet';
+            formInputs.email = 'slettet@slettet.no';
+            formInputs.phone = '00000000';
             formInputs.deleted = 'true';
             const writeResult = await updateMember(memberToEdit, formInputs);
             if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
-            setFormInputs({});
             setModalOpen(false);
         };
     };
@@ -79,7 +83,6 @@ return (
                     <th>E-post</th>
                     <th>Telefonnummer</th>
                     <th>Status</th>
-                    <th>Rolle</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,18 +94,19 @@ return (
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
                         <td>{item.status}</td>
-                        <td>{item.role}</td>
                     </tr>
                 ))}
             </tbody>
         </table>
         <ReactModal 
+            className='modal'
+            ovarlayClassName='modaloverlay'
             isOpen={modalOpen}
             onRequestClose={closeEditMember}
             shouldCloseOnOverlayClick={false}
             shouldCloseOnEsc={true}
             >
-            <h1>Testing</h1>
+            <h3>Rediger medlem</h3>
             <form id="editmemberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -154,17 +158,6 @@ return (
                 >
                 <option value = "Registrert">Registrert</option>
                 <option value = "Aktiv">Aktiv</option>
-            </select>
-            <select 
-                name="role"
-                id="idrole"
-                required
-                value={formInputs.role || ""}
-                onChange={formChange}
-                >
-                <option value = "Medlem">Medlem</option>
-                <option value = "Superbruker">Superbruker</option>
-                <option value = "Administrator">Administrator</option>
             </select>
             <input type="submit" value="Lagre" />
         </form>

@@ -1,0 +1,9 @@
+:root {
+    --main-background-color: #9fbcce;
+    --modal-background-color: #edf1e4;
+    --main-text-color: black;
+    --main-font-family: 'Roboto Slab', serif;
+    --text-size-small: 1em;
+    --text-size-medium: 1,5em;
+    --text-size-large: 2em;
+}
