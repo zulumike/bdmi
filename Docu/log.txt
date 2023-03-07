@@ -1,4 +1,10 @@
 Lesestoff:
+    Create Azure function: https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-node
+    Connect Azure Database (Cosmos db): https://learn.microsoft.com/en-us/azure/azure-functions/functions-add-output-binding-cosmos-db-vs-code?pivots=programming-language-javascript&tabs=in-process
+    Valg av DB Serverless eller annen: https://learn.microsoft.com/nb-no/azure/cosmos-db/throughput-serverless
+    Cosmos DB API Valg: https://learn.microsoft.com/en-us/azure/cosmos-db/choose-api
+    HTTP Trigger: https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger?tabs=in-process%2Cfunctionsv2&pivots=programming-language-javascript#secure-an-http-endpoint-in-production
+
     sql query: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/getting-started
     Cosmos db API and bindings++ : https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2?tabs=in-process%2Cextensionv4&pivots=programming-language-javascript
     
