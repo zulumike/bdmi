@@ -20,9 +20,9 @@ module.exports = async function (context, req) {
     }
     sgMail
     .send(msg)
-    .then(() => {
-        context.log('Email sent to ', mailAddress)
-    })
+    // .then(() => {
+    //     context.log('Email sent to ', mailAddress)
+    // })
     .catch((error) => {
         context.log(error)
     })

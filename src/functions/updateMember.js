@@ -8,6 +8,7 @@ async function updateMember(id, member) {
 
     }
     member.memberid = id;
+    member.name = member.lastname + ', ' + member.firstname;
     const data = await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(member)

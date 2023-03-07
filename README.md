@@ -24,6 +24,9 @@ VSCode:
     - bdmiDBConnectionString
     - SendGridApiKey
 
+- Cosmos DB
+    - When adding collection, set partitionkey to /id
+
 Local development: 
     Download your app settings from azure to local.settings.json in api folder
     add the following for cors:

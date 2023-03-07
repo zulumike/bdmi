@@ -36,6 +36,18 @@ function MemberList() {
         })
     };
 
+    async function deleteMember() {
+        const confirmDelete = window.confirm("Vil du virkelig slette?");
+        if (confirmDelete) {
+            formInputs.deleted = 'true';
+            const writeResult = await updateMember(memberToEdit, formInputs);
+            if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
+            setFormInputs({});
+            setModalOpen(false);
+        };
+    };
+
+
     function closeEditMember() {
         setModalOpen(false);
     };
@@ -156,8 +168,9 @@ return (
             </select>
             <input type="submit" value="Lagre" />
         </form>
-                <button onClick={closeEditMember}>Avbryt</button>
-            </ReactModal>
+            <button onClick={deleteMember}>Slett medlem</button>
+            <button onClick={closeEditMember}>Avbryt</button>
+        </ReactModal>
     </div>
 )
 };

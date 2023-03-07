@@ -21,7 +21,7 @@
       "direction": "in",
       "databaseName": "bdmi",
       "collectionName": "members",
-      "sqlQuery": "SELECT * FROM Documents",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.deleted = 'false'",
       "connectionStringSetting": "bdmiDBConnectionString"
     },
     {

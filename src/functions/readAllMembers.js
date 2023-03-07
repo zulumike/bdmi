@@ -15,7 +15,6 @@ async function readAllMembers() {
         body: JSON.stringify({"memberid": "*"})
     }
     )).json();
-
     return data;
 }
 

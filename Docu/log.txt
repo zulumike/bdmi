@@ -168,6 +168,13 @@ Ny versjon av BDMI medlemsregister.
 
     - Prøve å få lagt til en knapp for å slette medlem også.
 
+07.03.2023
+    - Forenklet api DBWrite. Istedenfor å sette const for alle verdier, så sendes alle verdier
+      rett til db. Man bestemmer da i front-ende hvor mange verdier som lagres.
+    - Laget knapp for å slette medlem.
+        Finner ikke noen måte å slette et document i cosmos db.
+        Får bare markere som slettet i stedenfor.
+        Sliter litt med queryen for å filtrere bort de som er merket slettet.
 
 
 

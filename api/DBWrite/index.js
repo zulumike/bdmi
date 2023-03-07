@@ -1,51 +1,17 @@
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request to DBWrite Api.');
-    const firstName = (req.query.firstname || (req.body && req.body.firstname));
-    const lastName = (req.query.lastname || (req.body && req.body.lastname));
-    const email = (req.query.email || (req.body && req.body.email));
-    const phone = (req.query.phone || (req.body && req.body.phone));
-    const role = (req.query.role || (req.body && req.body.role));
-    const createdDate = (req.query.createddate || (req.body && req.body.createddate));
-    const deactivatedDate = (req.query.deactivateddate || (req.body && req.body.deactivateddate));
-    const status = (req.query.status || (req.body && req.body.status));
-    const createdBy = (req.query.createdby || (req.body && req.body.createdby));
-    const memberid = (req.query.memberid || (req.body && req.body.memberid));
-    const responseMessage = firstName + " " + lastName
+    const member = req.body;
+    const responseMessage = req.body.firstname + " " + req.body.lastname
     ? "Success"
     : "This HTTP triggered function executed successfully.";
-    context.log(responseMessage);
-    if (memberid == "*") {
-        context.log('Ny kunde ', memberid);
-        context.bindings.outputDocument = JSON.stringify({
-                // create a random ID
-                id: new Date().toISOString() + Math.random().toString().substring(2, 10),
-                name: lastName + ", " + firstName,
-                firstname: firstName,
-                lastname: lastName,
-                email: email,
-                phone: phone,
-                role: role,
-                createddate: createdDate,
-                deactivateddate: deactivatedDate,
-                status: status,
-                createdby: createdBy
-            });
+    if (member.memberid == "*") {
+        delete member.memberid;
+        member.id = new Date().toISOString() + Math.random().toString().substring(2, 10);
+        context.bindings.outputDocument = JSON.stringify(member);
     }
     else {
-        context.log('Oppdaterer ', memberid);
-        context.bindings.updateDocument = JSON.stringify({
-            id: memberid,
-            name: lastName + ", " + firstName,
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            phone: phone,
-            role: role,
-            createddate: createdDate,
-            deactivateddate: deactivatedDate,
-            status: status,
-            createdby: createdBy
-        });
+        delete member.memberid;
+        context.bindings.updateDocument = JSON.stringify(req.body)
     }
     context.res = {
         // status: 200, /* Defaults to 200 */

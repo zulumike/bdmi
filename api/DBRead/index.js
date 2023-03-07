@@ -12,7 +12,6 @@ module.exports = async function (context, req) {
     else {
         var allDocuments = context.bindings.allDocuments;
     }
-    // context.log(allDocuments);
     context.res = {
         // status: 200, /* Defaults to 200 */
         body: allDocuments
