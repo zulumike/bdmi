@@ -45,7 +45,6 @@ input, select, button {
 /* ************************* */
 .apptopdiv {
     width: 100%;
-    max-width: 800px;
     margin: auto;
 }
 
@@ -57,21 +56,27 @@ input, select, button {
 }
 
 .topimage {
-    max-width: 300px;
+    max-width: 200px;
     margin: auto;
     align-self: center;
 }
 
 /* ************************* */
-.homepagetoppdiv {
+.homepagetopdiv {
     width: 100%;
+    max-width: 800px;
     margin: auto;
+}
+
+.homepagetopdiv p, button {
+    display: inline;
 }
 
 
 /* ************************* */
-.topdivmemberform {
+.memberformtopdiv {
     width: 100%;
+    max-width: 600px;
     margin: auto;
     text-align: center;
 }
@@ -88,7 +93,7 @@ input, select, button {
 }
 
 /* ************************* */
-.toppdivmemberformadmin {
+.memberformadmintoppdiv {
     width: 100%;
     margin: auto;
     text-align: center;

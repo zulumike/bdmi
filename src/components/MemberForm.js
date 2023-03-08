@@ -63,7 +63,7 @@ function MemberForm() {
         };
     };
     return (
-        <div className='topdivmemberform'>
+        <div className='memberformtopdiv'>
             <h1>Registreringsskjema</h1>
             <form className="memberform" id="memberform" onSubmit={submitForm}>
                 <input 

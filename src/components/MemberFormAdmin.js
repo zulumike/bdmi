@@ -39,7 +39,7 @@ function MemberFormAdmin(user) {
     };
 
 return (
-    <div className='toppdivmemberformadmin'>
+    <div className='memberformadmintoppdiv'>
         <form className="memberadminform" id="memberform" onSubmit={submitForm}>
             <input 
                 type="text" 

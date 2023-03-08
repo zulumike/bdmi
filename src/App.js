@@ -6,7 +6,7 @@ import logo from './img/bdmi_logo.png';
 
 function App() {
   return (
-    <div className="apptoppdiv">
+    <div className="apptopdiv">
       <div className="appimgdiv">
         <img src={logo} alt="Logo" className="topimage" />
       </div>
