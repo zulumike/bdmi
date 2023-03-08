@@ -48,13 +48,6 @@ input, select, button {
     margin: auto;
 }
 
-.appimgdiv {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
 .topimage {
     max-width: 200px;
     margin: auto;
@@ -72,6 +65,32 @@ input, select, button {
     display: inline;
 }
 
+.homepageheaderdiv {
+    /* position: relative; */
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburgerdiv {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+}
+
+.hamburgerdiv img {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+}
+
+.hamburgerelementsdiv {
+    position: absolute;
+    top: 3em;
+    right: 0.5em;
+}
 
 /* ************************* */
 .memberformtopdiv {

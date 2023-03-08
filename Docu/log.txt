@@ -193,7 +193,13 @@ Ny versjon av BDMI medlemsregister.
         - medlemskontingent
 
 
-
+08.03.2023
+    - Fortsatt med styling.
+    - Lage hamburgermeny for å vise innlogget/utlogget, samt knapp 
+        for å logge inn/ut.
+        Fant en brukbar måte å gjøre dette på.
+        Men tror jeg vil gjøre den om til at en modal kommer opp
+        når hamburger trykkes.
 
 
 Tips for senere:

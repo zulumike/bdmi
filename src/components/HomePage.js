@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MemberForm from './MemberForm';
 import MemberFormAdmin from './MemberFormAdmin';
+import Hamburger from './Hamburger';
+
 import checkIfMemberExist from '../functions/checkIfMemberExist';
 import sendCodeByEmail from '../functions/sendCodeByEmail';
+
+import logo from '../img/bdmi_logo.png';
+
 import '../styles/default.css';
 
 
@@ -56,6 +61,7 @@ function HomePage() {
   if (loggedInUser) {
     return (
       <div className='homepagetopdiv'>
+        <Hamburger loggedInuser={loggedInUser} />
         <p>{loggedInUser}</p>
         <button onClick={submitLogOut}>Logg ut</button>
         <MemberFormAdmin userLoggedIn={loggedInUser} userRole={loggedInUserRole} />
@@ -65,6 +71,10 @@ function HomePage() {
   
   return (
     <div className='homepagetopdiv'>
+      <div className="homepageheaderdiv">
+        <img src={logo} alt="Logo" className="topimage" />
+        <Hamburger loggedInUser='Ikke innlogget' />
+      </div>
       <button onClick={submitLogin}>Logg inn</button>
       <MemberForm />
     </div>
