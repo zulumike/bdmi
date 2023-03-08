@@ -13,6 +13,15 @@ tr :hover {
     background-color: var(--modal-background-color);
 }
 
+input, select, button {
+    margin:2px;
+    border-radius: 5px;
+    border-style: outset;
+    /* border-color: blue; */
+    border-width: 2px;
+    font-size: var(--text-size-medium);
+}
+
 .modal {
     position: absolute;
     top: 5%;
@@ -33,18 +42,65 @@ tr :hover {
     bottom: 0;
 }
 
-.toppdiv {
+/* ************************* */
+.apptopdiv {
     width: 100%;
     max-width: 800px;
     margin: auto;
 }
 
-.toppdivmemberform {
+.appimgdiv {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.topimage {
+    max-width: 300px;
+    margin: auto;
+    align-self: center;
+}
+
+/* ************************* */
+.homepagetoppdiv {
     width: 100%;
     margin: auto;
 }
 
+
+/* ************************* */
+.topdivmemberform {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.memberform {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.memberform input, select, button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ************************* */
 .toppdivmemberformadmin {
     width: 100%;
     margin: auto;
+    text-align: center;
+}
+
+/* ************************* */
+.memberadminform {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.memberlisttable {
+    margin-left: auto;
+    margin-right: auto;
 }

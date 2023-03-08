@@ -76,7 +76,7 @@ if (isLoading) {
 
 return (
     <div>
-        <table>
+        <table className="memberlisttable">
             <thead>
                 <tr>
                     <th>Navn</th>

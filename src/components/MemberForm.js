@@ -64,49 +64,54 @@ function MemberForm() {
     };
     return (
         <div className='topdivmemberform'>
-        <form id="memberform" onSubmit={submitForm}>
-            <input 
-                type="text" 
-                name="firstname"
-                value={formInputs.firstname || ""}
-                id="idfirstname" 
-                autoFocus={true}
-                maxLength="50" 
-                placeholder="Fornavn" 
-                required
-                onChange={formChange}
-                />
-            <input 
-                type="text" 
-                name="lastname" 
-                value={formInputs.lastname || ""}
-                id="idlastname" 
-                maxLength="50" 
-                placeholder="Etternavn" 
-                required
-                onChange={formChange}
-                />
-            <input 
-                type="email" 
-                name="email"
-                value={formInputs.email || ""}
-                id="idemail" 
-                placeholder="E-post" 
-                required
-                onChange={formChange}
-                />
-            <input 
-                type="tel" 
-                name="phone"
-                value={formInputs.phone || ""}
-                id="idphone" 
-                placeholder="Mobilnummer" 
-                pattern="[0-9]{8}"
-                required
-                onChange={formChange}
-                />
-            <input type="submit" value="Send inn" />
-        </form>
+            <h1>Registreringsskjema</h1>
+            <form className="memberform" id="memberform" onSubmit={submitForm}>
+                <input 
+                    type="text" 
+                    name="firstname"
+                    value={formInputs.firstname || ""}
+                    id="idfirstname" 
+                    autoFocus={true}
+                    maxLength="50" 
+                    placeholder="Fornavn" 
+                    required
+                    onChange={formChange}
+                    />
+                <input 
+                    type="text" 
+                    name="lastname" 
+                    value={formInputs.lastname || ""}
+                    id="idlastname" 
+                    maxLength="50" 
+                    placeholder="Etternavn" 
+                    required
+                    onChange={formChange}
+                    />
+                <input 
+                    type="email" 
+                    name="email"
+                    value={formInputs.email || ""}
+                    id="idemail" 
+                    placeholder="E-post" 
+                    required
+                    onChange={formChange}
+                    />
+                <input 
+                    type="tel" 
+                    name="phone"
+                    value={formInputs.phone || ""}
+                    id="idphone" 
+                    placeholder="Mobilnummer" 
+                    pattern="[0-9]{8}"
+                    required
+                    onChange={formChange}
+                    />
+                <input type="submit" value="Send inn" />
+            </form>
+            <p>Ved å sende inn skjema godtar du at Bevar Dovrefjell Mellom Istidene lagrer
+                opplysningene du har oppgitt . Opplysningene kan benyttes til å sende ut informasjon,
+                samt kreve inn kontingent.
+            </p>
         </div>
     )
 }

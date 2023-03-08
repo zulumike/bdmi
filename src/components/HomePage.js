@@ -55,7 +55,7 @@ function HomePage() {
   
   if (loggedInUser) {
     return (
-      <div className='toppdiv'>
+      <div className='homepagetopdiv'>
         <p>{loggedInUser}</p>
         <button onClick={submitLogOut}>Logg ut</button>
         <MemberFormAdmin userLoggedIn={loggedInUser} userRole={loggedInUserRole} />
@@ -64,9 +64,9 @@ function HomePage() {
   }
   
   return (
-    <div className='toppdiv'>
-      <MemberForm />
+    <div className='homepagetopdiv'>
       <button onClick={submitLogin}>Logg inn</button>
+      <MemberForm />
     </div>
   )
 }
