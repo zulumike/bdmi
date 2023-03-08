@@ -11,7 +11,7 @@ function Hamburger(loggedInUser) {
     }
     function handleClick() {
         console.log(loggedInUser.loggedInUser);
-        if ( display == 'none' ) {
+        if ( display === 'none' ) {
             setDisplay( 'block' )
         } else {
             setDisplay( 'none' )
