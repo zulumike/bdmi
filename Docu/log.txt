@@ -201,6 +201,12 @@ Ny versjon av BDMI medlemsregister.
         Men tror jeg vil gjøre den om til at en modal kommer opp
         når hamburger trykkes.
 
+14.03.2023
+    - Flyttet hamburger funksjon inn i homepage.js.
+        Dette gjorde det enklere å håndtere innlogging / utlogging.
+
+    - Tenker også å legge til postnr i skjema for registrering.
+
 
 Tips for senere:
     - Autentisering (pluss database):
