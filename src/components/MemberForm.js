@@ -122,9 +122,11 @@ function MemberForm() {
                 opplysningene du har oppgitt. Opplysningene kan benyttes til å sende ut informasjon,
                 samt kreve inn kontingent.
             </p>
-            <button onClick="window.location.href='https://eur03.safelinks.protection.outlook.com/?url=https%3A%2F%2Fqr.vipps.no%2F28%2F2%2F05%2F031%2FUj2HidstM&data=05%7C01%7Cole%40mifo.no%7C63518bbdf89e4f5df54808db255ff079%7C23086b93d7ef4e4ba9386faa948ee652%7C1%7C0%7C638144866236602358%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C2000%7C%7C%7C&sdata=p9nHjCdGdzjqPcgoOleykm93jrARulMkrXWMpqlp4U4%3D&reserved=0';">
-                Vipps
-            </button>
+            <a href="https//qr.vipps.no/28/2/05/031/Uj2HidstM"></a>
+                <button>
+                    Vipps
+                </button>
+            <a/>
         </div>
     )
 }
