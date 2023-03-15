@@ -62,6 +62,11 @@ function MemberForm() {
             };
         };
     };
+
+    function goVipps() {
+        window.location.replace('https//qr.vipps.no/28/2/05/031/Uj2HidstM');
+    };
+
     return (
         <div className='memberformtopdiv'>
             <h1>Registreringsskjema</h1>
@@ -122,11 +127,10 @@ function MemberForm() {
                 opplysningene du har oppgitt. Opplysningene kan benyttes til å sende ut informasjon,
                 samt kreve inn kontingent.
             </p>
-            <a href="https//qr.vipps.no/28/2/05/031/Uj2HidstM"></a>
-                <button>
-                    Vipps
-                </button>
-            <a/>
+            <a href='https//qr.vipps.no/28/2/05/031/Uj2HidstM' target='_blank'>Vipps</a>
+            <button onClick={goVipps}>
+                Vipps
+            </button>
         </div>
     )
 }
