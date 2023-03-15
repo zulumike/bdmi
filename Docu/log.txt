@@ -208,7 +208,9 @@ Ny versjon av BDMI medlemsregister.
 15.03.2023
     - Lagt til postnr i skjema.
     - Lagt til eksport av medlemmer til csv
-    
+
+    Neste: lage en løsning som sender e-post med en link der bruker får lastet ned en pdf (faktura) (anonym link?)
+    Må også legge til valg for om vedkommende vil betale via vipps eller e-post faktura.
 
 
 Tips for senere:
