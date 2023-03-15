@@ -106,10 +106,20 @@ function MemberForm() {
                     required
                     onChange={formChange}
                     />
+                <input 
+                    type="text" 
+                    name="zipcode"
+                    value={formInputs.zipcode || ""}
+                    id="idzipcode" 
+                    placeholder="Postnr" 
+                    pattern="\d{4}"
+                    required
+                    onChange={formChange}
+                    />
                 <input type="submit" value="Send inn" />
             </form>
             <p>Ved å sende inn skjema godtar du at Bevar Dovrefjell Mellom Istidene lagrer
-                opplysningene du har oppgitt . Opplysningene kan benyttes til å sende ut informasjon,
+                opplysningene du har oppgitt. Opplysningene kan benyttes til å sende ut informasjon,
                 samt kreve inn kontingent.
             </p>
         </div>

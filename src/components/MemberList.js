@@ -26,6 +26,7 @@ function MemberList() {
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
         setFormInputs({});
         setModalOpen(false);
+        document.location.reload();
     }
 
     function editMember(memberId) {
@@ -48,6 +49,7 @@ function MemberList() {
             const writeResult = await updateMember(memberToEdit, formInputs);
             if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
             setModalOpen(false);
+            document.location.reload();
         };
     };
 
@@ -66,6 +68,20 @@ function MemberList() {
     }, []
     );
 
+    function exportToCsv() {
+        let rows = [['Etternavn', 'Fornavn', 'E-post', 'Mobil', 'Postnr', 'Status']];
+        console.log(memberArray);
+        for (let i = 0; i < memberArray.length; i++) {
+            rows.push([memberArray[i].lastname, memberArray[i].firstname, memberArray[i].email, memberArray[i].phone, memberArray[i].zipcode, memberArray[i].status])
+        }
+        console.log(rows);
+        let csvContent = "data:text/csv;charset=utf-8,"
+            + rows.map(e => e.join(";")).join("\n");
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+    }
+
+
 if (isLoading) {
     return (
         <div>
@@ -76,12 +92,14 @@ if (isLoading) {
 
 return (
     <div>
+        <button onClick={exportToCsv}>Eksporter til CSV</button>
         <table className="memberlisttable">
             <thead>
                 <tr>
                     <th>Navn</th>
                     <th>E-post</th>
                     <th>Telefonnummer</th>
+                    <th>Postnr</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -93,6 +111,7 @@ return (
                         <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
+                        <td>{item.zipcode}</td>
                         <td>{item.status}</td>
                     </tr>
                 ))}
@@ -145,6 +164,16 @@ return (
                 id="idphone" 
                 placeholder="Mobilnummer" 
                 pattern="[0-9]{8}"
+                required
+                onChange={formChange}
+                />
+            <input 
+                type="text" 
+                name="zipcode"
+                value={formInputs.zipcode || ""}
+                id="idzipcode" 
+                placeholder="Postnr" 
+                pattern="\d{4}"
                 required
                 onChange={formChange}
                 />

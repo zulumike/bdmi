@@ -34,6 +34,7 @@ function MemberFormAdmin(user) {
             writeResult.then((responseMessage) => {
                 if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
                 setFormInputs({'status': 'Registrert', 'role': 'Medlem'});
+                document.location.reload();
             });
         };
     };
@@ -81,6 +82,17 @@ return (
                 required
                 onChange={formChange}
                 />
+            <input 
+                type="text" 
+                name="zipcode"
+                value={formInputs.zipcode || ""}
+                id="idzipcode" 
+                placeholder="Postnr" 
+                pattern="\d{4}"
+                required
+                onChange={formChange}
+                />
+            <label htmlFor='idstatus'>Status: </label>
             <select 
                 name="status"
                 id="idstatus"
@@ -92,6 +104,8 @@ return (
                 <option value = "Registrert">Registrert</option>
                 <option value = "Aktiv">Aktiv</option>
             </select>
+            <br/>
+            <br/>
             <input type="submit" value="Registrer" />
         </form>
         <MemberList />

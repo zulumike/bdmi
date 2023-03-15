@@ -205,7 +205,10 @@ Ny versjon av BDMI medlemsregister.
     - Flyttet hamburger funksjon inn i homepage.js.
         Dette gjorde det enklere å håndtere innlogging / utlogging.
 
-    - Tenker også å legge til postnr i skjema for registrering.
+15.03.2023
+    - Lagt til postnr i skjema.
+    - Lagt til eksport av medlemmer til csv
+    
 
 
 Tips for senere:
