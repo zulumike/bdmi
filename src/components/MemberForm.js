@@ -3,6 +3,7 @@ import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
+import salgsbetingelser from "../assets/Salgsbetingelser.pdf";
 
 
 //*******************
@@ -122,7 +123,7 @@ function MemberForm() {
             </form>
             <p>Ved å sende inn skjema godtar du at Bevar Dovrefjell Mellom Istidene lagrer
                 opplysningene du har oppgitt. Opplysningene kan benyttes til å sende ut informasjon,
-                samt kreve inn kontingent.
+                samt kreve inn kontingent. <a href = {salgsbetingelser} target = "_blank" rel="noreferrer">Salgsbetingelser</a>
             </p>
         </div>
     )
