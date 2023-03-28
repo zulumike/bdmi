@@ -212,6 +212,20 @@ Ny versjon av BDMI medlemsregister.
     Neste: lage en løsning som sender e-post med en link der bruker får lastet ned en pdf (faktura) (anonym link?)
     Må også legge til valg for om vedkommende vil betale via vipps eller e-post faktura.
 
+28.03.2023
+    - Har sendt inn søknad om vipps handel på nett m.m
+    - Fått delvis godkjent og kan begynne å teste.
+    - Installert Vipps-test app på telefonen min.
+    - Skal nå i første omgang teste med postman mot vipps sine apier for å se hvordan ting funker.
+        Testet med postman og det virker forholdsvis greit. 
+        Neste blir å teste i app, samt fordype seg litt.
+        - Tenker å kjøre en agreement med initial charge.
+        - Må undersøke det med interval her. Kan man f.eks sette datoer?
+        - Sørge for at folk ikke blir belastet flere ganger samme år.
+        - Går an for app å hente alle agreements, f.eks til et array og så kan appen sjekke opp i mot kunde databasen
+        - Sette agreement-id til medlems id kanskje, samme med ordrenr (som jeg tror MÅ være med)
+        - 
+
 
 Tips for senere:
     - Autentisering (pluss database):
