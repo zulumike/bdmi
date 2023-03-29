@@ -226,9 +226,17 @@ Ny versjon av BDMI medlemsregister.
         - Sette agreement-id til medlems id kanskje, samme med ordrenr (som jeg tror MÅ være med)
         - 
 
+29.03.2023
+    - Opprettet vippsfunctions.js
+        Tenkt å putte alle vipps-funksjoner inn i denne som kan importeres og brukes fra andre components
+    - Lagde første funksjon der. get access token - Denne for å starte en "sesjon" mot vipps.
+    - Men sliter med cors Problemer....
+
+
 
 Tips for senere:
     - Autentisering (pluss database):
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
 
     
+

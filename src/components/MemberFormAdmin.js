@@ -3,6 +3,7 @@ import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
+import { vippsGetAxccessToken } from "../functions/vippsfunctions";
 
 
 
@@ -108,6 +109,7 @@ return (
             <br/>
             <input type="submit" value="Registrer" />
         </form>
+        <button onClick={vippsGetAxccessToken}>Get Acces Token</button>
         <MemberList />
     </div>
 )
