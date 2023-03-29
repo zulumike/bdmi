@@ -231,6 +231,8 @@ Ny versjon av BDMI medlemsregister.
         Tenkt å putte alle vipps-funksjoner inn i denne som kan importeres og brukes fra andre components
     - Lagde første funksjon der. get access token - Denne for å starte en "sesjon" mot vipps.
     - Men sliter med cors Problemer....
+    - Tror jeg må bruke egen api for å kalle opp vipps-apier. Dette vil antakeligvis løse cors problem pluss at jeg kan lagre keys på en sikker måte....
+    
 
 
 

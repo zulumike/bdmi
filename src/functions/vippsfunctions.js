@@ -10,6 +10,8 @@ function vippsGetAxccessToken() {
     myHeaders.append("Vipps-System-Plugin-Name", "vipps-postman");
     myHeaders.append("Vipps-System-Plugin-Version", "2.0");
     myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
+    myHeaders.append("Access-Control-Allow-Origin", "*");
+    myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     var raw = "";
 
