@@ -241,6 +241,12 @@ Ny versjon av BDMI medlemsregister.
     - Funker når jeg kjører lokalt, men ikke via Azure. Antar dette er fordi dette er en server-less løsning
         og jeg ikke får installert node-fetch der. Feilmelding i app-insights tilsier også dette.
         Mulig det går an å gjøre dette på en annen måte...?
+    - Hadde jo installert node-fetch på rota av prosjektet. Etter jeg installerte node-fetch i api-katalogen og 
+        kjørte commit, så fungerte det i azure også.
+        Litt rart at det funka lokalt før jeg installerte i api-katalogen......
+    - Flyttet vipps - client id og secret m.m til application settings.
+    - Begynt med å lage funksjoner i api for de forskjellige vipps-funksjonene.
+        draft agreement with initian charge.
 
 
 
