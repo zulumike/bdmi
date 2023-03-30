@@ -233,6 +233,13 @@ Ny versjon av BDMI medlemsregister.
     - Men sliter med cors Problemer....
     - Tror jeg må bruke egen api for å kalle opp vipps-apier. Dette vil antakeligvis løse cors problem pluss at jeg kan lagre keys på en sikker måte....
     
+30.03.2023
+    - Opprettet api Vipps.
+    - Litt trøbbel med å få ting til å funke, blant annet fordi funksjonen fetch måtte installeres
+        OG den må importeres som require og ikke vha import inne i funksjonen i index.js.
+        Måtte installere node-fetch versjon 2.0 vha npm install node-fetch@2.0
+    - Må nå prøve å få "gjemt" bort enkelte vipps-variabler 
+    - Og hente ut svar fra vipps.
 
 
 
