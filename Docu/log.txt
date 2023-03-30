@@ -238,6 +238,12 @@ Ny versjon av BDMI medlemsregister.
     - Litt trøbbel med å få ting til å funke, blant annet fordi funksjonen fetch måtte installeres
         OG den må importeres som require og ikke vha import inne i funksjonen i index.js.
         Måtte installere node-fetch versjon 2.0 vha npm install node-fetch@2.0
+    - Funker når jeg kjører lokalt, men ikke via Azure. Antar dette er fordi dette er en server-less løsning
+        og jeg ikke får installert node-fetch der. Feilmelding i app-insights tilsier også dette.
+        Mulig det går an å gjøre dette på en annen måte...?
+
+
+
     - Må nå prøve å få "gjemt" bort enkelte vipps-variabler 
     - Og hente ut svar fra vipps.
 
