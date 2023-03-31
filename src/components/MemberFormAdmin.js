@@ -3,7 +3,7 @@ import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
-import { vippsGetAxccessToken, vippsDraftAgreementWithInitialCharge } from "../functions/vippsfunctions";
+import { vippsApiCall } from "../functions/vippsfunctions";
 
 
 
@@ -40,10 +40,29 @@ function MemberFormAdmin(user) {
         };
     };
 
+    // Call a function in vippsfunctions.js
+    // Creates an agreement and charges an initial amount
     function vippsCreateAgreementInit() {
-        vippsDraftAgreementWithInitialCharge({memberid: "2023-03-07T14:08:53.130Z61102729", amount: 200, amountinitial: 200, phonenumber: "99576014"})
-    }
+        vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":"2023-03-07T14:08:53.130Z61102729", "amount":"200", "amountinitial":"200", "phonenumber":"99576014"})
+    };
 
+    // Call a function in vippsfunctions.js
+    // Creates an agreement and charges an initial amount
+    function vippsCreateAgreementInit() {
+        vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":"2023-03-07T14:08:53.130Z61102729", "amount":"200", "amountinitial":"200", "phonenumber":"99576014"})
+    };
+
+    // call a function in vippsfunction.js
+    // Gets agreement info by agreement id
+    function vippsGetAgreementInfo() {
+        vippsApiCall({"vippsreqtype":"get-agreement", "agreementid":"agr_67YUBv4"});
+    };
+    
+    // call a function in vippsfunction.js
+    // Gets charge info by charge id
+    function vippsGetChargeInfo() {
+        vippsApiCall({"vippsreqtype": "get-charge","agreementid": "agr_67YUBv4", "chargeid": "chr-QDXp8rf"});
+    };
 
 
 return (
@@ -115,7 +134,9 @@ return (
             <br/>
             <input type="submit" value="Registrer" />
         </form>
-        <button onClick={vippsCreateAgreementInit}>Get Acces Token</button>
+        <button onClick={vippsCreateAgreementInit}>Draft agreement</button>
+        <button onClick={vippsGetAgreementInfo}>Get Agreement</button>
+        <button onClick={vippsGetChargeInfo}>Get Charge</button>
         <MemberList />
     </div>
 )

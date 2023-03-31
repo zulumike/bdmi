@@ -1,6 +1,6 @@
 
-async function vippsGetAxccessToken() {
-    
+// calls the vipps api with given data
+async function vippsApiCall(data) {
     let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
         apiURL = '/api/Vipps';
@@ -12,27 +12,7 @@ async function vippsGetAxccessToken() {
 
     fetch(apiURL,{
         method: "POST",
-        body: {"vippsreqtype":"getaxxesstoken"}
-    })
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-};
-
-async function vippsDraftAgreementWithInitialCharge(data) {
-    
-    let apiURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        apiURL = '/api/Vipps';
-    }
-    else {
-        apiURL = 'http://localhost:7071/api/Vipps';
-
-    }
-
-    fetch(apiURL,{
-        method: "POST",
-        body: JSON.stringify({"vippsreqtype":"draft-agreement-with-initial", "memberid":"2023-03-07T14:08:53.130Z61102729", "amount":"200", "amountinitial":"200", "phonenumber":"99576014"})
+        body: JSON.stringify(data)
     })
     .then(response => response.text())
     .then(result => console.log(result))
@@ -40,6 +20,4 @@ async function vippsDraftAgreementWithInitialCharge(data) {
 };
 
 
-
-
-export { vippsGetAxccessToken, vippsDraftAgreementWithInitialCharge };
+export { vippsApiCall };
