@@ -3,7 +3,7 @@ import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
-import { vippsGetAxccessToken } from "../functions/vippsfunctions";
+import { vippsGetAxccessToken, vippsDraftAgreementWithInitialCharge } from "../functions/vippsfunctions";
 
 
 
@@ -39,6 +39,12 @@ function MemberFormAdmin(user) {
             });
         };
     };
+
+    function vippsCreateAgreementInit() {
+        vippsDraftAgreementWithInitialCharge({memberid: "2023-03-07T14:08:53.130Z61102729", amount: 200, amountinitial: 200, phonenumber: "99576014"})
+    }
+
+
 
 return (
     <div className='memberformadmintoppdiv'>
@@ -109,7 +115,7 @@ return (
             <br/>
             <input type="submit" value="Registrer" />
         </form>
-        <button onClick={vippsGetAxccessToken}>Get Acces Token</button>
+        <button onClick={vippsCreateAgreementInit}>Get Acces Token</button>
         <MemberList />
     </div>
 )

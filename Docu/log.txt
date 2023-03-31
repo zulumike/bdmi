@@ -248,7 +248,9 @@ Ny versjon av BDMI medlemsregister.
     - Begynt med å lage funksjoner i api for de forskjellige vipps-funksjonene.
         draft agreement with initian charge.
 
-
+31.03.2023
+    - Opprettet vipps funksjon for å oprette avtale.
+        Ikke fått helt til dette. Usikker om headers sendes korrekt..
 
     - Må nå prøve å få "gjemt" bort enkelte vipps-variabler 
     - Og hente ut svar fra vipps.

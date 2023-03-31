@@ -1,8 +1,17 @@
 module.exports = async function (context, req) {
     let responseMessage = '';
+    let vippsAccessToken = '';
     const fetch = require("node-fetch");
 
-    const VippsReqType = req.body.vippsreqtype;
+    const vippsReqType = req.body.vippsreqtype;
+
+    //************************************************************
+    // FUNCTION vippsGetAccessToken
+    // params: none
+    // This function provides access token to vipps api
+    // Token lasts 1 hour in test environment, 24h in production
+    //*************************************************************
+
 
     async function vippsGetAccessToken() {
         var myHeaders = new fetch.Headers();
@@ -30,16 +39,27 @@ module.exports = async function (context, req) {
         await fetch("https://apitest.vipps.no/accessToken/get", requestOptions)
         .then(response => response.text())
         .then(result => {
-            responseMessage = result;
-            return responseMessage;
+            vippsAccessToken = JSON.parse(result).access_token;
         })
         .catch(error => context.log('error', error));
     };
 
+
+    //**********************************************
+    // FUNCTION vippsDraftAgreementWithInitalCharge
+    // params:
+    //    memberId: unique id of member from db
+    //    amount: amount in nok to be charged each interval
+    //    amountInitial: 
+
     async function VippsDraftAgreementWithInitialCharge(memberId, amount, amountInitial, phoneNumber) {
+        // await vippsGetAccessToken();
+        context.log('accesstoken: ' + vippsAccessToken);
         var myHeaders = new fetch.Headers();
+        myHeaders.append("client_id", process.env.VippsClientId);
+        myHeaders.append("client_secret", process.env.VippsClientSecret);
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "bearer {{access_token}}");
+        myHeaders.append("Authorization", vippsAccessToken);
         myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
         myHeaders.append("Merchant-Serial-Number", "297975");
         myHeaders.append("Vipps-System-Name", "ZMSoftWare");
@@ -51,6 +71,8 @@ module.exports = async function (context, req) {
         myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         myHeaders.append("Idempotency-Key", memberId);
 
+        context.log('Headers ' + myHeaders.get('Authorization'));
+        responseMessage = myHeaders.get('client_id');
         var raw = JSON.stringify({
             "initialCharge": {
               "amount": amountInitial,
@@ -70,7 +92,7 @@ module.exports = async function (context, req) {
             "phoneNumber": phoneNumber,
             "productName": "Medlemskontingent BDMI"
           });
-          
+
           var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -78,21 +100,22 @@ module.exports = async function (context, req) {
             redirect: 'follow'
           };
           
-          fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
+          await fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
             .then(response => response.text())
-            .then(result => responseMessage = result)
+            .then(result => {
+              // responseMessage = result;
+              context.log(result);
+            })
             .catch(error => context.log('error', error));
     }
 
-    context.log('JavaScript HTTP trigger function processed a request.');
-
-    if (VippsReqType === 'draft-agreement-with-initial') {
+    await vippsGetAccessToken();
+    context.log(vippsReqType);
+    if (vippsReqType === 'draft-agreement-with-initial') {
         context.log('Vipps draft agreement with initial ', req.body.phonenumber);
-        const vippsAccessToken = await vippsGetAccessToken();
-        await VippsDraftAgreementWithInitialCharge(vippsAccessToken, req.body.memberid, req.body.amount, req.body.amountinitial, req.body.phoneNumber);
+        await VippsDraftAgreementWithInitialCharge(req.body.memberid, req.body.amount, req.body.amountinitial, req.body.phoneNumber);
     }
 
-    await vippsGetAccessToken();
     context.res = {
         // status: 200, /* Defaults to 200 */
         body: responseMessage
