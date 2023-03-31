@@ -48,8 +48,8 @@ function MemberFormAdmin(user) {
 
     // Call a function in vippsfunctions.js
     // Creates an agreement and charges an initial amount
-    function vippsCreateAgreementInit() {
-        vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":"2023-03-07T14:08:53.130Z61102729", "amount":"200", "amountinitial":"200", "phonenumber":"99576014"})
+    function vippsCreateAgreement() {
+        vippsApiCall({"vippsreqtype":"draft-agreement-without-initial", "memberid":"2023-03-07T14:08:53.130Z61102729", "amount":"200", "phonenumber":"99576014"})
     };
 
     // call a function in vippsfunction.js
@@ -134,7 +134,8 @@ return (
             <br/>
             <input type="submit" value="Registrer" />
         </form>
-        <button onClick={vippsCreateAgreementInit}>Draft agreement</button>
+        <button onClick={vippsCreateAgreementInit}>Draft agreement with initial</button>
+        <button onClick={vippsCreateAgreement}>Draft agreement</button>
         <button onClick={vippsGetAgreementInfo}>Get Agreement</button>
         <button onClick={vippsGetChargeInfo}>Get Charge</button>
         <MemberList />
