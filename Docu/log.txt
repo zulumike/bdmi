@@ -261,7 +261,22 @@ Ny versjon av BDMI medlemsregister.
     - Forenklet kode. Bruke samme funksjon for alle vipps-api oppkall, bare med forskjellig data (body)
 
 
-
+01.04.2023
+    - Opprettet flere apier
+        charge : For å belaste medlem for årets kontingent.
+        update agreement : for å endre beløp eller stoppe agreement.
+            NB: Ikke testet 100%
+    - Rensket opp litt i fetch-url for api mot vipps.
+        Gjør det enklere å endre til produksjon når den tid kommer.
+        Bare å endre en const i Vipps api (index.js)
+    - Neste blir nå å få på plass disse funksjonene på de faktiske medlemmene
+        Både på member-form, samt memberformadmin.
+        Pluss at medlemmer må kunne logge på og endre seg selv.
+        Og legge til noe lagring til database 
+        - På medlemmer må man lagre agreementid
+            Tror det er nok for da kan man hente resten fra vipps
+        - Lagre beløp, slik at man enkelt kan endre kontingenten.
+        
 
 Tips for senere:
     - Autentisering (pluss database):
