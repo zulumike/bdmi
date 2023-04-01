@@ -197,6 +197,35 @@ module.exports = async function (context, req) {
 
     };
 
+    async function vippsCharge(agreementId, amount, description, due, retryDays) {
+      var myHeaders = new fetch.Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+      myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
+      myHeaders.append("Merchant-Serial-Number", "297975");
+      myHeaders.append("Vipps-System-Name", "ZMSoftWare");
+      myHeaders.append("Vipps-System-Version", "1.0");
+      myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
+      myHeaders.append("Vipps-System-Plugin-Version", "1.0");
+      myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
+      myHeaders.append("Access-Control-Allow-Origin", "*");
+      myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+      var raw = JSON.stringify({
+        "amount": amount,
+        "description": description,
+        "due": due,
+        "retryDays": retryDays
+      });
+
+      await fetch("https://apitest.vipps.no/recurring/v3/agreements/" + agreementId + "/charges", requestOptions)
+        .then(response => response.text())
+        .then(result => responseMessage = result)
+        .catch(error => context.log('error', error));
+
+    };
+
+
     //*************************************************************
     // FUNCTION vippsGetCharge
     // params:
@@ -243,6 +272,10 @@ module.exports = async function (context, req) {
     else if (vippsReqType === 'get-agreement') {
       context.log('Vipps get agreement ', req.body.agreementid);
       await vippsGetAgreement(req.body.agreementid);
+    }
+    else if (vippsReqType === 'charge') {
+      context.log('Vipps charge ', req.body.chargeid);
+      await vippsCharge(req.body.agreementid, req.body.amount, req.body.description, req.body.due, req.body.retryDays);
     }
     else if (vippsReqType === 'get-charge') {
       context.log('Vipps get charge ', req.body.chargeid);
