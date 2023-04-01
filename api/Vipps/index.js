@@ -1,111 +1,102 @@
 module.exports = async function (context, req) {
-    let responseMessage = '';
-    let vippsAccessToken = '';
-    const fetch = require("node-fetch");
+  let responseMessage = '';
+  let vippsAccessToken = '';
+  const fetch = require("node-fetch");
 
-    const vippsReqType = req.body.vippsreqtype;
+  const vippsReqType = req.body.vippsreqtype;
 
-    //************************************************************
-    // FUNCTION vippsGetAccessToken
-    // params: none
-    // This function provides access token to vipps api
-    // Token lasts 1 hour in test environment, 24h in production
-    //*************************************************************
+  var myHeaders = new fetch.Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
+  myHeaders.append("Merchant-Serial-Number", "297975");
+  myHeaders.append("Vipps-System-Name", "ZMSoftWare");
+  myHeaders.append("Vipps-System-Version", "1.0");
+  myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
+  myHeaders.append("Vipps-System-Plugin-Version", "1.0");
+  myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
+  myHeaders.append("Access-Control-Allow-Origin", "*");
+  myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 
-    async function vippsGetAccessToken() {
-        var myHeaders = new fetch.Headers();
-        myHeaders.append("client_id", process.env.VippsClientId);
-        myHeaders.append("client_secret", process.env.VippsClientSecret);
-        myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-        myHeaders.append("Merchant-Serial-Number", "297975");
-        myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-        myHeaders.append("Vipps-System-Version", "1.0");
-        myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-        myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-        myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-        myHeaders.append("Access-Control-Allow-Origin", "*");
-        myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //************************************************************
+  // FUNCTION vippsGetAccessToken
+  // params: none
+  // This function provides access token to vipps api
+  // Token lasts 1 hour in test environment, 24h in production
+  //*************************************************************
+
+  async function vippsGetAccessToken() {
+    myHeaders.append("client_id", process.env.VippsClientId);
+    myHeaders.append("client_secret", process.env.VippsClientSecret);
     
-        var raw = "";
-    
-        var requestOptions = {
+    var raw = "";
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    await fetch("https://apitest.vipps.no/accessToken/get", requestOptions)
+    .then(response => response.text())
+    .then(result => {
+        context.log(JSON.parse(result));
+        vippsAccessToken = JSON.parse(result).access_token;
+    })
+    .catch(error => context.log('error', error));
+  };
+
+
+  //**********************************************
+  // FUNCTION vippsDraftAgreementWithInitalCharge
+  // params:
+  //    memberId: unique id of member from db
+  //    amount: amount in nok to be charged each interval
+  //    amountInitial: amout in nok to be initially charged
+  //    phoneNumber: phonenumber to be charged
+  // This functions drafts an agreement and gives back an agreement id and a url that 
+  // user gets redirected to or if on smarphone opens vipps app
+  // user can then accept agreement and initial charge
+
+  async function vippsDraftAgreementWithInitialCharge(memberId, amount, amountInitial, phoneNumber) {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    myHeaders.append("Idempotency-Key", memberId);
+
+    var raw = JSON.stringify({
+        "initialCharge": {
+          "amount": amountInitial,
+          "description": "Betaling gjelder første medlemsår BDMI",
+          "transactionType": "DIRECT_CAPTURE"
+        },
+        "interval": {
+          "unit": "YEAR",
+          "count": "1"
+        },
+        "pricing": {
+          "amount": amount,
+          "currency": "NOK"
+        },
+        "merchantRedirectUrl": "https://medlem.bevardovrefjell.no",
+        "merchantAgreementUrl": "https://medlem.bevardovrefjell.no",
+        "phoneNumber": phoneNumber,
+        "productName": "Medlemskontingent BDMI"
+      });
+
+      var requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
-        };
-    
-        await fetch("https://apitest.vipps.no/accessToken/get", requestOptions)
+      };
+      
+      await fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
         .then(response => response.text())
         .then(result => {
-            context.log(JSON.parse(result));
-            vippsAccessToken = JSON.parse(result).access_token;
+          responseMessage = result;
+          context.log(result);
         })
         .catch(error => context.log('error', error));
-    };
-
-
-    //**********************************************
-    // FUNCTION vippsDraftAgreementWithInitalCharge
-    // params:
-    //    memberId: unique id of member from db
-    //    amount: amount in nok to be charged each interval
-    //    amountInitial: amout in nok to be initially charged
-    //    phoneNumber: phonenumber to be charged
-    // This functions drafts an agreement and gives back an agreement id and a url that 
-    // user gets redirected to or if on smarphone opens vipps app
-    // user can then accept agreement and initial charge
-
-    async function vippsDraftAgreementWithInitialCharge(memberId, amount, amountInitial, phoneNumber) {
-        var myHeaders = new fetch.Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-        myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-        myHeaders.append("Merchant-Serial-Number", "297975");
-        myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-        myHeaders.append("Vipps-System-Version", "1.0");
-        myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-        myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-        myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-        myHeaders.append("Access-Control-Allow-Origin", "*");
-        myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        myHeaders.append("Idempotency-Key", memberId);
-
-        var raw = JSON.stringify({
-            "initialCharge": {
-              "amount": amountInitial,
-              "description": "Betaling gjelder første medlemsår BDMI",
-              "transactionType": "DIRECT_CAPTURE"
-            },
-            "interval": {
-              "unit": "YEAR",
-              "count": "1"
-            },
-            "pricing": {
-              "amount": amount,
-              "currency": "NOK"
-            },
-            "merchantRedirectUrl": "https://medlem.bevardovrefjell.no",
-            "merchantAgreementUrl": "https://medlem.bevardovrefjell.no",
-            "phoneNumber": phoneNumber,
-            "productName": "Medlemskontingent BDMI"
-          });
-
-          var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-          };
-          
-          await fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-              responseMessage = result;
-              context.log(result);
-            })
-            .catch(error => context.log('error', error));
     };
 
     //**********************************************
@@ -119,49 +110,38 @@ module.exports = async function (context, req) {
     // user can then accept agreement
 
     async function vippsDraftAgreementWithoutInitialCharge(memberId, amount, phoneNumber) {
-        var myHeaders = new fetch.Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-        myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-        myHeaders.append("Merchant-Serial-Number", "297975");
-        myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-        myHeaders.append("Vipps-System-Version", "1.0");
-        myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-        myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-        myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-        myHeaders.append("Access-Control-Allow-Origin", "*");
-        myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        myHeaders.append("Idempotency-Key", memberId);
+      myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+      myHeaders.append("Idempotency-Key", memberId);
 
-        var raw = JSON.stringify({
-            "interval": {
-              "unit": "YEAR",
-              "count": "1"
-            },
-            "pricing": {
-              "amount": amount,
-              "currency": "NOK"
-            },
-            "merchantRedirectUrl": "https://medlem.bevardovrefjell.no",
-            "merchantAgreementUrl": "https://medlem.bevardovrefjell.no",
-            "phoneNumber": phoneNumber,
-            "productName": "Medlemskontingent BDMI"
-          });
+      var raw = JSON.stringify({
+          "interval": {
+            "unit": "YEAR",
+            "count": "1"
+          },
+          "pricing": {
+            "amount": amount,
+            "currency": "NOK"
+          },
+          "merchantRedirectUrl": "https://medlem.bevardovrefjell.no",
+          "merchantAgreementUrl": "https://medlem.bevardovrefjell.no",
+          "phoneNumber": phoneNumber,
+          "productName": "Medlemskontingent BDMI"
+        });
 
-          var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-          };
-          
-          await fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-              responseMessage = result;
-              context.log(result);
-            })
-            .catch(error => context.log('error', error));
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+        
+        await fetch("https://apitest.vipps.no/recurring/v3/agreements", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            responseMessage = result;
+            context.log(result);
+          })
+          .catch(error => context.log('error', error));
     };
 
     //*************************************************************
@@ -171,19 +151,8 @@ module.exports = async function (context, req) {
     // This function calls the vipps api to get status of agreement
 
     async function vippsGetAgreement(agreementId) {
-      var myHeaders = new fetch.Headers();
-      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-      myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-      myHeaders.append("Merchant-Serial-Number", "297975");
-      myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-      myHeaders.append("Vipps-System-Version", "1.0");
-      myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-      myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-      myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
+      
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -198,19 +167,8 @@ module.exports = async function (context, req) {
     };
 
     async function vippsCharge(agreementId, amount, description, due, retryDays) {
-      var myHeaders = new fetch.Headers();
-      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-      myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-      myHeaders.append("Merchant-Serial-Number", "297975");
-      myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-      myHeaders.append("Vipps-System-Version", "1.0");
-      myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-      myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-      myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
+      
       var raw = JSON.stringify({
         "amount": amount,
         "description": description,
@@ -233,19 +191,8 @@ module.exports = async function (context, req) {
     // This function calls the vipps api to get status and history of charge
 
     async function vippsGetCharge(agreementId, chargeId) {
-      var myHeaders = new fetch.Headers();
-      myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-      myHeaders.append("Ocp-Apim-Subscription-Key", process.env.VippsOcpKey);
-      myHeaders.append("Merchant-Serial-Number", "297975");
-      myHeaders.append("Vipps-System-Name", "ZMSoftWare");
-      myHeaders.append("Vipps-System-Version", "1.0");
-      myHeaders.append("Vipps-System-Plugin-Name", "vipps-ZMSoftWare");
-      myHeaders.append("Vipps-System-Plugin-Version", "1.0");
-      myHeaders.append("Cookie", "fpc=AkoUlNbDbt9GhvK1fBIpH6GANjuQAQAAAJg4tdsOAAAA");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
+      
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
