@@ -277,6 +277,12 @@ Ny versjon av BDMI medlemsregister.
             Tror det er nok for da kan man hente resten fra vipps
         - Lagre beløp, slik at man enkelt kan endre kontingenten.
         
+02.04.2023
+    - Startet prosess med å få implementert vipps funksjoner ved registrering av medlemmer
+        Startet med memberForm. 
+        Problemer med å hente ut memberid, da jeg sliter med å sende dette tilbake
+        Må enten gjøre om på hvordan data hentes fra response, eller opprette member-id fra memberform...
+        
 
 Tips for senere:
     - Autentisering (pluss database):
