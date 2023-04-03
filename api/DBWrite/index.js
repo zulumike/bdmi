@@ -4,14 +4,14 @@ module.exports = async function (context, req) {
     const responseMessage = req.body.firstname + " " + req.body.lastname
     ? "Success"
     : "This HTTP triggered function executed successfully.";
-    if (member.memberid == "*") {
-        delete member.memberid;
+    if (member.type == "new") {
+        delete member.type;
         member.id = new Date().toISOString() + Math.random().toString().substring(2, 10);
         context.bindings.outputDocument = JSON.stringify(member);
     }
     else {
-        delete member.memberid;
-        context.bindings.updateDocument = JSON.stringify(req.body)
+        delete member.type;
+        context.bindings.updateDocument = JSON.stringify(member)
     }
     context.res = {
         // status: 200, /* Defaults to 200 */

@@ -10,13 +10,19 @@ async function vippsApiCall(data) {
 
     }
 
+    let vippsResponse = '';
+
     fetch(apiURL,{
         method: "POST",
         body: JSON.stringify(data)
     })
     .then(response => response.text())
-    .then(result => console.log(result))
+    .then(result => {
+        console.log(result)
+        vippsResponse = result;
+    })
     .catch(error => console.log('error', error));
+    return (vippsResponse);
 };
 
 

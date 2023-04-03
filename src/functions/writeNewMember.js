@@ -8,7 +8,7 @@ async function writeNewMember(newMember) {
         apiURL = 'http://localhost:7071/api/DBWrite';
 
     }
-    newMember.memberid = "*";
+    newMember.type = "new";
     newMember.name = newMember.lastname + ', ' + newMember.firstname;
     newMember.deleted = "false";
     const data = await fetch(apiURL, {

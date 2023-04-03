@@ -4,6 +4,7 @@ import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
 import salgsbetingelser from "../assets/Salgsbetingelser.pdf";
+import { vippsApiCall } from "../functions/vippsfunctions";
 
 
 //*******************
@@ -19,6 +20,13 @@ function MemberForm() {
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
     };
+
+    const amount = '20000';
+
+    async function activateVippsAgreement(memberId, phone) {
+        const vippsResponse = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone})
+        console.log('Vippsresponse: ', vippsResponse)
+    }
 
     //********************
     // FUNCTION submitForm
@@ -39,6 +47,7 @@ function MemberForm() {
                 userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
                 if (parseInt(userCode) === randomCode) {
                     abort = true;
+                    formInputs.memberid = new Date().toISOString() + Math.random().toString().substring(2, 10);
                     formInputs.createdby = formInputs.email;
                     formInputs.role = "Medlem";
                     formInputs.status = "Registrert";
@@ -46,6 +55,7 @@ function MemberForm() {
                     const writeResult = writeNewMember(formInputs);
                     writeResult.then((responseMessage) => {
                         if (responseMessage.status === 200) {
+                            activateVippsAgreement(formInputs.memberid, formInputs.phonenumber);
                             alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
                             setFormInputs({});
                         }
@@ -118,6 +128,26 @@ function MemberForm() {
                     required
                     onChange={formChange}
                     />
+                <h4>Ønsker å betale via:</h4>
+                <input
+                    type="radio"
+                    name="invoicechannel"
+                    id="invoicechannelvipps"
+                    value={formInputs.invoicechannel || "vipps"}
+                    required
+                    onChange={formChange}
+                    />
+                <label
+                    htmlFor="invoicechannelvipps">Vipps</label>
+                <input
+                    type="radio"
+                    name="invoicechannel"
+                    id="invoicechannelemail"
+                    value={formInputs.invoicechannel || "email"}
+                    onChange={formChange}
+                    />
+                <label
+                    htmlFor="invoicechannelvipps">E-post</label>
                 <br/>    
                 <input type="submit" value="Send inn" />
             </form>

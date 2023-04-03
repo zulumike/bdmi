@@ -284,6 +284,14 @@ Ny versjon av BDMI medlemsregister.
         Må enten gjøre om på hvordan data hentes fra response, eller opprette member-id fra memberform...
         
 
+03.04.2023
+    - Lagt til spørsmål om vipps eller e-post på memberform (må gjøre det samme på memberformadmin)
+        Må også legge til funksjon som sjekker hva som er valgt når det skal sendes faktura
+    - Prøvde å lage til funksjon som sender vipps-krav (avtale med initiell krav) når registrert.
+        Det fungerer, men må få tak i url og videresende bruker til denne.
+        Må nok vente på svar fra api her. Kanskje bruke samme metode som i vippsfunctions med .then osv.
+
+
 Tips for senere:
     - Autentisering (pluss database):
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
