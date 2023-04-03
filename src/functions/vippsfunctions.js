@@ -10,9 +10,9 @@ async function vippsApiCall(data) {
 
     }
 
-    let vippsResponse = '';
+    let vippsResponse = {};
 
-    fetch(apiURL,{
+    await fetch(apiURL,{
         method: "POST",
         body: JSON.stringify(data)
     })

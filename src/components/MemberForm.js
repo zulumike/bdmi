@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ReactModal from "react-modal";
+import Modal from "react-modal";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
@@ -14,6 +16,8 @@ import { vippsApiCall } from "../functions/vippsfunctions";
 // If code match call function addMemberToDB
 
 function MemberForm() {
+    Modal.setAppElement('#root');
+    const [modalOpen, setModalOpen] = useState(false);
     const [formInputs, setFormInputs] = useState({});
     const formChange = (event) => {
         const name = event.target.name;
@@ -21,11 +25,22 @@ function MemberForm() {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
+    const [vippsConfirmationUrl, setVippsConfirmationUrl] = useState("")
+
     const amount = '20000';
+    let vippsResponse = {};
+
+    function closeModal() {
+        setModalOpen(false);
+        console.log('CloseModal');
+    }
 
     async function activateVippsAgreement(memberId, phone) {
-        const vippsResponse = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone})
-        console.log('Vippsresponse: ', vippsResponse)
+       const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});
+       vippsResponse = JSON.parse(vippsResponseJson);
+       setVippsConfirmationUrl(vippsResponse.vippsConfirmationUrl);
+       console.log(vippsConfirmationUrl);
+       setModalOpen(true);
     }
 
     //********************
@@ -156,6 +171,24 @@ function MemberForm() {
                 samt kreve inn kontingent. <a href = {salgsbetingelser} target = "_blank" rel="noreferrer">Salgsbetingelser</a>
             </p>
             <h2>Kontakt: post@bevardovrefjell.no</h2>
+            <ReactModal 
+                className='modal'
+                ovarlayClassName='modaloverlay'
+                isOpen={modalOpen}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={true}
+                shouldCloseOnEsc={true}
+            >
+                <iframe 
+                    id="iframe"
+                    src={vippsConfirmationUrl}
+                    title="Vipps"
+                    height="800"
+                    width="100%"
+                >
+
+                </iframe>
+            </ReactModal>
         </div>
     )
 }

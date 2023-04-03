@@ -290,6 +290,12 @@ Ny versjon av BDMI medlemsregister.
     - Prøvde å lage til funksjon som sender vipps-krav (avtale med initiell krav) når registrert.
         Det fungerer, men må få tak i url og videresende bruker til denne.
         Må nok vente på svar fra api her. Kanskje bruke samme metode som i vippsfunctions med .then osv.
+    - Fikset dette med å legge til await på fetch i vippsfunctions.js
+    - Fikk hentet ut confirmation url fra api-responsen.
+        Litt usikker på  hvordan jeg best skal håndtere dette i etterkant.
+        Prøvde først med å åpne ekstern link i iframe i en modal.
+        Men når vipps-siden er ferdig eller avbrytes vil vipps redirecte til bdmi-hovedsiden (inni iframe og modal).
+        Kanskje det finnes en funksjon å bruke som lytter på når iframe bytter nettside?
 
 
 Tips for senere:
@@ -297,4 +303,5 @@ Tips for senere:
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
 
     
+Test mobilnr: 99576014
 
