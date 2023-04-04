@@ -297,6 +297,11 @@ Ny versjon av BDMI medlemsregister.
         Men når vipps-siden er ferdig eller avbrytes vil vipps redirecte til bdmi-hovedsiden (inni iframe og modal).
         Kanskje det finnes en funksjon å bruke som lytter på når iframe bytter nettside?
 
+04.04.2023
+    - Ide for prosess ved vipps:
+        redirecte eksisterende vindu til vipps. Når vipps er ferdig, vil den åpne hovedsiden igjen.
+        Bruke localstorage til å lagre bruker som pålogget, slik at vedkommende kommer rett inn på sin bruker.
+
 
 Tips for senere:
     - Autentisering (pluss database):
