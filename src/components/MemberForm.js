@@ -70,6 +70,7 @@ function MemberForm() {
                     const writeResult = writeNewMember(formInputs);
                     writeResult.then((responseMessage) => {
                         if (responseMessage.status === 200) {
+                            localStorage.setItem('user', JSON.stringify({username: formInputs.email, userrole: formInputs.role }));
                             activateVippsAgreement(formInputs.memberid, formInputs.phonenumber);
                             alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
                             setFormInputs({});

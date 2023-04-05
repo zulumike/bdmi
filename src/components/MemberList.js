@@ -27,7 +27,7 @@ function MemberList() {
         setFormInputs({});
         setModalOpen(false);
         document.location.reload();
-    }
+    };
 
     function editMember(memberId) {
         setMemberToEdit(memberId);

@@ -302,6 +302,18 @@ Ny versjon av BDMI medlemsregister.
         redirecte eksisterende vindu til vipps. Når vipps er ferdig, vil den åpne hovedsiden igjen.
         Bruke localstorage til å lagre bruker som pålogget, slik at vedkommende kommer rett inn på sin bruker.
 
+05.04.2023
+    - Prøver å gjennomføre ideen fra i går.
+        Endret funksjonen som sjekker om godkjent bruker, slik at den gir tilbakemelding om bruker eksisterer
+        og hva slags rolle den har. Så er det en if statement som bestemmer hvilken return som kjøres. ut ifra hvilken rolle man har.
+        La også til i funksjonen for å registrere medlem at man blir lagret i localstorage.
+        Opprette ny komponent for redigering av seg selv som medlem.
+
+        Funker delvis. Bruker blir pålogget og det huskes i local-storage
+        Men har glemt å endre hvordan vipps-linken åpnes. Denne må endres fra iframe, til en redirect eller lignende
+        Må også endre komponenten for å redigere seg selv (MemberFormUser). Denne åpnes uten data.
+
+
 
 Tips for senere:
     - Autentisering (pluss database):

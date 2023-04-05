@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MemberForm from './MemberForm';
 import MemberFormAdmin from './MemberFormAdmin';
+import MemberFormUser from './MemberFormUser';
 import hamburgerSymbol from '../icons/hamburger.svg';
 
 import checkIfMemberExist from '../functions/checkIfMemberExist';
@@ -28,7 +29,7 @@ function HomePage() {
       const foundUser = JSON.parse(userFromLocalStorage);
       async function checkIfAuthenticated() {
         const [memberExist, , userRole] = await checkIfMemberExist('', foundUser.username);
-        if (memberExist && (userRole === "Admin" || userRole === "Superuser")) {
+        if (memberExist) {
           setLoggedInUser(foundUser.username);
           setLoggedInUserRole(userRole);
         }
@@ -71,7 +72,7 @@ function HomePage() {
     }
 }
   
-  if (loggedInUser) {
+  if (loggedInUser && (loggedInUserRole === "Admin" || loggedInUserRole === "Superuser")) {
     return (
       <div className='homepagetopdiv'>
         <div className="homepageheaderdiv">
@@ -88,6 +89,25 @@ function HomePage() {
       </div>
     )
   }
+
+  if (loggedInUser && (loggedInUserRole === "Medlem")) {
+    return (
+      <div className='homepagetopdiv'>
+        <div className="homepageheaderdiv">
+          <img src={logo} alt="Logo" className="topimage" />
+          <div onClick={hamburgerClick} className="hamburgerdiv">
+              <img src={hamburgerSymbol} height='50' width='50' alt='menu-icon' />
+              <div className="hamburgerelementsdiv" style={{display:display}}>
+                  <p>{loggedInUser}</p>
+                  <button onClick={submitLogOut} >Logg ut</button>
+              </div>
+          </div>
+        </div>
+        <MemberFormUser userLoggedIn={loggedInUser} />
+      </div>
+    )
+  }
+
   
   return (
     <div className='homepagetopdiv'>
