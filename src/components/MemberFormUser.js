@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import updateMember from "../functions/updateMember";
 import readGivenMember from "../functions/readGivenMember";
 
-function MemberFormUser (memberId) {
+function MemberFormUser(memberId) {
 
     const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
     const formChange = (event) => {
@@ -11,10 +11,21 @@ function MemberFormUser (memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    const givenMember = readGivenMember(memberId);
-        givenMember.then((member) => {
-            setFormInputs(member[0]);
-        })
+    useEffect(() => {
+        function readMember() {
+            console.log('memberid: ', memberId.userLoggedIn)
+            const givenMember = readGivenMember(memberId.userLoggedIn);
+                givenMember.then((member) => {
+                    setFormInputs(member[0]);
+                })
+        };
+        readMember();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []
+    );
+
+
+
 
     async function deleteMember() {
         const confirmDelete = window.confirm("Vil du virkelig slette?");

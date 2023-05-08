@@ -313,6 +313,25 @@ Ny versjon av BDMI medlemsregister.
         Men har glemt å endre hvordan vipps-linken åpnes. Denne må endres fra iframe, til en redirect eller lignende
         Må også endre komponenten for å redigere seg selv (MemberFormUser). Denne åpnes uten data.
 
+30.04.2023
+    - Oppstart igjen etter lengre tids opphold.'
+    - Endret til å redirecte til vipps confirmation url
+        NB: Kunne ikke bruke usestate til dette, da denne ikke oppdatere raskt nok.
+        Altså setConfirmationUrl rekker ikke å gjøre jobben før neste linje kjøres, så hentet url direkte fra api-response.
+        Ved første test, så det greit ut, men bildet forsvant og vipps redirectet tilbake til hjemmeside før uten at det kom opp i app
+        Dette kan være pga at avtale allerede var gjort....
+!        må få laget en funksjon for å si opp avtale.
+    - Funker ikke med logg inn (ihvertfall ikke for ikke-admins). E-post blir ikke sendt.
+        Dette pga at programmet kun sendte e-post hvis admin eller superbruker.
+        Endret dette og da sendes e-post
+    - Men får feilmelding på firstname. Må sjekke kode...
+        Feiler fordi data er ikke lest inn i array fra readGivenMember.
+        Årsaken ser ut til å være at funksjonen trenger db-id og jeg har oppgitt bruker-epost til funksjonen....
+        Fikset dette
+        Problem med at usestate kjøres konstant.'
+        Løste dette ved å bruke useEffect.
+
+    Må få lagt til litt på memberform og memberadmin form......
 
 
 Tips for senere:

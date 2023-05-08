@@ -32,6 +32,8 @@ function MemberList() {
     function editMember(memberId) {
         setMemberToEdit(memberId);
         const givenMember = readGivenMember(memberId);
+        console.log(memberId);
+        console.log(givenMember);
         givenMember.then((member) => {
             setFormInputs(member[0]);
             setModalOpen(true);

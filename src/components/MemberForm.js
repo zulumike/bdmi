@@ -35,13 +35,20 @@ function MemberForm() {
         console.log('CloseModal');
     }
 
+    function redirectToVipps(url) {
+        window.location.href = url;
+    }
+
     async function activateVippsAgreement(memberId, phone) {
        const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});
        vippsResponse = JSON.parse(vippsResponseJson);
        setVippsConfirmationUrl(vippsResponse.vippsConfirmationUrl);
-       console.log(vippsConfirmationUrl);
-       setModalOpen(true);
+       console.log(vippsResponse.vippsConfirmationUrl);
+       redirectToVipps(vippsResponse.vippsConfirmationUrl);
+        //    setModalOpen(true);
     }
+
+
 
     //********************
     // FUNCTION submitForm

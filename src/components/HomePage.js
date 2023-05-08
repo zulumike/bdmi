@@ -14,6 +14,7 @@ import '../styles/default.css';
 
 function HomePage() {
   const [loggedInUser, setLoggedInUser] = useState();
+  const [loggedInUserId, setLoggedInUserId] = useState();
   const [loggedInUserRole, setLoggedInUserRole] = useState();
 
   const [ display, setDisplay ] = useState( 'none' )
@@ -25,13 +26,21 @@ function HomePage() {
 
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('user');
+    console.log(userFromLocalStorage);
     if (userFromLocalStorage) {
       const foundUser = JSON.parse(userFromLocalStorage);
+      console.log(foundUser);
       async function checkIfAuthenticated() {
-        const [memberExist, , userRole] = await checkIfMemberExist('', foundUser.username);
+        const [memberExist, , userRole, memberId] = await checkIfMemberExist('', foundUser.username);
         if (memberExist) {
           setLoggedInUser(foundUser.username);
           setLoggedInUserRole(userRole);
+          setLoggedInUserId(memberId);
+          console.log('founduser: ', foundUser.username);
+          console.log('loggedinuser: ', loggedInUser);
+          console.log('memberid: ', memberId);
+          console.log(loggedInUserId);
+          console.log('userrole', loggedInUserRole);
         }
       } 
       checkIfAuthenticated();    
@@ -42,6 +51,7 @@ function HomePage() {
     // event.preventDefault();
     setLoggedInUser(null);
     setLoggedInUserRole(null);
+    setLoggedInUserId(null);
     localStorage.clear();
   }
 
@@ -49,18 +59,21 @@ function HomePage() {
     // event.preventDefault();
     const userEmailAddr = prompt('Skriv inn e-post adresse');
     if (userEmailAddr) {
-      const [memberExist, , userRole] = await checkIfMemberExist('', userEmailAddr);
+      const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
       const randomCode = Math.floor(Math.random()*999999)+100001;
-      if (memberExist && (userRole === 'Admin' || userRole === 'Superuser')) {
+      if (memberExist) {
         sendCodeByEmail(userEmailAddr, randomCode);
-      }
-      const userCode = prompt('Kode fra e-post: ');
-      if (parseInt(userCode) === randomCode) {
-        setLoggedInUser(userEmailAddr);
-        setLoggedInUserRole(userRole);
-        localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole }));
-      }
-      else alert('Feil kode!');
+      
+        const userCode = prompt('Kode fra e-post: ');
+        if (parseInt(userCode) === randomCode) {
+          setLoggedInUser(userEmailAddr);
+          setLoggedInUserRole(userRole);
+          setLoggedInUserId(memberId);
+          localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole }));
+        }
+        else alert('Feil kode!');
+    }
+    else alert('E-post eksisterer ikke');
     }
   }
 
@@ -103,7 +116,7 @@ function HomePage() {
               </div>
           </div>
         </div>
-        <MemberFormUser userLoggedIn={loggedInUser} />
+        <MemberFormUser userLoggedIn={loggedInUserId} />
       </div>
     )
   }

@@ -14,21 +14,24 @@ import readAllMembers from "../functions/readAllMembers";
 async function checkIfMemberExist(phoneNumber, emailAddress) {
     let memberExist = false;
     let phoneOrEmail = '';
-    let role = 'member';
+    let role = 'medlem';
+    let id = '';
     const memberList = await readAllMembers();
     for (let i = 0; i < memberList.length; i++) {
         if (memberList[i].phone === phoneNumber) {
             memberExist = true;
             phoneOrEmail = 'Telefonnummer'
             role = memberList[i].role;
+            id = memberList[i].id;
         }
         else if (memberList[i].email === emailAddress) {
             memberExist = true;
             phoneOrEmail = 'E-post adresse'
             role = memberList[i].role;
+            id = memberList[i].id;
         };
     };
-    return [memberExist, phoneOrEmail, role]
+    return [memberExist, phoneOrEmail, role, id]
 };
 
 export default checkIfMemberExist;
