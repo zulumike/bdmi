@@ -342,6 +342,7 @@ Ny versjon av BDMI medlemsregister.
     - Kommenterte ut det meste som har med vipps å gjøre.
         Tanken er at det i første omgang er viktigst å komme igang og få registrert masse medlemmer.
     - Tok bort valg for å sette om man vil betale via e-post eller vipps, siden det nå i første omgang kun blir vipps.
+    - Prøver å få pusha til azure, men må rydde opp i en del ubrukte variabler og funksjoner....
     - Neste:
         Funksjon for å sende ut e-post til alle med info om betaling.
             NB: begrense antall, slik at vi ikke når grensen til sendgrid.

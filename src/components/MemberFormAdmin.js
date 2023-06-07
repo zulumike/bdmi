@@ -3,7 +3,7 @@ import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
-import { vippsApiCall } from "../functions/vippsfunctions";
+// import { vippsApiCall } from "../functions/vippsfunctions";
 
 
 
