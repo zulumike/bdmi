@@ -3,7 +3,7 @@ import updateMember from "../functions/updateMember";
 import readGivenMember from "../functions/readGivenMember";
 
 function MemberFormUser(memberId) {
-
+    
     const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
     const formChange = (event) => {
         const name = event.target.name;
@@ -13,13 +13,12 @@ function MemberFormUser(memberId) {
 
     useEffect(() => {
         function readMember() {
-            console.log('memberid: ', memberId.userLoggedIn)
             const givenMember = readGivenMember(memberId.userLoggedIn);
                 givenMember.then((member) => {
                     setFormInputs(member[0]);
                 })
         };
-        readMember();
+        readMember()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []
     );
@@ -28,7 +27,7 @@ function MemberFormUser(memberId) {
 
 
     async function deleteMember() {
-        const confirmDelete = window.confirm("Vil du virkelig slette?");
+        const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?");
         if (confirmDelete) {
             formInputs.firstname = 'Slettet';
             formInputs.lastname = 'Slettet';
@@ -57,7 +56,7 @@ function MemberFormUser(memberId) {
 
     return (
         <div className="memberformusertopdiv">
-            <h3>Rediger medlem</h3>
+            <h3>Mine opplysninger</h3>
             <form id="editmemberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -109,7 +108,7 @@ function MemberFormUser(memberId) {
                 required
                 onChange={formChange}
                 />
-            <input
+            {/* <input
                     type="radio"
                     name="invoicechannel"
                     id="invoicechannelvipps"
@@ -127,10 +126,10 @@ function MemberFormUser(memberId) {
                     onChange={formChange}
                     />
                 <label
-                    htmlFor="invoicechannelvipps">E-post</label>
+                    htmlFor="invoicechannelvipps">E-post</label> */}
             <input type="submit" value="Lagre" />
         </form>
-            <button onClick={deleteMember}>Slett medlem</button>
+            <button onClick={deleteMember}>Slett meg</button>
             <button onClick={closeEditMember}>Avbryt</button>
             </div>
     )

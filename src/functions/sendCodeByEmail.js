@@ -18,7 +18,7 @@ async function sendCodeByEmail(mailAddress, code) {
     let messageData = {};
     messageData.mailAddress = mailAddress;
     messageData.subject = 'Velkommen til Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å fullføre registreringen: ' + code;
+    messageData.text = 'Tast inn følgende kode for å fullføre innlogging/registrering: ' + code;
     
     const responseMessage = await fetch(apiURL, {
         method: "POST",

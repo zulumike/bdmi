@@ -116,7 +116,6 @@ return (
                 id="idphone" 
                 placeholder="Mobilnummer" 
                 pattern="[0-9]{8}"
-                required
                 onChange={formChange}
                 />
             <input 
@@ -145,12 +144,12 @@ return (
             <br/>
             <input type="submit" value="Registrer" />
         </form>
-        <button onClick={vippsCreateAgreementInit}>Draft agreement with initial</button>
+        {/* <button onClick={vippsCreateAgreementInit}>Draft agreement with initial</button>
         <button onClick={vippsCreateAgreement}>Draft agreement</button>
         <button onClick={vippsGetAgreementInfo}>Get Agreement</button>
         <button onClick={vippsUpdateAgreement}>Update Agreement</button>
         <button onClick={vippsCharge}>Charge Agreement</button>
-        <button onClick={vippsGetChargeInfo}>Get Charge</button>
+        <button onClick={vippsGetChargeInfo}>Get Charge</button> */}
         <MemberList />
     </div>
 )

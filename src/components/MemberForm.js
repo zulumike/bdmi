@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ReactModal from "react-modal";
-import Modal from "react-modal";
+// import ReactModal from "react-modal";
+// import Modal from "react-modal";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
@@ -16,8 +16,8 @@ import { vippsApiCall } from "../functions/vippsfunctions";
 // If code match call function addMemberToDB
 
 function MemberForm() {
-    Modal.setAppElement('#root');
-    const [modalOpen, setModalOpen] = useState(false);
+    // Modal.setAppElement('#root');
+    // const [modalOpen, setModalOpen] = useState(false);
     const [formInputs, setFormInputs] = useState({});
     const formChange = (event) => {
         const name = event.target.name;
@@ -30,23 +30,23 @@ function MemberForm() {
     const amount = '20000';
     let vippsResponse = {};
 
-    function closeModal() {
-        setModalOpen(false);
-        console.log('CloseModal');
-    }
+    // function closeModal() {
+    //     setModalOpen(false);
+    //     console.log('CloseModal');
+    // }
 
     function redirectToVipps(url) {
         window.location.href = url;
     }
 
-    async function activateVippsAgreement(memberId, phone) {
-       const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});
-       vippsResponse = JSON.parse(vippsResponseJson);
-       setVippsConfirmationUrl(vippsResponse.vippsConfirmationUrl);
-       console.log(vippsResponse.vippsConfirmationUrl);
-       redirectToVipps(vippsResponse.vippsConfirmationUrl);
-        //    setModalOpen(true);
-    }
+    // async function activateVippsAgreement(memberId, phone) {
+    //     const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});
+    //     vippsResponse = JSON.parse(vippsResponseJson);
+    //     setVippsConfirmationUrl(vippsResponse.vippsConfirmationUrl);
+    //     console.log(vippsResponse.vippsConfirmationUrl);
+    //     redirectToVipps(vippsResponse.vippsConfirmationUrl);
+    //     setModalOpen(true);
+    // }
 
 
 
@@ -78,9 +78,10 @@ function MemberForm() {
                     writeResult.then((responseMessage) => {
                         if (responseMessage.status === 200) {
                             localStorage.setItem('user', JSON.stringify({username: formInputs.email, userrole: formInputs.role }));
-                            activateVippsAgreement(formInputs.memberid, formInputs.phonenumber);
+                            // activateVippsAgreement(formInputs.memberid, formInputs.phonenumber);
                             alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
                             setFormInputs({});
+                            window.location.reload(false);
                         }
                         else {
                             alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);    
@@ -151,7 +152,7 @@ function MemberForm() {
                     required
                     onChange={formChange}
                     />
-                <h4>Ønsker å betale via:</h4>
+                {/* <h4>Ønsker å betale via:</h4>
                 <input
                     type="radio"
                     name="invoicechannel"
@@ -170,7 +171,7 @@ function MemberForm() {
                     onChange={formChange}
                     />
                 <label
-                    htmlFor="invoicechannelvipps">E-post</label>
+                    htmlFor="invoicechannelvipps">E-post</label> */}
                 <br/>    
                 <input type="submit" value="Send inn" />
             </form>
@@ -179,7 +180,7 @@ function MemberForm() {
                 samt kreve inn kontingent. <a href = {salgsbetingelser} target = "_blank" rel="noreferrer">Salgsbetingelser</a>
             </p>
             <h2>Kontakt: post@bevardovrefjell.no</h2>
-            <ReactModal 
+            {/* <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'
                 isOpen={modalOpen}
@@ -196,7 +197,7 @@ function MemberForm() {
                 >
 
                 </iframe>
-            </ReactModal>
+            </ReactModal> */}
         </div>
     )
 }

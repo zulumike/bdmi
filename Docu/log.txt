@@ -333,6 +333,25 @@ Ny versjon av BDMI medlemsregister.
 
     Må få lagt til litt på memberform og memberadmin form......
 
+07.06.2023
+    - Fortsetter på problemet med memberform som ikke får memberid og dermed ikke får lest ut rett medlem fra db
+        Forsøker å skrive om homepage.js fordi jeg har brukt usestate helt uten grunn her... 
+        Var visst ikke helt uten grunn. Trengs for å trigge if-setningen for hva som rendres i homepage.
+        Samt at det er en useState verdi jeg må sende til underkomponenten via props for at det skal funke.
+        Måtte også kjøre en page refresh for å unngå en feil i console etter innlogging.
+    - Kommenterte ut det meste som har med vipps å gjøre.
+        Tanken er at det i første omgang er viktigst å komme igang og få registrert masse medlemmer.
+    - Tok bort valg for å sette om man vil betale via e-post eller vipps, siden det nå i første omgang kun blir vipps.
+    - Neste:
+        Funksjon for å sende ut e-post til alle med info om betaling.
+            NB: begrense antall, slik at vi ikke når grensen til sendgrid.
+            Sende dette kun til de som har status registrert
+        Funksjon for å resette alle medlemmer til registrert istedenfor aktiv
+        Kanskje funksjon for å sende ut informasjon til alle aktive og evt registrerte medlemmer.
+            Tekstboks pluss pdf?
+        Sjekk om enkelt å importere fra excel rett i cosmos via azure, evt lage funksjon i app for dette.
+
+
 
 Tips for senere:
     - Autentisering (pluss database):

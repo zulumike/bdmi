@@ -13,45 +13,64 @@ import '../styles/default.css';
 
 
 function HomePage() {
-  const [loggedInUser, setLoggedInUser] = useState();
+  let loggedInUser = '';
+  // const [loggedInUser, setLoggedInUser] = useState();
+  // let loggedInUserId = '';
   const [loggedInUserId, setLoggedInUserId] = useState();
-  const [loggedInUserRole, setLoggedInUserRole] = useState();
-
-  const [ display, setDisplay ] = useState( 'none' )
-   
+  // let loggedInUserRole = '';
+  const [ loggedInUserRole, setLoggedInUserRole ] = useState();
+  const [ display, setDisplay ] = useState('none')
 
 //*****************
 // Check if user exist in local storage.
 // also verifies that this user has rights.
 
-  useEffect(() => {
+  if (loggedInUserRole === '' || loggedInUserRole === undefined) {
     const userFromLocalStorage = localStorage.getItem('user');
-    console.log(userFromLocalStorage);
+    // console.log('Localstorageuser?: ', userFromLocalStorage);
     if (userFromLocalStorage) {
       const foundUser = JSON.parse(userFromLocalStorage);
-      console.log(foundUser);
-      async function checkIfAuthenticated() {
-        const [memberExist, , userRole, memberId] = await checkIfMemberExist('', foundUser.username);
-        if (memberExist) {
-          setLoggedInUser(foundUser.username);
-          setLoggedInUserRole(userRole);
-          setLoggedInUserId(memberId);
-          console.log('founduser: ', foundUser.username);
-          console.log('loggedinuser: ', loggedInUser);
-          console.log('memberid: ', memberId);
-          console.log(loggedInUserId);
-          console.log('userrole', loggedInUserRole);
+      // console.log('founduser: ', foundUser);
+      checkIfMemberExist('', foundUser.username).then(
+        function(value) {
+          if (value[0]) {
+            loggedInUser = foundUser.username;
+            setLoggedInUserId(value[3]);
+            setLoggedInUserRole(value[2]);
+          }
         }
-      } 
-      checkIfAuthenticated();    
+      )
     }
-  }, []);
+  }
+
+  // useEffect(() => {
+  //   const userFromLocalStorage = localStorage.getItem('user');
+  //   console.log(userFromLocalStorage);
+  //   if (userFromLocalStorage) {
+  //     const foundUser = JSON.parse(userFromLocalStorage);
+  //     console.log(foundUser);
+  //     async function checkIfAuthenticated() {
+  //       const [memberExist, , userRole, memberId] = await checkIfMemberExist('', foundUser.username);
+  //       if (memberExist) {
+  //         setLoggedInUser(foundUser.username);
+  //         setLoggedInUserRole(userRole);
+  //         setLoggedInUserId(memberId);
+  //         console.log('founduser: ', foundUser.username);
+  //         console.log('loggedinuser: ', loggedInUser);
+  //         console.log('memberid: ', memberId);
+  //         console.log(loggedInUserId);
+  //         console.log('userrole', loggedInUserRole);
+  //       }
+  //     } 
+  //     checkIfAuthenticated();    
+  //   }
+  // }, []);
 
   function submitLogOut(event) {
     // event.preventDefault();
-    setLoggedInUser(null);
-    setLoggedInUserRole(null);
+    loggedInUser = null;
     setLoggedInUserId(null);
+    setLoggedInUserRole('');
     localStorage.clear();
   }
 
@@ -66,10 +85,12 @@ function HomePage() {
       
         const userCode = prompt('Kode fra e-post: ');
         if (parseInt(userCode) === randomCode) {
-          setLoggedInUser(userEmailAddr);
+          loggedInUser = userEmailAddr;
           setLoggedInUserRole(userRole);
           setLoggedInUserId(memberId);
+          setLoggedInUserRole(loggedInUserRole);
           localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole }));
+          window.location.reload(false);
         }
         else alert('Feil kode!');
     }
@@ -85,7 +106,7 @@ function HomePage() {
     }
 }
   
-  if (loggedInUser && (loggedInUserRole === "Admin" || loggedInUserRole === "Superuser")) {
+  if (loggedInUserRole === "Admin" || loggedInUserRole === "Superuser") {
     return (
       <div className='homepagetopdiv'>
         <div className="homepageheaderdiv">
@@ -103,7 +124,7 @@ function HomePage() {
     )
   }
 
-  if (loggedInUser && (loggedInUserRole === "Medlem")) {
+  if (loggedInUserRole === "Medlem") {
     return (
       <div className='homepagetopdiv'>
         <div className="homepageheaderdiv">
@@ -120,6 +141,7 @@ function HomePage() {
       </div>
     )
   }
+  
 
   
   return (
