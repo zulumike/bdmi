@@ -6,7 +6,7 @@ import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
 import salgsbetingelser from "../assets/Salgsbetingelser.pdf";
-import { vippsApiCall } from "../functions/vippsfunctions";
+// import { vippsApiCall } from "../functions/vippsfunctions";
 
 
 //*******************
@@ -25,19 +25,19 @@ function MemberForm() {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    const [vippsConfirmationUrl, setVippsConfirmationUrl] = useState("")
+    // const [vippsConfirmationUrl, setVippsConfirmationUrl] = useState("")
 
-    const amount = '20000';
-    let vippsResponse = {};
+    // const amount = '20000';
+    // let vippsResponse = {};
 
     // function closeModal() {
     //     setModalOpen(false);
     //     console.log('CloseModal');
     // }
 
-    function redirectToVipps(url) {
-        window.location.href = url;
-    }
+    // function redirectToVipps(url) {
+    //     window.location.href = url;
+    // }
 
     // async function activateVippsAgreement(memberId, phone) {
     //     const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});

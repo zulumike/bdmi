@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MemberForm from './MemberForm';
 import MemberFormAdmin from './MemberFormAdmin';
 import MemberFormUser from './MemberFormUser';
@@ -43,30 +43,7 @@ function HomePage() {
     }
   }
 
-  // useEffect(() => {
-  //   const userFromLocalStorage = localStorage.getItem('user');
-  //   console.log(userFromLocalStorage);
-  //   if (userFromLocalStorage) {
-  //     const foundUser = JSON.parse(userFromLocalStorage);
-  //     console.log(foundUser);
-  //     async function checkIfAuthenticated() {
-  //       const [memberExist, , userRole, memberId] = await checkIfMemberExist('', foundUser.username);
-  //       if (memberExist) {
-  //         setLoggedInUser(foundUser.username);
-  //         setLoggedInUserRole(userRole);
-  //         setLoggedInUserId(memberId);
-  //         console.log('founduser: ', foundUser.username);
-  //         console.log('loggedinuser: ', loggedInUser);
-  //         console.log('memberid: ', memberId);
-  //         console.log(loggedInUserId);
-  //         console.log('userrole', loggedInUserRole);
-  //       }
-  //     } 
-  //     checkIfAuthenticated();    
-  //   }
-  // }, []);
-
-  function submitLogOut(event) {
+   function submitLogOut(event) {
     // event.preventDefault();
     loggedInUser = null;
     setLoggedInUserId(null);
