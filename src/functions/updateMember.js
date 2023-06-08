@@ -7,8 +7,9 @@ async function updateMember(id, member) {
         apiURL = 'http://localhost:7071/api/DBWrite';
 
     }
-    member.memberid = id;
+    member.id = id;
     member.name = member.lastname + ', ' + member.firstname;
+    console.log(member);
     const data = await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(member)

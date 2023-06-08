@@ -6,8 +6,7 @@ module.exports = async function (context, req) {
     : "This HTTP triggered function executed successfully.";
     if (member.type == "new") {
         delete member.type;
-        member.id = new Date().toISOString() + Math.random().toString().substring(2, 10);
-        context.bindings.outputDocument = JSON.stringify(member);
+       context.bindings.outputDocument = JSON.stringify(member);
     }
     else {
         delete member.type;

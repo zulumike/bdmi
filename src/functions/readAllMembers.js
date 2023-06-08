@@ -12,7 +12,7 @@ async function readAllMembers() {
 
     data = await( await fetch(apiURL, {
         method: "POST",
-        body: JSON.stringify({"memberid": "*"})
+        body: JSON.stringify({"id": "*"})
     }
     )).json();
     return data;

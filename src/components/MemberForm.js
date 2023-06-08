@@ -69,7 +69,7 @@ function MemberForm() {
                 userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
                 if (parseInt(userCode) === randomCode) {
                     abort = true;
-                    formInputs.memberid = new Date().toISOString() + Math.random().toString().substring(2, 10);
+                    formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 10);
                     formInputs.createdby = formInputs.email;
                     formInputs.role = "Medlem";
                     formInputs.status = "Registrert";
@@ -78,7 +78,7 @@ function MemberForm() {
                     writeResult.then((responseMessage) => {
                         if (responseMessage.status === 200) {
                             localStorage.setItem('user', JSON.stringify({username: formInputs.email, userrole: formInputs.role }));
-                            // activateVippsAgreement(formInputs.memberid, formInputs.phonenumber);
+                            // activateVippsAgreement(formInputs.id, formInputs.phonenumber);
                             alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
                             setFormInputs({});
                             window.location.reload(false);

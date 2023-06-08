@@ -34,7 +34,7 @@ function MemberFormUser(memberId) {
             formInputs.email = 'slettet@slettet.no';
             formInputs.phone = '00000000';
             formInputs.deleted = 'true';
-            const writeResult = await updateMember(memberId, formInputs);
+            const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
             if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
             // setModalOpen(false);
             document.location.reload();
@@ -43,7 +43,7 @@ function MemberFormUser(memberId) {
 
     async function submitForm(event) {
         event.preventDefault();
-        const writeResult = await updateMember(memberId, formInputs);
+        const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
         setFormInputs({});
         // setModalOpen(false);

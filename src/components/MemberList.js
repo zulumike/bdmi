@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import readAllMembers from "../functions/readAllMembers";
 import readGivenMember from "../functions/readGivenMember";
 import updateMember from "../functions/updateMember";
+import resetStatus from "../functions/resetStatus";
 import '../styles/default.css';
 
 function MemberList() {
@@ -72,16 +73,21 @@ function MemberList() {
 
     function exportToCsv() {
         let rows = [['Etternavn', 'Fornavn', 'E-post', 'Mobil', 'Postnr', 'Status']];
-        console.log(memberArray);
         for (let i = 0; i < memberArray.length; i++) {
             rows.push([memberArray[i].lastname, memberArray[i].firstname, memberArray[i].email, memberArray[i].phone, memberArray[i].zipcode, memberArray[i].status])
         }
-        console.log(rows);
         let csvContent = "data:text/csv;charset=utf-8,"
             + rows.map(e => e.join(";")).join("\n");
         var encodedUri = encodeURI(csvContent);
         window.open(encodedUri);
-    }
+    };
+
+    async function resetStatusAll() {
+        if (window.confirm('Vil du sette alle medlemmer til status "Registrert" (ikke betalt)?')) {
+            await resetStatus('all');
+            document.location.reload();
+        };
+    };
 
 
 if (isLoading) {
@@ -95,6 +101,8 @@ if (isLoading) {
 return (
     <div>
         <button onClick={exportToCsv}>Eksporter til CSV</button>
+        <button onClick={resetStatusAll}>Nullstill status</button>
+
         <table className="memberlisttable">
             <thead>
                 <tr>
@@ -166,7 +174,6 @@ return (
                 id="idphone" 
                 placeholder="Mobilnummer" 
                 pattern="[0-9]{8}"
-                required
                 onChange={formChange}
                 />
             <input 

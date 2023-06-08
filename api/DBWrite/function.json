@@ -31,7 +31,7 @@
       "databaseName": "bdmi",
       "collectionName": "members",
       "createIfNotExists": false,
-      "id": "{memberid}",
+      "id": "{id}",
       "connectionStringSetting": "bdmiDBConnectionString"
     }
   ]

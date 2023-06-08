@@ -30,7 +30,7 @@
       "direction": "in",
       "databaseName": "bdmi",
       "collectionName": "members",
-      "sqlQuery": "SELECT * FROM Documents WHERE Documents.id = {memberid}",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.id = {id}",
       "connectionStringSetting": "bdmiDBConnectionString"
     }
   ]

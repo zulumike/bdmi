@@ -352,7 +352,11 @@ Ny versjon av BDMI medlemsregister.
             Tekstboks pluss pdf?
         Sjekk om enkelt å importere fra excel rett i cosmos via azure, evt lage funksjon i app for dette.
 
-
+08.06.2023
+    - Laget funksjon for å resette status for alle medlemmer.
+    - Ryddet opp i id-felt. Var brukt både id og memberid. Endret til KUN å bruke id.
+    - Neste 
+        Fortsette fra i går....
 
 Tips for senere:
     - Autentisering (pluss database):
