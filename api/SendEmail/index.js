@@ -4,22 +4,25 @@ module.exports = async function (context, req) {
     // https://github.com/sendgrid/sendgrid-nodejs
     context.log('JavaScript HTTP trigger function processed a request to SendEmail Api.');
     const mailAddress = (req.query.mailAddress || (req.body && req.body.mailAddress));
+    const mailAddresses = Object.values(mailAddress);
+    
     const subject = (req.query.subject || (req.body && req.body.subject));
     const text = (req.query.text || (req.body && req.body.text));
+    console.log(text);
     const responseMessage = mailAddress
     ? "Success"
     : "This HTTP triggered function executed successfully.";
     const sgMail = require('@sendgrid/mail')
     sgMail.setApiKey(process.env.SendGridApiKey)
     const msg = {
-    to: mailAddress, // Change to your recipient
+    to: mailAddresses, // Change to your recipient
     from: 'post@bevardovrefjell.no', // Change to your verified sender
     subject: subject,
     text: text,
     html: '<strong>' + text + '</strong>',
     }
-    sgMail
-    .send(msg)
+    await sgMail
+    .sendMultiple(msg)
     // .then(() => {
     //     context.log('Email sent to ', mailAddress)
     // })

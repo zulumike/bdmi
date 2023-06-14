@@ -26,6 +26,10 @@ button:hover {
     cursor: pointer;
 }
 
+input[type=submit]:hover {
+    cursor: pointer;
+}
+
 h4 {
     margin: 3px;
 }
@@ -164,4 +168,14 @@ h4 {
 
 .memberlisttable td {
     padding: 1px;
+}
+
+.emailsendingtopdiv {
+    margin: auto;
+}
+
+.emailsendingtopdiv input, button, textarea label {
+    /* display: block; */
+    margin-left: auto;
+    margin-right: auto;
 }

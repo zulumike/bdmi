@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import ReactModal from "react-modal";
+import Modal from "react-modal";
 import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
+import EmailSending from "./EmailSending";
 import '../styles/default.css';
 // import { vippsApiCall } from "../functions/vippsfunctions";
 
@@ -18,7 +21,18 @@ function MemberFormAdmin(user) {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
-    }
+    };
+
+    Modal.setAppElement('#root');
+    const [modalOpen, setModalOpen] = useState(false);
+
+    function openEmailSender() {
+        setModalOpen(true);
+    };
+
+    function closeEmailSender() {
+        setModalOpen(false);
+    };
 
     //********************
     // FUNCTION submitForm
@@ -151,7 +165,19 @@ return (
         <button onClick={vippsUpdateAgreement}>Update Agreement</button>
         <button onClick={vippsCharge}>Charge Agreement</button>
         <button onClick={vippsGetChargeInfo}>Get Charge</button> */}
+        <button onClick={openEmailSender}>E-post utsending</button>
         <MemberList />
+        <ReactModal 
+            className='modal'
+            ovarlayClassName='modaloverlay'
+            isOpen={modalOpen}
+            onRequestClose={closeEmailSender}
+            shouldCloseOnOverlayClick={false}
+            shouldCloseOnEsc={true}
+            >
+            <EmailSending />
+            <button onClick={closeEmailSender}>Avbryt</button>
+            </ReactModal>
     </div>
 )
 }

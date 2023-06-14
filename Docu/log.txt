@@ -358,6 +358,33 @@ Ny versjon av BDMI medlemsregister.
     - Neste 
         Fortsette fra i går....
 
+14.06.2023
+    - Oppgraderte Node js versjon for azure-funksjonene bdmimember (cosmos) og bdmisendmail til versjon 18 via application settings.
+        Resource group bdmimember.
+        App funker fremdeles.
+    - Laget funksjon for å sende epost til alle, kun registrerte eller kun aktive medlemmer.
+        Form med tittel og body som må fylles ut i tillegg til å velge hvilke medlemmer (alle, aktive, registrerte)
+        Fungerer, men formatteringen må gjøres noe med. Linjeskift blir ikke med blant annet.
+        Kanskje også se på å få sendt en pdf?
+
+
+
+
+
+
+
+    - Gjenstår nå:
+        Formattering e-post
+        pdf-vedlegg i e-post ?
+        Import av medlemmer, enten rett i databasen, eller programmatisk.
+
+
+
+
+
+
+
+
 Tips for senere:
     - Autentisering (pluss database):
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
