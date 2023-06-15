@@ -8,6 +8,7 @@ Lesestoff:
     sql query: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/getting-started
     Cosmos db API and bindings++ : https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-cosmosdb-v2?tabs=in-process%2Cextensionv4&pivots=programming-language-javascript
     
+    SendGrid  eksempler: https://github.com/sendgrid/sendgrid-nodejs/blob/main/docs/use-cases/README.md#email-use-cases
 
 
 
@@ -367,17 +368,27 @@ Ny versjon av BDMI medlemsregister.
         Fungerer, men formatteringen må gjøres noe med. Linjeskift blir ikke med blant annet.
         Kanskje også se på å få sendt en pdf?
 
+15.06.2023
+    - Endret sendmail api til å sende KUN plain text.
+        Da kom linjeskift på plass.
+        Hvis ønske om html, må jeg nok legge til <br> i body der det skal være linjeskift.
+        Kan også da lage en en litt mer avansert editor hvis behov.
+    - Forsøker på å få til mulighet for å sende fil-vedlegg.
+        Tenkte først å lage en funksjon for å lagre fil på server og hente denne i send e-post api.
+        Men viser seg litt vanskelig å få lagre på serveren.
+        Prøver nå istedet å få til en løsning med FileStack - en gratis online tjeneste for å laste opp filer, som sendgrid api'en kan hente via url.
+            Kjørte npm install - save filestack-react
+            For å bruke url, så kreves en modul request, så denne må også installeres
+            npm install request
 
-
+            Det ble suksess etter litt om og men, som vanlig.
 
 
 
 
     - Gjenstår nå:
-        Formattering e-post
-        pdf-vedlegg i e-post ?
         Import av medlemmer, enten rett i databasen, eller programmatisk.
-
+        Vipps
 
 
 

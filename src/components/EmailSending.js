@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { client } from "filestack-react"
 import readAllMembers from "../functions/readAllMembers";
 import sendEmail from "../functions/sendEmail";
 import '../styles/default.css';
@@ -10,6 +11,29 @@ function EmailSending() {
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
     };
+
+    const [ fileName, setFileName] = useState('');
+    const [ fileUrl, setFileUrl ] = useState('');
+
+    const filePickerOptions = {
+        accept: '.pdf',
+        maxSize: 10 * 1024 * 1024,
+        maxFiles: 1,
+        uploadInBackground: false,
+        onUploadDone: (file) => {
+            setFileName(file.filesUploaded[0].filename); 
+            setFileUrl(file.filesUploaded[0].url);
+        },
+    };
+   
+    const handleFilePicker = () => {
+        const filestackApikey = 'Ax9hyvjrQMGgaZz2KXPPRz';
+        const filestack = client.init(filestackApikey, filePickerOptions);
+
+        const picker = filestack.picker(filePickerOptions);
+        picker.open();
+    };
+
 
     async function sendingMail(event) {
         event.preventDefault();
@@ -36,8 +60,7 @@ function EmailSending() {
         else if (formInputs.emailrec === "Aktive") {
             mailAddresses = mailAddressesActive;
         };
-        const sendMailResponse = await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses)
-        console.log(sendMailResponse);
+        const sendMailResponse = await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,)
     };
 
     return (
@@ -61,7 +84,7 @@ function EmailSending() {
                     name="emailbody"
                     value={formInputs.emailbody || ""}
                     cols="100"
-                    rows="50"
+                    rows="30"
                     form="emailsendingform"
                     onChange={formChange}
                 />
@@ -94,11 +117,14 @@ function EmailSending() {
                 />
                 <label htmlFor="idemailrecactive"> Aktive</label>
                 <br/>
-                <input type="submit" value="Start utsending" />
+                <button type="button" className="filepickerbtn" onClick={() => handleFilePicker()}>Legg til filvedlegg</button>
+                <label className="filepickerlbl"><a href={fileUrl}>{fileName}</a></label>
+                <br/>
+                <input style={{marginRight: 0}} type="submit" value="Start utsending" />
             </form>
         </div>
     )
-}
+};
 
 
 export default EmailSending;

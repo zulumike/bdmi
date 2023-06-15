@@ -178,4 +178,13 @@ h4 {
     /* display: block; */
     margin-left: auto;
     margin-right: auto;
+    text-align: left;
+}
+
+.filepickerbtn {
+    margin-left: 0;
+}
+
+.sendemailbtn {
+    margin-right: 0;
 }

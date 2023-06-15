@@ -6,7 +6,7 @@
 //      rec: recievers. All, Active or Registered members
 // Calls api to send email to members
 
-async function sendEmail(title, body, mailAddress) {
+async function sendEmail(title, body, mailAddress, fileName, fileUrl) {
     let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
         apiURL = '/api/SendEmail';
@@ -20,6 +20,8 @@ async function sendEmail(title, body, mailAddress) {
     messageData.subject = title;
     messageData.text = body;
     messageData.mailAddress = mailAddress;
+    messageData.fileName = fileName;
+    messageData.fileUrl = fileUrl;
     const responseMessage = await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(messageData)
