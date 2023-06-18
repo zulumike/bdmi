@@ -60,7 +60,7 @@ function EmailSending() {
         else if (formInputs.emailrec === "Aktive") {
             mailAddresses = mailAddressesActive;
         };
-        const sendMailResponse = await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,)
+        await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,)        
     };
 
     return (
