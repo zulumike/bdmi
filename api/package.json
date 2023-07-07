@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
-    "node-fetch": "^2.6.9"
+    "node-fetch": "^2.6.9",
+    "request": "^2.88.2"
   }
 }
