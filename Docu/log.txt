@@ -391,6 +391,16 @@ Ny versjon av BDMI medlemsregister.
         Annet problem er i forbindelse med masse utsending. Å endre fra Alle, Registrerte og Aktive funker ikke. Og må ordne slik at default verdi er valgt.
             Løste med å endre input type value og legge til checked, samt sette standard i useState setning.
 
+    - Må prøve å få til mulighet for å legge til familiemedlemmer
+        Som et underdokument i db
+        Må kanskje ha et felt i db for årlig sum, som baserer seg på antall medlemmer.
+        Ikke påkrevd e-post og telefonnummer
+
+        Startet litt på dette. Lagt til rette for en ractModal i MemberFormUser.js, samt opprettet Component FamilyMembers.js.
+            Usikker på fremgangsmetode her, men hadde vært greit å kunne gjenbruke en komponent siden samme skal jo gjøres i MemberFormAdmin
+            Hjelpe-artikkel: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
+            Sende variabler (props): https://www.freecodecamp.org/news/pass-data-between-components-in-react/
+            
 
 
 
