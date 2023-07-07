@@ -61,15 +61,8 @@ function EmailSending() {
         else if (formInputs.emailrec === "Aktive") {
             mailAddresses = mailAddressesActive;
         };
-        console.log(formInputs.emailrec);
-        console.log(mailAddresses);
-        await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,)        
-    };
-
-    function tesTing(event) {
-        // event.preventDefault();
-        console.log(formInputs.emailrec);
-        console.log(formInputs.emailrec.checked);
+        await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,) ;
+        alert('Epost er sendt til medlemmer');
     };
 
     return (
@@ -132,9 +125,6 @@ function EmailSending() {
                 <label className="filepickerlbl"><a href={fileUrl}>{fileName}</a></label>
                 <br/>
                 <input style={{marginRight: 0}} type="submit" value="Start utsending" />
-
-                <button type="button" className="filepickerbtn" onClick={() => tesTing()}>Testing</button>
-
             </form>
         </div>
     )
