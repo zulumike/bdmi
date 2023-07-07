@@ -58,7 +58,7 @@ function HomePage() {
       const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
       const randomCode = Math.floor(Math.random()*999999)+100001;
       if (memberExist) {
-        sendCodeByEmail(userEmailAddr, randomCode);
+        sendCodeByEmail([userEmailAddr], randomCode);
       
         const userCode = prompt('Kode fra e-post: ');
         if (parseInt(userCode) === randomCode) {

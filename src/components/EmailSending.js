@@ -5,7 +5,7 @@ import sendEmail from "../functions/sendEmail";
 import '../styles/default.css';
 
 function EmailSending() {
-    const [formInputs, setFormInputs] = useState({});
+    const [formInputs, setFormInputs] = useState({emailrec: "Alle"});
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -38,6 +38,7 @@ function EmailSending() {
     async function sendingMail(event) {
         event.preventDefault();
         const allMembers = await readAllMembers();
+        console.log(allMembers);
         let mailAddressesReg = [];
         let mailAddressesActive = [];
         let mailAddresses = [];
@@ -60,7 +61,15 @@ function EmailSending() {
         else if (formInputs.emailrec === "Aktive") {
             mailAddresses = mailAddressesActive;
         };
+        console.log(formInputs.emailrec);
+        console.log(mailAddresses);
         await sendEmail(formInputs.emailtitle, formInputs.emailbody, mailAddresses, fileName, fileUrl,)        
+    };
+
+    function tesTing(event) {
+        // event.preventDefault();
+        console.log(formInputs.emailrec);
+        console.log(formInputs.emailrec.checked);
     };
 
     return (
@@ -92,9 +101,9 @@ function EmailSending() {
                 <input
                     type="radio" 
                     name="emailrec"
-                    value={formInputs.emailrec || "Alle"}
+                    value="Alle"
                     id="idemailrecall" 
-                    defaultChecked
+                    checked={formInputs.emailrec === "Alle"}
                     onChange={formChange}
                 />
                 <label htmlFor="idemailrecall"> Alle</label>
@@ -102,8 +111,9 @@ function EmailSending() {
                 <input
                     type="radio" 
                     name="emailrec"
-                    value={formInputs.emailrec || "Registrerte"}
+                    value="Registrerte"
                     id="idemailrecreg" 
+                    checked={formInputs.emailrec === "Registrerte"}
                     onChange={formChange}
                 />
                 <label htmlFor="idemailrecreg"> Registrerte</label>
@@ -111,8 +121,9 @@ function EmailSending() {
                 <input
                     type="radio" 
                     name="emailrec"
-                    value={formInputs.emailrec || "Aktive"}
+                    value="Aktive"
                     id="idemailrecactive" 
+                    checked={formInputs.emailrec === "Aktive"}
                     onChange={formChange}
                 />
                 <label htmlFor="idemailrecactive"> Aktive</label>
@@ -121,6 +132,9 @@ function EmailSending() {
                 <label className="filepickerlbl"><a href={fileUrl}>{fileName}</a></label>
                 <br/>
                 <input style={{marginRight: 0}} type="submit" value="Start utsending" />
+
+                <button type="button" className="filepickerbtn" onClick={() => tesTing()}>Testing</button>
+
             </form>
         </div>
     )

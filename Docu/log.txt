@@ -383,6 +383,15 @@ Ny versjon av BDMI medlemsregister.
 
             Det ble suksess etter litt om og men, som vanlig.
 
+07.07.2023
+    - Oppdaget to problemer i kode i forbindelse med epost-sending
+        Den nye funksjonen med å sende masse-epost har ødelagt funksjonen for å sende epost i forbindelse med registrering og innlogging
+            Årsak er nok at innlogging/registrering sender e-post adresse i en string, mens masse-epost sender i et array.
+            Løste dette ved å legge til [] på variabel som sendes til api
+        Annet problem er i forbindelse med masse utsending. Å endre fra Alle, Registrerte og Aktive funker ikke. Og må ordne slik at default verdi er valgt.
+            Løste med å endre input type value og legge til checked, samt sette standard i useState setning.
+
+
 
 
 

@@ -17,7 +17,12 @@ module.exports = async function (context, req) {
     sgMail.setApiKey(process.env.SendGridApiKey)
     let msg = {};
     // test start
+
+    context.log(mailAddress);
+    context.log(mailAddresses);
+
     if (fileName) {
+        context.log('filename exist');
         request(fileUrl, { encoding: null }, (err, res, body) => {
             if (err) {return err; }
             if (body) {
@@ -84,6 +89,7 @@ module.exports = async function (context, req) {
     //     })
     // }
     else {
+        context.log('Filename does not exist');
         msg = {
         to: mailAddresses, // Change to your recipient
         from: 'post@bevardovrefjell.no', // Change to your verified sender

@@ -62,7 +62,7 @@ function MemberForm() {
         const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!\nPrøv en annen eller kontakt post@bevardovrefjell.no')
         else {
-            sendCodeByEmail(formInputs.email, randomCode);
+            sendCodeByEmail([formInputs.email], randomCode);
             let abort = false;
             while (abort === false) {
                 let userCode = "";
