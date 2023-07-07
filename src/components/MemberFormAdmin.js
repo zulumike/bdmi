@@ -176,7 +176,7 @@ return (
             shouldCloseOnEsc={true}
             >
             <EmailSending />
-            <button onClick={closeEmailSender}>Avbryt</button>
+            <button onClick={closeEmailSender}>Lukk</button>
             </ReactModal>
     </div>
 )
