@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import Modal from "react-modal";
 import updateMember from "../functions/updateMember";
 import readGivenMember from "../functions/readGivenMember";
-import FamilyMember from "./FamilyMembers";
+import FamilyMembers from "./FamilyMembers";
 
 function MemberFormUser(memberId) {
     
@@ -60,6 +60,10 @@ function MemberFormUser(memberId) {
 
     function familyMembers() {
         setModalOpen(true);
+    }
+
+    function closeFamilyMembers() {
+        setModalOpen(false);
     }
 
     return (
@@ -140,17 +144,17 @@ function MemberFormUser(memberId) {
             <button onClick={deleteMember}>Slett meg</button>
             <button onClick={closeEditMember}>Avbryt</button>
             <button onClick={familyMembers}>Familiemedlemmer</button>
-            {/* <ReactModal 
+            <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'
                 isOpen={modalOpen}
-                onRequestClose={closeEmailSender}
+                onRequestClose={closeFamilyMembers}
                 shouldCloseOnOverlayClick={false}
                 shouldCloseOnEsc={true}
                 >
-                <FamilyMember />
-                <button onClick={closeEmailSender}>Lukk</button>
-            </ReactModal> */}
+                <FamilyMembers member={formInputs} />
+                <button onClick={closeFamilyMembers}>Lukk</button>
+            </ReactModal>
         </div>
     )
 }

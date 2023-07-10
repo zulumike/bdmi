@@ -401,10 +401,20 @@ Ny versjon av BDMI medlemsregister.
             Hjelpe-artikkel: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
             Sende variabler (props): https://www.freecodecamp.org/news/pass-data-between-components-in-react/
             
+10.07.2023
+    - Fortsatte på det med registrering av familiemedlemmer.
+    - Registrering av nye er OK.
+    - Må få ordnet slik at man også ser de som allerede er registrert.
+    - Kanskje mellomlagre i et array og lagre alt når man trykker på lagre/lukk
+    - NB: Må også få ordnet slik at prisen hovedmedlemmet skal betale oppdateres
+        Evt. en teller for antall medlemmer.
+
+    - Fått lagt til medlems-data (familiemedlemmer) konvertert til et array slik at jeg kan bruke map funksjonen.
+        Gjenstår å lage en map-funksjon til å opprette form input, slik at medlemmer kan redigeres.
 
 
 
-
+    - Ordne slik at e-post adresse alltid skrives inn med små bokstaver!
     - Gjenstår nå:
         Import av medlemmer, enten rett i databasen, eller programmatisk.
         Vipps
