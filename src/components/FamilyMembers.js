@@ -10,7 +10,7 @@ function FamilyMembers({member}) {
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
     };
-    
+
     const [ familyData, setFamilyData ] = useState([]);
     useEffect(() => {
         if (member.family) {
@@ -20,7 +20,7 @@ function FamilyMembers({member}) {
             setFamilyData([]);
     
         };
-    }, []
+    }, [member.family]
     );
 
     const familyChange = (index, event) => {
