@@ -414,6 +414,7 @@ Ny versjon av BDMI medlemsregister.
     - Fått fikset registrering av familiemedlemmer.
 
     - Må få laget samme funksjon fra memberFormAdmin.
+    !- Og må få endre csv eksport til å ta med familiemedlemmer også
 
 
 
