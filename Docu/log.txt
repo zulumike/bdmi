@@ -412,6 +412,9 @@ Ny versjon av BDMI medlemsregister.
     - Fått lagt til medlems-data (familiemedlemmer) konvertert til et array slik at jeg kan bruke map funksjonen.
         Gjenstår å lage en map-funksjon til å opprette form input, slik at medlemmer kan redigeres.
 
+11.07.2023
+    - Fått fikset registrering av familiemedlemmer.
+
 
 
     - Ordne slik at e-post adresse alltid skrives inn med små bokstaver!
