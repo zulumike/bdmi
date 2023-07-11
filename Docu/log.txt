@@ -408,12 +408,13 @@ Ny versjon av BDMI medlemsregister.
     - Kanskje mellomlagre i et array og lagre alt når man trykker på lagre/lukk
     - NB: Må også få ordnet slik at prisen hovedmedlemmet skal betale oppdateres
         Evt. en teller for antall medlemmer.
-
     - Fått lagt til medlems-data (familiemedlemmer) konvertert til et array slik at jeg kan bruke map funksjonen.
-        Gjenstår å lage en map-funksjon til å opprette form input, slik at medlemmer kan redigeres.
-
+    
 11.07.2023
     - Fått fikset registrering av familiemedlemmer.
+
+    - Må få laget samme funksjon fra memberFormAdmin.
+
 
 
 
