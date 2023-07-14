@@ -413,8 +413,10 @@ Ny versjon av BDMI medlemsregister.
 11.07.2023
     - Fått fikset registrering av familiemedlemmer.
 
-    - Må få laget samme funksjon fra memberFormAdmin.
-    !- Og må få endre csv eksport til å ta med familiemedlemmer også
+14.07.2023 
+    - Lagt til funksjonen FamilyMembers i memberforadmin også. testet ok.
+    - Fikset csv eksport til å også ta med familiemedlemmer
+
 
 
 

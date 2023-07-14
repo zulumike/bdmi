@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import Modal from "react-modal";
+import FamilyMembers from "./FamilyMembers";
 import readAllMembers from "../functions/readAllMembers";
 import readGivenMember from "../functions/readGivenMember";
 import updateMember from "../functions/updateMember";
@@ -72,10 +73,16 @@ function MemberList() {
     );
 
     function exportToCsv() {
-        let rows = [['Etternavn', 'Fornavn', 'E-post', 'Mobil', 'Postnr', 'Status']];
+        let rows = [['Etternavn', 'Fornavn', 'E-post', 'Mobil', 'Postnr', 'Status', 'Hovedmedlem']];
         for (let i = 0; i < memberArray.length; i++) {
             rows.push([memberArray[i].lastname, memberArray[i].firstname, memberArray[i].email, memberArray[i].phone, memberArray[i].zipcode, memberArray[i].status])
-        }
+            if (memberArray[i].family) {
+                const familyMembers = Object.values(memberArray[i].family);
+                for (let y = 0; y < familyMembers.length; y++) {
+                    rows.push([familyMembers[y].lastname, familyMembers[y].firstname, familyMembers[y].email, familyMembers[y].phone, familyMembers[y].zipcode, 'Familie', memberArray[i].email]);
+                };
+            };
+        };
         let csvContent = "data:text/csv;charset=utf-8,"
             + rows.map(e => e.join(";")).join("\n");
         var encodedUri = encodeURI(csvContent);
@@ -135,7 +142,7 @@ return (
             shouldCloseOnOverlayClick={false}
             shouldCloseOnEsc={true}
             >
-            <h3>Rediger medlem</h3>
+            <h2>Rediger medlem</h2>
             <form id="editmemberform" onSubmit={submitForm}>
             <input 
                 type="text" 
@@ -197,10 +204,12 @@ return (
                 <option value = "Registrert">Registrert</option>
                 <option value = "Aktiv">Aktiv</option>
             </select>
-            <input type="submit" value="Lagre" />
+            {/* <input type="submit" value="Lagre" /> */}
         </form>
-            <button onClick={deleteMember}>Slett medlem</button>
-            <button onClick={closeEditMember}>Avbryt</button>
+        <h3>Familiemedlemmer:</h3>
+        <FamilyMembers member={formInputs} />
+        <button onClick={deleteMember}>Slett medlem</button>
+        <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>
     </div>
 )

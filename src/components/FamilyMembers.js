@@ -45,15 +45,10 @@ function FamilyMembers({member}) {
     function deleteFamilyMember(index, event) {
         event.preventDefault();
         const familyDataCopy = familyData.slice(0, index).concat(familyData.slice(index+1));
-        console.log(member.family);
-        console.log(familyDataCopy);
         setFamilyData(familyDataCopy);
 
         const deleteKey = Object.keys(member.family)[index];
         delete member.family[deleteKey];
-        console.log(deleteKey)
-
-        console.log(member.family);
     };
 
     async function saveFamily(event) {
@@ -164,7 +159,7 @@ function FamilyMembers({member}) {
                     )
                 } )}
                 <br/>
-                <button className="centerbtn" onClick={saveFamily}>Lagre</button>
+                <button onClick={saveFamily}>Lagre</button>
                 <br/>
             </form>
         </div>
