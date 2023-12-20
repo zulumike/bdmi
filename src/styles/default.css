@@ -139,6 +139,17 @@ h4 {
     display:inline;
 }
 
+.subscriptionactivediv {
+    color:green;
+    text-align: center;
+}
+
+.subscriptionnotactivediv {
+    color:red;
+    text-align: center;
+}
+
+
 /* ************************* */
 .memberformadmintoppdiv {
     width: 100%;

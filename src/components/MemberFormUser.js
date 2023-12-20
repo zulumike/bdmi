@@ -6,22 +6,46 @@ import readGivenMember from "../functions/readGivenMember";
 import FamilyMembers from "./FamilyMembers";
 
 function MemberFormUser(memberId) {
+
+    const mainMemberPrice = 200;
+    const familyMemberPrice = 200;
     
     const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
+        console.log(formInputs.invoicechannel);
     };
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
 
-    useEffect(() => {
+    const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
+    
+
+    // #####################################################################
+    // function objectLength
+    // Counts number of objects and returns the number
+    // #####################################################################
+
+    function objectLength( object ) {
+        var length = 0;
+        for (var key in object) {
+            if (object.hasOwnProperty(key)) {
+                ++length;
+            };
+        };
+        return length;
+    };
+
+     useEffect(() => {
         function readMember() {
             const givenMember = readGivenMember(memberId.userLoggedIn);
                 givenMember.then((member) => {
                     setFormInputs(member[0]);
+                    setFamilyMemberAmount(objectLength(member[0].family));
+                    console.log(familyMemberAmount);
                 })
         };
         readMember()
@@ -33,7 +57,7 @@ function MemberFormUser(memberId) {
 
 
     async function deleteMember() {
-        const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?");
+        const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?\nNB: registrerte familiemedlemmer blir også slettet!");
         if (confirmDelete) {
             formInputs.firstname = 'Slettet';
             formInputs.lastname = 'Slettet';
@@ -54,8 +78,12 @@ function MemberFormUser(memberId) {
         document.location.reload();
     };
 
-    function closeEditMember() {
-        document.location.reload();
+    function activateSubscription() {
+
+    };
+
+    function deActivateSubscription () {
+
     };
 
     function familyMembers() {
@@ -65,6 +93,33 @@ function MemberFormUser(memberId) {
     function closeFamilyMembers() {
         setModalOpen(false);
     }
+
+    function TextIfNotActive() {
+        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        return (
+            <div className="subscriptionnotactivediv">
+                <h2>Du må aktivere abonnement for å være medlem</h2>
+                <button className="centerbtn" onClick={activateSubscription}>Aktiver (NOK {totalAmount},-)</button>
+            </div>
+        )
+    };
+
+    function TextIfActive() {
+        return (
+            <div className="subscriptionactivediv">
+                <h2>Abonnementet er aktivt</h2>
+                <button className="centerbtn" onClick={deActivateSubscription}>Deaktiver</button>
+            </div>
+        )
+    };
+
+    function SubscriptionText() {
+        if (formInputs.status === "Aktiv") {
+            return <TextIfActive />
+        }
+        else 
+        return <TextIfNotActive />
+    };
 
     return (
         <div className="memberformusertopdiv">
@@ -120,30 +175,32 @@ function MemberFormUser(memberId) {
                     required
                     onChange={formChange}
                     />
-                {/* <input
-                        type="radio"
-                        name="invoicechannel"
-                        id="invoicechannelvipps"
-                        value={formInputs.invoicechannel || "vipps"}
-                        required
-                        onChange={formChange}
-                        />
-                    <label
-                        htmlFor="invoicechannelvipps">Vipps</label>
-                    <input
-                        type="radio"
-                        name="invoicechannel"
-                        id="invoicechannelemail"
-                        value={formInputs.invoicechannel || "email"}
-                        onChange={formChange}
-                        />
-                    <label
-                        htmlFor="invoicechannelvipps">E-post</label> */}
+                <input
+                    type="radio"
+                    name="invoicechannel"
+                    id="invoicechannelvipps"
+                    value="vipps"
+                    required
+                    checked={formInputs.invoicechannel === "vipps"}
+                    onChange={formChange}
+                    />
+                <label
+                    htmlFor="invoicechannelvipps"> Vipps  </label>
+                <input
+                    type="radio"
+                    name="invoicechannel"
+                    id="invoicechannelemail"
+                    value="email"
+                    checked={formInputs.invoicechannel === "email"}
+                    onChange={formChange}
+                    />
+                <label
+                    htmlFor="invoicechannelvipps"> E-post</label>
                 <input type="submit" value="Lagre" />
             </form>
+            <button onClick={familyMembers}>Familiemedlemmer ( {familyMemberAmount} )</button>
             <button onClick={deleteMember}>Slett meg</button>
-            <button onClick={closeEditMember}>Avbryt</button>
-            <button onClick={familyMembers}>Familiemedlemmer</button>
+            <SubscriptionText />
             <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'

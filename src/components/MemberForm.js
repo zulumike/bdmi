@@ -23,6 +23,7 @@ function MemberForm() {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
+        console.log(formInputs.invoicechannel);
     };
 
     // const [vippsConfirmationUrl, setVippsConfirmationUrl] = useState("")
@@ -101,7 +102,7 @@ function MemberForm() {
     return (
         <div className='memberformtopdiv'>
             <h1>Registreringsskjema</h1>
-            <form className="memberform" id="memberform" onSubmit={submitForm}>
+            <form className="memberform" id="memberform" onSubmit={submitForm} autoComplete="on">
                 <input 
                     type="text" 
                     name="firstname"
@@ -152,26 +153,28 @@ function MemberForm() {
                     required
                     onChange={formChange}
                     />
-                {/* <h4>Ønsker å betale via:</h4>
+                <h4>Ønsker å betale via:</h4>
                 <input
                     type="radio"
                     name="invoicechannel"
                     id="invoicechannelvipps"
-                    value={formInputs.invoicechannel || "vipps"}
+                    value="vipps"
                     required
+                    checked={formInputs.invoicechannel === "vipps"}
                     onChange={formChange}
                     />
                 <label
-                    htmlFor="invoicechannelvipps">Vipps</label>
+                    htmlFor="invoicechannelvipps"> Vipps  </label>
                 <input
                     type="radio"
                     name="invoicechannel"
                     id="invoicechannelemail"
-                    value={formInputs.invoicechannel || "email"}
+                    value="email"
+                    checked={formInputs.invoicechannel === "email"}
                     onChange={formChange}
                     />
                 <label
-                    htmlFor="invoicechannelvipps">E-post</label> */}
+                    htmlFor="invoicechannelvipps"> E-post</label>
                 <br/>    
                 <input type="submit" value="Send inn" />
             </form>

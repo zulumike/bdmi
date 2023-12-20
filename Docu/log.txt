@@ -418,6 +418,22 @@ Ny versjon av BDMI medlemsregister.
     - Fikset csv eksport til å også ta med familiemedlemmer
 
 
+20.12.2023
+    - Startet opp igjen etter lang tids avbrudd.
+    - Lagt på igjen valg for om man vil betale via vipps eller e-post.
+        Måtte rette opp html-koden for å få til at endring faktisk vistes
+    - Lagt til tekst på medlemssiden (pålogget) som informerer om abb er aktivt eller ikke og knapp for
+        å aktivere eller deaktivere. Prisen vil også stå i knappen for aktivering
+    - Lagt til summering av pris, hentes fra to konstanter (pris hovedmedlem og pris familiemedlem) og regner ut 
+        basert på antall registrerte familiemedlemmer pluss hovedmedlem
+    - Kjørt push til github
+    
+
+Neste: 
+    Legge til funksjoner i MemberFormUser for aktivering og deaktivering av abb.
+        Sjekke om vipps eller e-post og kjøre vipps-api for oppretting av abb eller sende ut e-post med betalingsinformasjon
+    Legge til funksjoner i MemberFormAdmin for å kjøre "innkreving av abb"
+        Sjekke alle medlemmer som har aktivt vipps-abb og kreve inn dette, samt de som har valgt e-post må få dette.
 
 
 
