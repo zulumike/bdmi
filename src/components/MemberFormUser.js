@@ -4,6 +4,8 @@ import Modal from "react-modal";
 import updateMember from "../functions/updateMember";
 import readGivenMember from "../functions/readGivenMember";
 import FamilyMembers from "./FamilyMembers";
+import sendEmail from "../functions/sendEmail";
+import { vippsApiCall } from "../functions/vippsfunctions";
 
 function MemberFormUser(memberId) {
 
@@ -20,6 +22,9 @@ function MemberFormUser(memberId) {
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
+    const [modal2Open, setModal2Open] = useState(false);
+
+    let vippsUrl = '';
 
     const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
     
@@ -78,8 +83,25 @@ function MemberFormUser(memberId) {
         document.location.reload();
     };
 
-    function activateSubscription() {
-
+    async function activateSubscription() {
+        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        if (formInputs.invoicechannel === "vipps") {            
+            const vippsAmount = (totalAmount * 100).toString();
+            // Call a function in vippsfunctions.js
+            // Creates an agreement and charges an initial amount
+            const vippsResult = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":memberId, "amount":vippsAmount, "amountinitial":vippsAmount, "phonenumber":formInputs.phone});
+            vippsUrl = JSON.parse(vippsResult).vippsConfirmationUrl;
+            console.log(vippsUrl);
+            document.location.href = vippsUrl;
+        }
+        else if (formInputs.invoicechannel === "email") {
+            const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og dermed støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
+            console.log(invoiceEmailBody);
+            console.log(typeof(invoiceEmailBody));
+            await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
+        };
+        // document.location.reload();
     };
 
     function deActivateSubscription () {
@@ -88,17 +110,23 @@ function MemberFormUser(memberId) {
 
     function familyMembers() {
         setModalOpen(true);
-    }
+    };
 
     function closeFamilyMembers() {
         setModalOpen(false);
+    };
+
+    function closeModal2() {
+        setModal2Open(false);
     }
+
 
     function TextIfNotActive() {
         const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         return (
             <div className="subscriptionnotactivediv">
-                <h2>Du må aktivere abonnement for å være medlem</h2>
+                <h2>Du må aktivere for å være medlem</h2>
+                <h3>Om du allerede har aktivert og betalt via e-post, kan det ta litt tid før status oppdateres her</h3>
                 <button className="centerbtn" onClick={activateSubscription}>Aktiver (NOK {totalAmount},-)</button>
             </div>
         )
@@ -211,6 +239,25 @@ function MemberFormUser(memberId) {
                 >
                 <FamilyMembers member={formInputs} />
                 <button onClick={closeFamilyMembers}>Lukk</button>
+            </ReactModal>
+            <ReactModal 
+                className='modal'
+                ovarlayClassName='modaloverlay'
+                isOpen={modal2Open}
+                onRequestClose={closeModal2}
+                shouldCloseOnOverlayClick={false}
+                shouldCloseOnEsc={true}
+                >
+                <iframe 
+                    id="iframe"
+                    src={vippsUrl}
+                    title="Vipps"
+                    height="800"
+                    width="100%"
+                >
+
+                </iframe>
+                <button onClick={closeModal2}>Lukk</button>
             </ReactModal>
         </div>
     )

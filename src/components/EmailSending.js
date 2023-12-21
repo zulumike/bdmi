@@ -38,7 +38,6 @@ function EmailSending() {
     async function sendingMail(event) {
         event.preventDefault();
         const allMembers = await readAllMembers();
-        console.log(allMembers);
         let mailAddressesReg = [];
         let mailAddressesActive = [];
         let mailAddresses = [];
