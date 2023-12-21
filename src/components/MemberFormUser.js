@@ -17,16 +17,20 @@ function MemberFormUser(memberId) {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
-        console.log(formInputs.invoicechannel);
     };
+
+    const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
-    const [modal2Open, setModal2Open] = useState(false);
 
-    let vippsUrl = '';
+    const [vippsUrl, setVippsUrl] = useState('');
 
     const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
+
+    const [vippsUpdateNeeded, setVippsUpdateNeeded] = useState(false);
+
+    let vippsOldAmount = 0;
     
 
     // #####################################################################
@@ -50,7 +54,6 @@ function MemberFormUser(memberId) {
                 givenMember.then((member) => {
                     setFormInputs(member[0]);
                     setFamilyMemberAmount(objectLength(member[0].family));
-                    console.log(familyMemberAmount);
                 })
         };
         readMember()
@@ -89,23 +92,50 @@ function MemberFormUser(memberId) {
             const vippsAmount = (totalAmount * 100).toString();
             // Call a function in vippsfunctions.js
             // Creates an agreement and charges an initial amount
-            const vippsResult = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":memberId, "amount":vippsAmount, "amountinitial":vippsAmount, "phonenumber":formInputs.phone});
-            vippsUrl = JSON.parse(vippsResult).vippsConfirmationUrl;
-            console.log(vippsUrl);
-            document.location.href = vippsUrl;
+            const vippsResult = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":memberId.userLoggedIn, "amount":vippsAmount, "amountinitial":vippsAmount, "phonenumber":formInputs.phone});
+            console.log(vippsResult);
+            setVippsUrl(JSON.parse(vippsResult).vippsConfirmationUrl);
+            formInputs.vippsagreementid = JSON.parse(vippsResult).agreementId;
+            const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
+            if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
+            // document.location.href = vippsUrl;
         }
         else if (formInputs.invoicechannel === "email") {
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
-            const invoiceEmailBody = 'Tusen takk for at du er medlem og dermed støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
-            console.log(invoiceEmailBody);
-            console.log(typeof(invoiceEmailBody));
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
+            document.location.reload();
         };
-        // document.location.reload();
     };
 
-    function deActivateSubscription () {
+    async function updateSubscription() {
+        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        if (formInputs.invoicechannel === "vipps") {
+        const vippsAmount = (totalAmount * 100).toString();
+        const vippsChargeAmount = totalAmount - vippsOldAmount;
+        const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid, "amount":vippsAmount});
+        console.log(vippsResult);
+        if (vippsChargeAmount > 0) {
+            const vippsResult2 = await vippsApiCall({"vippsreqtype": "charge", "amount": vippsChargeAmount, "description": "Medlemskontingent BDMI", "due": "2023-12-24", "retryDays": "3", "agreementid": formInputs.vippsagreementid, "memberid": memberId.userLoggedIn});
+            console.log(vippsResult2);
+        }
+        }
+        else if (formInputs.invoicechannel === "email") {
+            const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
+            await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
+            document.location.reload();
+        };
+    };
 
+
+    async function deActivateSubscription () {
+        const confirmCancel = window.confirm("Er du sikker på at du vil kansellere vipps-avtalen?\nDitt medlemsskap vil da avsluttes ved årets slutt!");
+        if (confirmCancel) {
+            const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-stop", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid});
+            console.log(vippsResult);
+            document.location.reload();
+        };
     };
 
     function familyMembers() {
@@ -115,11 +145,6 @@ function MemberFormUser(memberId) {
     function closeFamilyMembers() {
         setModalOpen(false);
     };
-
-    function closeModal2() {
-        setModal2Open(false);
-    }
-
 
     function TextIfNotActive() {
         const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
@@ -141,13 +166,53 @@ function MemberFormUser(memberId) {
         )
     };
 
+    function TextIfPending() {
+        return (
+            <div className="subscriptionactivediv">
+                <h2>Vipps avtale/krav er under utførelse. Oppdater siden når fullført</h2>
+                <button className="centerbtn" onClick={activateSubscription}>Start aktivering på nytt</button>
+            </div>
+        )
+    };
+
+    function TextIfVippsUpdateNeeded() {
+        return (
+            <div className="subscriptionactivediv">
+                <h2>Det er endringer i abonnement som krever oppdatering av Vipps avtalen</h2>
+                <button className="centerbtn" onClick={updateSubscription}>Oppdater Vipps</button>
+            </div>
+        )
+    };
+
+
     function SubscriptionText() {
-        if (formInputs.status === "Aktiv") {
+        if (vippsUpdateNeeded) {
+            return <TextIfVippsUpdateNeeded/>
+        }
+        else if (vippsAgreementStatus === "ACTIVE") {
             return <TextIfActive />
         }
-        else 
+        else if (vippsAgreementStatus === "PENDING") {
+            return <TextIfPending/>
+        }
+        else if (formInputs.invoicechannel === 'vipps')
         return <TextIfNotActive />
+        else return null
     };
+
+    async function checkVippsAgreementStatus() {
+        const vippsAgreementId = formInputs.vippsagreementid;
+        if (typeof(vippsAgreementId) !== 'undefined') {
+            const vippsResult = await vippsApiCall({"vippsreqtype":"get-agreement", "agreementid":vippsAgreementId});
+            setVippsAgreementStatus(JSON.parse(vippsResult).status);
+            if (vippsAgreementStatus ==='ACTIVE' && ((mainMemberPrice + (familyMemberAmount * familyMemberPrice)) * 100) !== JSON.parse(vippsResult).pricing.amount) {
+                setVippsUpdateNeeded(true);
+                vippsOldAmount = JSON.parse(vippsResult).pricing.amount;
+            }
+        }
+    };
+
+    checkVippsAgreementStatus();
 
     return (
         <div className="memberformusertopdiv">
@@ -239,25 +304,6 @@ function MemberFormUser(memberId) {
                 >
                 <FamilyMembers member={formInputs} />
                 <button onClick={closeFamilyMembers}>Lukk</button>
-            </ReactModal>
-            <ReactModal 
-                className='modal'
-                ovarlayClassName='modaloverlay'
-                isOpen={modal2Open}
-                onRequestClose={closeModal2}
-                shouldCloseOnOverlayClick={false}
-                shouldCloseOnEsc={true}
-                >
-                <iframe 
-                    id="iframe"
-                    src={vippsUrl}
-                    title="Vipps"
-                    height="800"
-                    width="100%"
-                >
-
-                </iframe>
-                <button onClick={closeModal2}>Lukk</button>
             </ReactModal>
         </div>
     )

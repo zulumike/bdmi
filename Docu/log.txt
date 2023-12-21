@@ -427,20 +427,40 @@ Ny versjon av BDMI medlemsregister.
     - Lagt til summering av pris, hentes fra to konstanter (pris hovedmedlem og pris familiemedlem) og regner ut 
         basert på antall registrerte familiemedlemmer pluss hovedmedlem
     - Kjørt push til github
+
+21.12.2023
+    - Fortsatte med vipps.
+    - Laget funksjon i memberformsuser for vipps aktivering av abb med initiell betaling.
+    - Laget funksjon som sender e-post med betalingsinfo hvis ikke vipps.
+    - Laget funksjon for å deaktivere vipps abb
+    - Laget også funksjon som sjekker om vipps abb er aktivt.
+    - Begynt å lage funksjon for å oppdatere vipps-avtale evt. sende ny betalingsinfo på e-post hvis endringer på antall familiemedlemmer.
+        Lugger litt....
+        Ser ut til å oppdatere abb OK. Synes det var litt rart at sluttbruker ikke må godkjenne....
+        Gjenstår å se på julaften om ekstra-beløpet belastes eller ikke....
+        Må se mer på funksjon for ekstra-betaling ved e-post. Da jeg pr i dag ikke lagrer opprinnelig beløp i databasen til å sammenligne med...
+    - Kjørt commit
     
 
 Neste: 
-    Legge til funksjoner i MemberFormUser for aktivering og deaktivering av abb.
-        Sjekke om vipps eller e-post og kjøre vipps-api for oppretting av abb eller sende ut e-post med betalingsinformasjon
+    
+    Sjekke når man lagrer om det er endringer i antall familiemedlemmer. og hvis det må ny betalingsinfo sendes på epost eller vipps-avtale oppdateres og beløp belastes for ekstra
+
+    Må finne på noe lurt i forhold til idempotency-key. Idag bruker jeg memberid. Det funker greit, men hvis et medlem stanser abb, så er det ikke mulig å starte et nytt med samme key.
+        Foreløpig så får folk finne seg i å slette seg og legge inn på nytt...
+
     Legge til funksjoner i MemberFormAdmin for å kjøre "innkreving av abb"
         Sjekke alle medlemmer som har aktivt vipps-abb og kreve inn dette, samt de som har valgt e-post må få dette.
 
+    Gå gjennom hele app for å prøve å unngå multiple rendering
+        https://www.developerway.com/posts/react-re-renders-guide
+        https://www.linkedin.com/pulse/avoid-unnecessary-re-renders-reactjs-christian-zanchetta
+        
 
 
     - Ordne slik at e-post adresse alltid skrives inn med små bokstaver!
     - Gjenstår nå:
         Import av medlemmer, enten rett i databasen, eller programmatisk.
-        Vipps
 
 
 

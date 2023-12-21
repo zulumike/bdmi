@@ -18,7 +18,6 @@ async function vippsApiCall(data) {
     })
     .then(response => response.text())
     .then(result => {
-        console.log(result)
         vippsResponse = result;
     })
     .catch(error => console.log('error', error));

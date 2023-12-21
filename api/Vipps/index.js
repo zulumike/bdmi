@@ -59,9 +59,10 @@ module.exports = async function (context, req) {
   // user gets redirected to or if on smarphone opens vipps app
   // user can then accept agreement and initial charge
 
-  async function vippsDraftAgreementWithInitialCharge(requestId, amount, amountInitial, phoneNumber) {
+  async function vippsDraftAgreementWithInitialCharge(memberId, amount, amountInitial, phoneNumber) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", requestId);
+    myHeaders.append("Idempotency-Key", memberId);
+    context.log('Idempotency-Key', memberId);
 
     var raw = JSON.stringify({
         "initialCharge": {
@@ -109,9 +110,9 @@ module.exports = async function (context, req) {
   // user gets redirected to or if on smarphone opens vipps app
   // user can then accept agreement
 
-  async function vippsDraftAgreementWithoutInitialCharge(requestId, amount, phoneNumber) {
+  async function vippsDraftAgreementWithoutInitialCharge(memberId, amount, phoneNumber) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", requestId);
+    myHeaders.append("Idempotency-Key", memberId);
 
     var raw = JSON.stringify({
         "interval": {
@@ -148,7 +149,7 @@ module.exports = async function (context, req) {
   // FUNCTION vippsAgreementUpdate
   // params:
   //    agreementId: id of agreement from vipps
-  //    requestid: unique id for this request
+  //    memberId: unique id for this request
   //    amount: amount in nok to be charged each interval
   //    status: status of the agreement. Only valid change is stopped
   //    
@@ -156,15 +157,46 @@ module.exports = async function (context, req) {
   // user gets redirected to or if on smarphone opens vipps app
   // user can then accept agreement
 
-  async function vippsAgreementUpdate(agreementId, requestId, amount, status) {
+  async function vippsAgreementUpdate(agreementId, memberId, amount, status) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", requestId);
+    myHeaders.append("Idempotency-Key", memberId);
 
     var raw = JSON.stringify({
         "pricing": {
           "amount": amount,
           "currency": "NOK"
         }
+      });
+
+      var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      
+      await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          responseMessage = result;
+          context.log(result);
+        })
+        .catch(error => context.log('error', error));
+  };
+
+//**********************************************
+  // FUNCTION vippsAgreementStop
+  // params:
+  //    agreementId: id of agreement from vipps
+  //    
+  // This functions stops an agreement
+
+  async function vippsAgreementStop(agreementId, memberId) {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    myHeaders.append("Idempotency-Key", memberId);
+
+    var raw = JSON.stringify({
+        "status": "STOPPED"
       });
 
       var requestOptions = {
@@ -205,9 +237,9 @@ module.exports = async function (context, req) {
 
   };
 
-  async function vippsCharge(agreementId, amount, description, due, retryDays, requestID) {
+  async function vippsCharge(agreementId, amount, description, due, retryDays, memberId) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", requestID);
+    myHeaders.append("Idempotency-Key", memberId);
     
     var raw = JSON.stringify({
       "amount": amount,
@@ -265,7 +297,11 @@ module.exports = async function (context, req) {
   }
   else if (vippsReqType === 'agreement-update') {
     context.log('Vipps agreement update ', req.body.agreementid);
-    await vippsAgreementUpdate(req.body.agreementid, req.body.requestid, req.body.amount, req.body.status);
+    await vippsAgreementUpdate(req.body.agreementid, req.body.memberid, req.body.amount, req.body.status);
+  }
+  else if (vippsReqType === 'agreement-stop') {
+    context.log('Vipps stop agreement ', req.body.agreementid);
+    await vippsAgreementStop(req.body.agreementid), req.body.memberid;
   }
   else if (vippsReqType === 'get-agreement') {
     context.log('Vipps get agreement ', req.body.agreementid);
@@ -273,7 +309,7 @@ module.exports = async function (context, req) {
   }
   else if (vippsReqType === 'charge') {
     context.log('Vipps charge ', req.body.chargeid);
-    await vippsCharge(req.body.agreementid, req.body.amount, req.body.description, req.body.due, req.body.retryDays, req.body.requestid);
+    await vippsCharge(req.body.agreementid, req.body.amount, req.body.description, req.body.due, req.body.retryDays, req.body.memberid);
   }
   else if (vippsReqType === 'get-charge') {
     context.log('Vipps get charge ', req.body.chargeid);
