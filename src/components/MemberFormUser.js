@@ -99,6 +99,7 @@ function MemberFormUser(memberId) {
             const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
             if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
             // document.location.href = vippsUrl;
+            console.log(vippsUrl);
         }
         else if (formInputs.invoicechannel === "email") {
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
