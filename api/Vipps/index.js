@@ -237,9 +237,9 @@ module.exports = async function (context, req) {
 
   };
 
-  async function vippsCharge(agreementId, amount, description, due, retryDays, memberId) {
+  async function vippsCharge(agreementId, amount, description, due, retryDays, chargeId) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", memberId);
+    myHeaders.append("Idempotency-Key", chargeId);
     
     var raw = JSON.stringify({
       "amount": amount,
@@ -262,6 +262,23 @@ module.exports = async function (context, req) {
       .catch(error => context.log('error', error));
 
   };
+
+  async function vippsListCharges(agreementId) {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    
+    await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId + "/charges/", requestOptions)
+      .then(response => response.text())
+      .then(result => responseMessage = result)
+      .catch(error => context.log('error', error));
+
+  };
+
 
 //*************************************************************
   // FUNCTION vippsGetCharge
@@ -309,11 +326,15 @@ module.exports = async function (context, req) {
   }
   else if (vippsReqType === 'charge') {
     context.log('Vipps charge ', req.body.chargeid);
-    await vippsCharge(req.body.agreementid, req.body.amount, req.body.description, req.body.due, req.body.retryDays, req.body.memberid);
+    await vippsCharge(req.body.agreementid, req.body.amount, req.body.description, req.body.due, req.body.retryDays, req.body.chargeid);
   }
   else if (vippsReqType === 'get-charge') {
     context.log('Vipps get charge ', req.body.chargeid);
     await vippsGetCharge(req.body.agreementid, req.body.chargeid);
+  }
+  else if (vippsReqType === 'list-charges') {
+    context.log('Vipps list charges ', req.body.agreementid);
+    await vippsListCharges(req.body.agreementid);
   }
   context.res = {
       // status: 200, /* Defaults to 200 */

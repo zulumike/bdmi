@@ -59,7 +59,7 @@ function HomePage() {
       const randomCode = Math.floor(Math.random()*999999)+100001;
       if (memberExist) {
         sendCodeByEmail([userEmailAddr], randomCode);
-      
+        console.log(randomCode);
         const userCode = prompt('Kode fra e-post: ');
         if (parseInt(userCode) === randomCode) {
           loggedInUser = userEmailAddr;

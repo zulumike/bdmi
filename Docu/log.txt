@@ -440,17 +440,51 @@ Ny versjon av BDMI medlemsregister.
         Gjenstår å se på julaften om ekstra-beløpet belastes eller ikke....
         Må se mer på funksjon for ekstra-betaling ved e-post. Da jeg pr i dag ikke lagrer opprinnelig beløp i databasen til å sammenligne med...
     - Kjørt commit
+
+27.12.2023
+    - Laget funksjon calculateFamily for kalkulere antall familiemedlemmer og prisen
+        Denne funksjonen kjøres fra writenewmember og updatemember funksjon og skriver dette til database.
+    - Skrevet om MemberFormUser i forhold til priskalkulering.
+    - Tenker lage en gjenbrukbar funksjon for å sjekke vipps-betalings status og sette medlems-status i henhold til dette.
+        Sjekke om man bare kan bruke vipps agreement status...
+
+29.12.2023
+    - Sett mer på prisendrings-funksjonen ved vipps. Tror den skal være OK nå.
+        Må nok gjøre noe med e-post også.
+    - Endret idempotency key til å være memberid + dagens dato-tidspunkt.
+    - Opprettet funksjon i generalFunctions for å legge til betaling (addPayment).
+        Neste blir å bruke denne når admin legger inn betaling og setter medlem aktiv.
+        Samt når det sjekkes om vipps-betaling er gjennomført? Eller skal jeg her bare bruke data fra Vipps i hvert tilfelle.
+            Lurer på om api til vipps er lagt opp med begrensninger etter å hente mange charges.... Må sjekkes mer.
+
+    Kjørte commit.
+
+
+    Lurer på om jeg skal lagre alle innbetalinger i databasen.
+        Må registreres manuelt ved manuell betaling.
+    Vurdere om admins skal kunne legge til familiemedlemmer og dermed oppdatere vipps-avtale og belaste ekstra.
+        Tror ikke det er i henhold og så lurt. Ved registrering/endring av admin bør medlem få e-post med informasjon om å gå inn og aktivere/oppdatere vipps-avtale selv.
+    Gjennomgå rendering....
+    Legge til reload av vindu ved oppdatering av abb. Kanskje flytte den som er lagt i if epost setningen til nederst i update funksjonen...
     
 
 Neste: 
     
     Sjekke når man lagrer om det er endringer i antall familiemedlemmer. og hvis det må ny betalingsinfo sendes på epost eller vipps-avtale oppdateres og beløp belastes for ekstra
 
+    Ved sletting av medlem, må det sjekkes om aktivt vipps-abb og evt avslutte dette først.
+
+    Vurdere hvordan medlemsstaus skal endres til Aktivt/registrert i henhold til om vipps-avtale er aktivert/betalt.
+
+    Vipps generelt. Må kanskje legge inn Vipps-logo / knapper i henhold til Vipps sine retningslinjer.
+
     Må finne på noe lurt i forhold til idempotency-key. Idag bruker jeg memberid. Det funker greit, men hvis et medlem stanser abb, så er det ikke mulig å starte et nytt med samme key.
         Foreløpig så får folk finne seg i å slette seg og legge inn på nytt...
 
     Legge til funksjoner i MemberFormAdmin for å kjøre "innkreving av abb"
         Sjekke alle medlemmer som har aktivt vipps-abb og kreve inn dette, samt de som har valgt e-post må få dette.
+        Når inne på et medlem, bør man kunne hente alle transaksjoner (vipps) og evt. returnere betaling eller stoppe en til forfall.
+        Samt at vipps-avtale status bør hentes og vises.
 
     Gå gjennom hele app for å prøve å unngå multiple rendering
         https://www.developerway.com/posts/react-re-renders-guide

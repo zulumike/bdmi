@@ -6,11 +6,13 @@ import readGivenMember from "../functions/readGivenMember";
 import FamilyMembers from "./FamilyMembers";
 import sendEmail from "../functions/sendEmail";
 import { vippsApiCall } from "../functions/vippsfunctions";
+import calculateFamily from "../functions/calculateFamily";
+import { dateToYYYY_MM_DD } from "../functions/generalFunctions";
 
 function MemberFormUser(memberId) {
 
-    const mainMemberPrice = 200;
-    const familyMemberPrice = 200;
+    // const mainMemberPrice = 200;
+    // const familyMemberPrice = 200;
     
     const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
     const formChange = (event) => {
@@ -26,7 +28,7 @@ function MemberFormUser(memberId) {
 
     const [vippsUrl, setVippsUrl] = useState('');
 
-    const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
+    // const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
 
     const [vippsUpdateNeeded, setVippsUpdateNeeded] = useState(false);
 
@@ -38,22 +40,22 @@ function MemberFormUser(memberId) {
     // Counts number of objects and returns the number
     // #####################################################################
 
-    function objectLength( object ) {
-        var length = 0;
-        for (var key in object) {
-            if (object.hasOwnProperty(key)) {
-                ++length;
-            };
-        };
-        return length;
-    };
+    // function objectLength( object ) {
+    //     var length = 0;
+    //     for (var key in object) {
+    //         if (object.hasOwnProperty(key)) {
+    //             ++length;
+    //         };
+    //     };
+    //     return length;
+    // };
 
      useEffect(() => {
         function readMember() {
             const givenMember = readGivenMember(memberId.userLoggedIn);
                 givenMember.then((member) => {
                     setFormInputs(member[0]);
-                    setFamilyMemberAmount(objectLength(member[0].family));
+                    // setFamilyMemberAmount(objectLength(member[0].family));
                 })
         };
         readMember()
@@ -87,9 +89,10 @@ function MemberFormUser(memberId) {
     };
 
     async function activateSubscription() {
-        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         if (formInputs.invoicechannel === "vipps") {            
-            const vippsAmount = (totalAmount * 100).toString();
+            // const vippsAmount = (totalAmount * 100).toString();
+            const vippsAmount = (formInputs.price * 100).toString();
             // Call a function in vippsfunctions.js
             // Creates an agreement and charges an initial amount
             const vippsResult = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":memberId.userLoggedIn, "amount":vippsAmount, "amountinitial":vippsAmount, "phonenumber":formInputs.phone});
@@ -103,27 +106,39 @@ function MemberFormUser(memberId) {
         }
         else if (formInputs.invoicechannel === "email") {
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
-            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + formInputs.price.toString() + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             document.location.reload();
         };
     };
 
     async function updateSubscription() {
-        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        const [ , familyPrice] = calculateFamily(formInputs.family);
         if (formInputs.invoicechannel === "vipps") {
-        const vippsAmount = (totalAmount * 100).toString();
-        const vippsChargeAmount = totalAmount - vippsOldAmount;
-        const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid, "amount":vippsAmount});
-        console.log(vippsResult);
-        if (vippsChargeAmount > 0) {
-            const vippsResult2 = await vippsApiCall({"vippsreqtype": "charge", "amount": vippsChargeAmount, "description": "Medlemskontingent BDMI", "due": "2023-12-24", "retryDays": "3", "agreementid": formInputs.vippsagreementid, "memberid": memberId.userLoggedIn});
-            console.log(vippsResult2);
-        }
+            // const vippsAmount = (totalAmount * 100).toString();
+            const vippsAmount = (familyPrice * 100).toString();
+            console.log('old amount: ', vippsOldAmount);
+            console.log('familyprice: ', familyPrice);
+            const vippsChargeAmount = familyPrice - vippsOldAmount;
+            const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid, "amount":vippsAmount});
+            console.log(vippsResult);
+            console.log(vippsChargeAmount);
+            if (vippsChargeAmount > 0) {
+                console.log('Ekstra betaling');
+                const chargeId = new Date().toISOString() + Math.random().toString().substring(2, 10);
+                const today = new Date();
+                today.setDate(today.getDate() + 1);
+                const dueDate = dateToYYYY_MM_DD(today);
+                const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
+                const vippsResult2 = await vippsApiCall({"vippsreqtype": "charge", "amount": vippsChargeAmountStr, "description": "Medlemskontingent BDMI", "due": dueDate, "retryDays": "3", "agreementid": formInputs.vippsagreementid, "chargeid": chargeId});
+                console.log(vippsResult2);
+            }
         }
         else if (formInputs.invoicechannel === "email") {
+            const extraCharge = formInputs.price - familyPrice;
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
-            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalAmount.toString() + ',-';
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nNytt års-beløp er ' + familyPrice + ',-\nVennligst betal inn mellomlegget ' + extraCharge + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             document.location.reload();
         };
@@ -148,12 +163,12 @@ function MemberFormUser(memberId) {
     };
 
     function TextIfNotActive() {
-        const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
+        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         return (
             <div className="subscriptionnotactivediv">
                 <h2>Du må aktivere for å være medlem</h2>
                 <h3>Om du allerede har aktivert og betalt via e-post, kan det ta litt tid før status oppdateres her</h3>
-                <button className="centerbtn" onClick={activateSubscription}>Aktiver (NOK {totalAmount},-)</button>
+                <button className="centerbtn" onClick={activateSubscription}>Aktiver (NOK {formInputs.price},-)</button>
             </div>
         )
     };
@@ -187,7 +202,10 @@ function MemberFormUser(memberId) {
 
 
     function SubscriptionText() {
-        if (vippsUpdateNeeded) {
+        if (formInputs.invoicechannel === 'email' && formInputs.status === 'Registrert') {
+            return <TextIfNotActive />
+        }
+        else if (vippsUpdateNeeded) {
             return <TextIfVippsUpdateNeeded/>
         }
         else if (vippsAgreementStatus === "ACTIVE") {
@@ -206,15 +224,20 @@ function MemberFormUser(memberId) {
         if (typeof(vippsAgreementId) !== 'undefined') {
             const vippsResult = await vippsApiCall({"vippsreqtype":"get-agreement", "agreementid":vippsAgreementId});
             setVippsAgreementStatus(JSON.parse(vippsResult).status);
-            if (vippsAgreementStatus ==='ACTIVE' && ((mainMemberPrice + (familyMemberAmount * familyMemberPrice)) * 100) !== JSON.parse(vippsResult).pricing.amount) {
+            if (vippsAgreementStatus ==='ACTIVE' && (formInputs.price * 100) !== JSON.parse(vippsResult).pricing.amount) {
                 setVippsUpdateNeeded(true);
-                vippsOldAmount = JSON.parse(vippsResult).pricing.amount;
+                vippsOldAmount = JSON.parse(vippsResult).pricing.amount / 100;
             }
+            const vippsResult2 = await vippsApiCall({"vippsreqtype":"list-charges", "agreementid":vippsAgreementId});
+            console.log(vippsResult2);
         }
     };
 
-    checkVippsAgreementStatus();
 
+    if (formInputs.invoicechannel === "vipps") {
+        checkVippsAgreementStatus();
+    };
+    
     return (
         <div className="memberformusertopdiv">
             <h3>Mine opplysninger</h3>
@@ -292,7 +315,7 @@ function MemberFormUser(memberId) {
                     htmlFor="invoicechannelvipps"> E-post</label>
                 <input type="submit" value="Lagre" />
             </form>
-            <button onClick={familyMembers}>Familiemedlemmer ( {familyMemberAmount} )</button>
+            <button onClick={familyMembers}>Familiemedlemmer ( {formInputs.familycount - 1} )</button>
             <button onClick={deleteMember}>Slett meg</button>
             <SubscriptionText />
             <ReactModal 

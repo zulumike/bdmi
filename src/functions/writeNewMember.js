@@ -1,5 +1,8 @@
 
+import calculateFamily from "./calculateFamily";
+
 async function writeNewMember(newMember) {
+
     let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
         apiURL = '/api/DBWrite';
@@ -8,6 +11,12 @@ async function writeNewMember(newMember) {
         apiURL = 'http://localhost:7071/api/DBWrite';
 
     }
+
+    const [familyCount, familyPrice] = calculateFamily(newMember.family);
+
+    newMember.price = familyPrice;
+    newMember.familycount = familyCount;
+
     newMember.type = "new";
     newMember.name = newMember.lastname + ', ' + newMember.firstname;
     newMember.deleted = "false";

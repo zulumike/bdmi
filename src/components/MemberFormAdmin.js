@@ -26,6 +26,7 @@ function MemberFormAdmin(user) {
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
 
+    
     function openEmailSender() {
         setModalOpen(true);
     };
@@ -45,7 +46,7 @@ function MemberFormAdmin(user) {
         if ((memberExist) && (formInputs.phone !== undefined)) alert(phoneOrEmail + ' er registert fra før!')
         else {
             formInputs.createdby = user.userLoggedIn;
-            formInputs.role = 'Medlem'
+            formInputs.role = 'Medlem';
             const writeResult = writeNewMember(formInputs);
             writeResult.then((responseMessage) => {
                 if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
