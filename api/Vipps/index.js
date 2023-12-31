@@ -59,10 +59,10 @@ module.exports = async function (context, req) {
   // user gets redirected to or if on smarphone opens vipps app
   // user can then accept agreement and initial charge
 
-  async function vippsDraftAgreementWithInitialCharge(memberId, amount, amountInitial, phoneNumber) {
+  async function vippsDraftAgreementWithInitialCharge(amount, amountInitial, phoneNumber, idempotencyKey) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", memberId);
-    context.log('Idempotency-Key', memberId);
+    myHeaders.append("Idempotency-Key", idempotencyKey);
+    context.log('Idempotency-Key', idempotencyKey);
 
     var raw = JSON.stringify({
         "initialCharge": {
@@ -110,9 +110,9 @@ module.exports = async function (context, req) {
   // user gets redirected to or if on smarphone opens vipps app
   // user can then accept agreement
 
-  async function vippsDraftAgreementWithoutInitialCharge(memberId, amount, phoneNumber) {
+  async function vippsDraftAgreementWithoutInitialCharge(amount, phoneNumber, idempotencyKey) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
-    myHeaders.append("Idempotency-Key", memberId);
+    myHeaders.append("Idempotency-Key", idempotencyKey);
 
     var raw = JSON.stringify({
         "interval": {
@@ -306,11 +306,11 @@ module.exports = async function (context, req) {
   context.log(vippsReqType);
   if (vippsReqType === 'draft-agreement-with-initial') {
     context.log('Vipps draft agreement with initial ', req.body.phonenumber);
-    await vippsDraftAgreementWithInitialCharge(req.body.memberid, req.body.amount, req.body.amountinitial, req.body.phoneNumber);
+    await vippsDraftAgreementWithInitialCharge(req.body.amount, req.body.amountinitial, req.body.phonenumber, req.body.idempotencykey);
   }
   else if (vippsReqType === 'draft-agreement-without-initial') {
     context.log('Vipps draft agreement without initial ', req.body.phonenumber);
-    await vippsDraftAgreementWithoutInitialCharge(req.body.memberid, req.body.amount, req.body.phoneNumber)
+    await vippsDraftAgreementWithoutInitialCharge(req.body.amount, req.body.phoneNumber, req.body.idempotencykey)
   }
   else if (vippsReqType === 'agreement-update') {
     context.log('Vipps agreement update ', req.body.agreementid);

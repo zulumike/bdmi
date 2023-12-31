@@ -459,6 +459,27 @@ Ny versjon av BDMI medlemsregister.
 
     Kjørte commit.
 
+30.12.2023
+    - Lagt til Charges component. For å liste opp og registrere manuelle innbetalinger.
+    - Lag til at vipps-abb må deaktiveres før man sletter seg selv som medlem.
+    - Lagt til vippsfunksjoner for hver vipps operasjon. Og endret de fleste vipps-oppkall til å bruke disse.
+    - Lagt til litt feil-håndtering. Presenterer feilmelding til bruker hvis feil.
+    - Laget litt kortere tilfeldig tall for medlemsid.
+    - La til alternativ idemptency key hvis konflikt. Slik at hvis en har deaktivert vipps-avtale, så kan man aktivere ny.
+    - Startet med å se på multiple rendering som forårsaker multiple api-oppkall.
+        Først i MemberFormUser. 
+            Flyttet sjekk av vipps-abb-status til eksisterende useEffect.
+                Oppfører seg litt rart. Ved refrisk av nettleser, leser første del av useEffect kun inn 2 objekt-nøkler og resten får da ikke kjørt siden den mangler info (agreementid).
+                Hvis jeg gjør endringer i koden og lagrer (og programmet da refrisker siden), så funker det som det skal....
+                I useEffect "funksjonen", setter jeg formInputs fra det som leses fra DB (member-array). Deretter henter jeg data fra formInputs.
+                    Endret til å videre hente data fra member-arrayet og da fungerte det. Det er altså en forsinkelse i setFormInputs.
+    - Laget en funksjon i vippsfunctions.js som henter alle charges på en agreement og summerer opp for hver enkelt status pluss total og gir status om penger utestående.
+    - Prøvde å legge til betalingsstaus i MemberFormUser, men ser ikke ut til å funke på første forsøk...
+    - commit.
+    To be continued....
+
+    
+
 
     Lurer på om jeg skal lagre alle innbetalinger i databasen.
         Må registreres manuelt ved manuell betaling.
@@ -471,8 +492,6 @@ Ny versjon av BDMI medlemsregister.
 Neste: 
     
     Sjekke når man lagrer om det er endringer i antall familiemedlemmer. og hvis det må ny betalingsinfo sendes på epost eller vipps-avtale oppdateres og beløp belastes for ekstra
-
-    Ved sletting av medlem, må det sjekkes om aktivt vipps-abb og evt avslutte dette først.
 
     Vurdere hvordan medlemsstaus skal endres til Aktivt/registrert i henhold til om vipps-avtale er aktivert/betalt.
 

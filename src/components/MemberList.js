@@ -7,6 +7,7 @@ import readGivenMember from "../functions/readGivenMember";
 import updateMember from "../functions/updateMember";
 import resetStatus from "../functions/resetStatus";
 import '../styles/default.css';
+import Charges from "./Charges";
 
 function MemberList() {
     Modal.setAppElement('#root')
@@ -19,9 +20,9 @@ function MemberList() {
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setFormInputs(values => ({...values, [name]: value}))
-    }
-
+        setFormInputs(values => ({...values, [name]: value}));
+    };
+     
     async function submitForm(event) {
         event.preventDefault();
         const writeResult = await updateMember(memberToEdit, formInputs);
@@ -34,8 +35,6 @@ function MemberList() {
     function editMember(memberId) {
         setMemberToEdit(memberId);
         const givenMember = readGivenMember(memberId);
-        console.log(memberId);
-        console.log(givenMember);
         givenMember.then((member) => {
             setFormInputs(member[0]);
             setModalOpen(true);
@@ -56,7 +55,6 @@ function MemberList() {
             document.location.reload();
         };
     };
-
 
     function closeEditMember() {
         setModalOpen(false);
@@ -204,10 +202,11 @@ return (
                 <option value = "Registrert">Registrert</option>
                 <option value = "Aktiv">Aktiv</option>
             </select>
-            {/* <input type="submit" value="Lagre" /> */}
         </form>
         <h3>Familiemedlemmer:</h3>
         <FamilyMembers member={formInputs} />
+        <h3>Innbetalinger:</h3>
+        <Charges member={formInputs}/>
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-// import ReactModal from "react-modal";
-// import Modal from "react-modal";
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import sendCodeByEmail from "../functions/sendCodeByEmail";
 import writeNewMember from "../functions/writeNewMember";
 import '../styles/default.css';
 import salgsbetingelser from "../assets/Salgsbetingelser.pdf";
-// import { vippsApiCall } from "../functions/vippsfunctions";
 
 
 //*******************
@@ -16,40 +13,13 @@ import salgsbetingelser from "../assets/Salgsbetingelser.pdf";
 // If code match call function addMemberToDB
 
 function MemberForm() {
-    // Modal.setAppElement('#root');
-    // const [modalOpen, setModalOpen] = useState(false);
+
     const [formInputs, setFormInputs] = useState({});
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setFormInputs(values => ({...values, [name]: value}))
-        console.log(formInputs.invoicechannel);
     };
-
-    // const [vippsConfirmationUrl, setVippsConfirmationUrl] = useState("")
-
-    // const amount = '20000';
-    // let vippsResponse = {};
-
-    // function closeModal() {
-    //     setModalOpen(false);
-    //     console.log('CloseModal');
-    // }
-
-    // function redirectToVipps(url) {
-    //     window.location.href = url;
-    // }
-
-    // async function activateVippsAgreement(memberId, phone) {
-    //     const vippsResponseJson = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", memberId, "amount": amount, "amountinitial": amount, "phonenumber": phone});
-    //     vippsResponse = JSON.parse(vippsResponseJson);
-    //     setVippsConfirmationUrl(vippsResponse.vippsConfirmationUrl);
-    //     console.log(vippsResponse.vippsConfirmationUrl);
-    //     redirectToVipps(vippsResponse.vippsConfirmationUrl);
-    //     setModalOpen(true);
-    // }
-
-
 
     //********************
     // FUNCTION submitForm
@@ -70,7 +40,7 @@ function MemberForm() {
                 userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
                 if (parseInt(userCode) === randomCode) {
                     abort = true;
-                    formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 10);
+                    formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
                     formInputs.createdby = formInputs.email;
                     formInputs.role = "Medlem";
                     formInputs.status = "Registrert";
@@ -183,24 +153,6 @@ function MemberForm() {
                 samt kreve inn kontingent. <a href = {salgsbetingelser} target = "_blank" rel="noreferrer">Salgsbetingelser</a>
             </p>
             <h2>Kontakt: post@bevardovrefjell.no</h2>
-            {/* <ReactModal 
-                className='modal'
-                ovarlayClassName='modaloverlay'
-                isOpen={modalOpen}
-                onRequestClose={closeModal}
-                shouldCloseOnOverlayClick={true}
-                shouldCloseOnEsc={true}
-            >
-                <iframe 
-                    id="iframe"
-                    src={vippsConfirmationUrl}
-                    title="Vipps"
-                    height="800"
-                    width="100%"
-                >
-
-                </iframe>
-            </ReactModal> */}
         </div>
     )
 }

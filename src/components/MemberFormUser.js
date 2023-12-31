@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactModal from "react-modal";
 import Modal from "react-modal";
 import updateMember from "../functions/updateMember";
 import readGivenMember from "../functions/readGivenMember";
 import FamilyMembers from "./FamilyMembers";
 import sendEmail from "../functions/sendEmail";
-import { vippsApiCall } from "../functions/vippsfunctions";
+import { vippsCheckIfAllPayed, vippsCreateCharge, vippsDraftAgreement, vippsGetAgreement, vippsStopAgreement, vippsUpdateAgreement } from "../functions/vippsfunctions";
 import calculateFamily from "../functions/calculateFamily";
 import { dateToYYYY_MM_DD } from "../functions/generalFunctions";
 
 function MemberFormUser(memberId) {
-
-    // const mainMemberPrice = 200;
-    // const familyMemberPrice = 200;
-    
+   
     const [formInputs, setFormInputs] = useState({'status': 'Registrert', 'role': 'Medlem'});
     const formChange = (event) => {
         const name = event.target.name;
@@ -21,41 +18,37 @@ function MemberFormUser(memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
+    const [ vippsPaymentStatus, setVippsPaymentStatus ] = useState({});
+
     const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
 
-    const [vippsUrl, setVippsUrl] = useState('');
-
-    // const [familyMemberAmount, setFamilyMemberAmount] = useState(0);
-
     const [vippsUpdateNeeded, setVippsUpdateNeeded] = useState(false);
 
-    let vippsOldAmount = 0;
-    
-
-    // #####################################################################
-    // function objectLength
-    // Counts number of objects and returns the number
-    // #####################################################################
-
-    // function objectLength( object ) {
-    //     var length = 0;
-    //     for (var key in object) {
-    //         if (object.hasOwnProperty(key)) {
-    //             ++length;
-    //         };
-    //     };
-    //     return length;
-    // };
+    const vippsOldAmount = useRef(0);
 
      useEffect(() => {
         function readMember() {
             const givenMember = readGivenMember(memberId.userLoggedIn);
                 givenMember.then((member) => {
                     setFormInputs(member[0]);
-                    // setFamilyMemberAmount(objectLength(member[0].family));
+                    const vippsAgreementId = member[0].vippsagreementid;
+                    if (typeof(vippsAgreementId) !== 'undefined') {
+                        const vippsResult = vippsGetAgreement(vippsAgreementId);
+                        vippsResult.then((vippsAgreement) => {
+                            if (vippsAgreement.status ==='ACTIVE' && (member[0].price * 100) !== vippsAgreement.pricing.amount) {
+                                vippsOldAmount.current = vippsAgreement.pricing.amount / 100;
+                                setVippsUpdateNeeded(true);
+                            }
+                            else setVippsUpdateNeeded(false);
+                            setVippsAgreementStatus(vippsAgreement.status);
+                            const paymentStatus = vippsCheckIfAllPayed(vippsAgreementId);
+                            setVippsPaymentStatus(paymentStatus);
+                        })
+                    };
+
                 })
         };
         readMember()
@@ -63,12 +56,24 @@ function MemberFormUser(memberId) {
     }, []
     );
 
-
+    async function deActivateSubscription () {
+        const confirmCancel = window.confirm("Er du sikker på at du vil kansellere vipps-avtalen?\nDitt medlemsskap vil da avsluttes ved årets slutt!");
+        if (confirmCancel) {
+            const vippsResult = await vippsStopAgreement(memberId.userLoggedIn, formInputs.vippsagreementid);
+            if (!vippsResult === undefined) {
+                alert('Noe gikk galt. Prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
+            };
+            document.location.reload();
+        };
+    };
 
 
     async function deleteMember() {
-        const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?\nNB: registrerte familiemedlemmer blir også slettet!");
+        const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?\nNB: registrerte familiemedlemmer blir også slettet!\nHar du valgt Vipps vil du få eget spørsmål om å avslutte avtalen der.");
         if (confirmDelete) {
+            if (formInputs.invoicechannel === "vipps") {
+                deActivateSubscription();
+            };
             formInputs.firstname = 'Slettet';
             formInputs.lastname = 'Slettet';
             formInputs.email = 'slettet@slettet.no';
@@ -89,21 +94,25 @@ function MemberFormUser(memberId) {
     };
 
     async function activateSubscription() {
-        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         if (formInputs.invoicechannel === "vipps") {            
-            // const vippsAmount = (totalAmount * 100).toString();
             const vippsAmount = (formInputs.price * 100).toString();
-            // Call a function in vippsfunctions.js
-            // Creates an agreement and charges an initial amount
-            const vippsResult = await vippsApiCall({"vippsreqtype":"draft-agreement-with-initial", "memberid":memberId.userLoggedIn, "amount":vippsAmount, "amountinitial":vippsAmount, "phonenumber":formInputs.phone});
-            console.log(vippsResult);
-            setVippsUrl(JSON.parse(vippsResult).vippsConfirmationUrl);
-            formInputs.vippsagreementid = JSON.parse(vippsResult).agreementId;
-            const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
-            if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
-            // document.location.href = vippsUrl;
-            console.log(vippsUrl);
-        }
+            let vippsIdempotencyKey = memberId.userLoggedIn;
+            if (formInputs.vippsagreementid !== undefined) {
+                vippsIdempotencyKey = memberId.userLoggedIn + '_' + Math.random().toString().substring(2, 5);
+            };
+            const vippsResult = await vippsDraftAgreement(memberId.userLoggedIn, vippsAmount, vippsAmount, formInputs.phone, vippsIdempotencyKey);
+            console.log('testing', vippsResult.agreementId);
+            if (vippsResult.agreementId === undefined) {
+                alert('Noe gikk galt.\nFeilmelding:s' + vippsResult.detail);
+                console.log(vippsResult);
+            }
+            else {
+                formInputs.vippsagreementid = vippsResult.agreementId;
+                const writeResult = await updateMember(memberId.userLoggedIn, formInputs);
+                if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
+                document.location.replace(vippsResult.vippsConfirmationUrl);
+                };
+            }
         else if (formInputs.invoicechannel === "email") {
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
             const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + formInputs.price.toString() + ',-';
@@ -113,45 +122,35 @@ function MemberFormUser(memberId) {
     };
 
     async function updateSubscription() {
-        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         const [ , familyPrice] = calculateFamily(formInputs.family);
         if (formInputs.invoicechannel === "vipps") {
-            // const vippsAmount = (totalAmount * 100).toString();
             const vippsAmount = (familyPrice * 100).toString();
-            console.log('old amount: ', vippsOldAmount);
-            console.log('familyprice: ', familyPrice);
             const vippsChargeAmount = familyPrice - vippsOldAmount;
-            const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid, "amount":vippsAmount});
-            console.log(vippsResult);
-            console.log(vippsChargeAmount);
+            const vippsResult = await vippsUpdateAgreement(memberId.userLoggedIn, formInputs.vippsagreementid, vippsAmount);
+            if (!vippsResult.detail === undefined) {
+                alert('Noe gikk galt, prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
+            }
+            else {
             if (vippsChargeAmount > 0) {
-                console.log('Ekstra betaling');
                 const chargeId = new Date().toISOString() + Math.random().toString().substring(2, 10);
                 const today = new Date();
-                today.setDate(today.getDate() + 1);
+                today.setDate(today.getDate() + 5);
                 const dueDate = dateToYYYY_MM_DD(today);
                 const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
-                const vippsResult2 = await vippsApiCall({"vippsreqtype": "charge", "amount": vippsChargeAmountStr, "description": "Medlemskontingent BDMI", "due": dueDate, "retryDays": "3", "agreementid": formInputs.vippsagreementid, "chargeid": chargeId});
-                console.log(vippsResult2);
-            }
+                const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
+                if (!vippsResult2 === undefined) {
+                    alert('Noe gikk galt, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);
+                };
+            };
+            };
         }
         else if (formInputs.invoicechannel === "email") {
             const extraCharge = formInputs.price - familyPrice;
             const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
             const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nNytt års-beløp er ' + familyPrice + ',-\nVennligst betal inn mellomlegget ' + extraCharge + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
-            document.location.reload();
         };
-    };
-
-
-    async function deActivateSubscription () {
-        const confirmCancel = window.confirm("Er du sikker på at du vil kansellere vipps-avtalen?\nDitt medlemsskap vil da avsluttes ved årets slutt!");
-        if (confirmCancel) {
-            const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-stop", "memberid":memberId.userLoggedIn, "agreementid":formInputs.vippsagreementid});
-            console.log(vippsResult);
-            document.location.reload();
-        };
+        document.location.reload();
     };
 
     function familyMembers() {
@@ -163,7 +162,6 @@ function MemberFormUser(memberId) {
     };
 
     function TextIfNotActive() {
-        // const totalAmount = mainMemberPrice + (familyMemberAmount * familyMemberPrice);
         return (
             <div className="subscriptionnotactivediv">
                 <h2>Du må aktivere for å være medlem</h2>
@@ -218,26 +216,7 @@ function MemberFormUser(memberId) {
         return <TextIfNotActive />
         else return null
     };
-
-    async function checkVippsAgreementStatus() {
-        const vippsAgreementId = formInputs.vippsagreementid;
-        if (typeof(vippsAgreementId) !== 'undefined') {
-            const vippsResult = await vippsApiCall({"vippsreqtype":"get-agreement", "agreementid":vippsAgreementId});
-            setVippsAgreementStatus(JSON.parse(vippsResult).status);
-            if (vippsAgreementStatus ==='ACTIVE' && (formInputs.price * 100) !== JSON.parse(vippsResult).pricing.amount) {
-                setVippsUpdateNeeded(true);
-                vippsOldAmount = JSON.parse(vippsResult).pricing.amount / 100;
-            }
-            const vippsResult2 = await vippsApiCall({"vippsreqtype":"list-charges", "agreementid":vippsAgreementId});
-            console.log(vippsResult2);
-        }
-    };
-
-
-    if (formInputs.invoicechannel === "vipps") {
-        checkVippsAgreementStatus();
-    };
-    
+   
     return (
         <div className="memberformusertopdiv">
             <h3>Mine opplysninger</h3>
@@ -318,6 +297,7 @@ function MemberFormUser(memberId) {
             <button onClick={familyMembers}>Familiemedlemmer ( {formInputs.familycount - 1} )</button>
             <button onClick={deleteMember}>Slett meg</button>
             <SubscriptionText />
+            <h2>Betalingsstaus: {vippsPaymentStatus.remainingAmount}</h2>
             <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'

@@ -20,7 +20,6 @@ async function writeNewMember(newMember) {
     newMember.type = "new";
     newMember.name = newMember.lastname + ', ' + newMember.firstname;
     newMember.deleted = "false";
-    console.log(newMember);
     const data = await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(newMember)

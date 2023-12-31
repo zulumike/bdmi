@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import updateMember from "../functions/updateMember";
 
-
 function FamilyMembers({member}) {
     
     const [formInputs, setFormInputs] = useState({});
@@ -51,7 +50,7 @@ function FamilyMembers({member}) {
         delete member.family[deleteKey];
     };
 
-    async function saveFamily(event) {
+    async function saveMember(event) {
         event.preventDefault();
         const writeResult = await updateMember(member.id, member);
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
@@ -60,7 +59,7 @@ function FamilyMembers({member}) {
 
     return (
         <div>
-            <form className="memberform" id="memberform" onSubmit={submitForm}>
+            <form className="familymemberform" id="memberform" onSubmit={submitForm}>
                 <input 
                     type="text" 
                     name="firstname"
@@ -108,8 +107,7 @@ function FamilyMembers({member}) {
                     pattern="\d{4}"
                     required
                     onChange={formChange}
-                    />
-                <br/>    
+                    /> 
                 <input type="submit" value="Legg til" />
             </form>
             <br/>
@@ -158,8 +156,7 @@ function FamilyMembers({member}) {
                         </div>
                     )
                 } )}
-                <br/>
-                <button onClick={saveFamily}>Lagre</button>
+                <button onClick={saveMember}>Lagre</button>
                 <br/>
             </form>
         </div>

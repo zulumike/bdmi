@@ -9,25 +9,3 @@ export function dateToYYYY_MM_DD(date) {
     const returnDate = year + '-' + month + '-' + day;
     return returnDate;
 }
-
-export async function addPayment(memberId, amount, dateTime, channel) {
-    let apiURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        apiURL = '/api/DBWrite';
-    }
-    else {
-        apiURL = 'http://localhost:7071/api/DBWrite';
-
-    }
-    const data = {};
-   
-    data.id = memberId;
-    data.charges.datetime = dateTime;
-    data.charges.datetime.channel = channel;
-    data.charges.datetime.amount = amount;
-    const dbMessage = await fetch(apiURL, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
-    return dbMessage
-}
