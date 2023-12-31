@@ -45,7 +45,9 @@ function MemberFormUser(memberId) {
                             else setVippsUpdateNeeded(false);
                             setVippsAgreementStatus(vippsAgreement.status);
                             const paymentStatus = vippsCheckIfAllPayed(vippsAgreementId);
-                            setVippsPaymentStatus(paymentStatus);
+                            paymentStatus.then((vippsPayStatus) => {
+                                setVippsPaymentStatus(vippsPayStatus);
+                            })
                         })
                     };
 
@@ -216,6 +218,17 @@ function MemberFormUser(memberId) {
         return <TextIfNotActive />
         else return null
     };
+
+    function PaymentStatus() {
+        if (!vippsPaymentStatus.allPayed) {
+            return (
+                <div>
+                    <h2>Gjenstående å betale: { vippsPaymentStatus.remainingAmount }</h2>
+                </div>
+            )
+        }
+        else return null
+    };
    
     return (
         <div className="memberformusertopdiv">
@@ -297,7 +310,7 @@ function MemberFormUser(memberId) {
             <button onClick={familyMembers}>Familiemedlemmer ( {formInputs.familycount - 1} )</button>
             <button onClick={deleteMember}>Slett meg</button>
             <SubscriptionText />
-            <h2>Betalingsstaus: {vippsPaymentStatus.remainingAmount}</h2>
+            <PaymentStatus />
             <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'

@@ -105,7 +105,6 @@ export async function vippsCheckIfAllPayed(agreementId) {
             failedAmount += (vippsResult[i].amount / 100);
         }
         else  if (vippsResult[i].status === 'CANCELLED') {
-            allPayed = false;
             cancelledAmount += (vippsResult[i].amount / 100);
         }
         else  if (vippsResult[i].status === 'PARTIALLY_REFUNDED') {

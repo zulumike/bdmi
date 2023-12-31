@@ -8,6 +8,7 @@ import updateMember from "../functions/updateMember";
 import resetStatus from "../functions/resetStatus";
 import '../styles/default.css';
 import Charges from "./Charges";
+import VippsCharges from "./VippsCharges";
 
 function MemberList() {
     Modal.setAppElement('#root')
@@ -93,7 +94,6 @@ function MemberList() {
             document.location.reload();
         };
     };
-
 
 if (isLoading) {
     return (
@@ -207,6 +207,7 @@ return (
         <FamilyMembers member={formInputs} />
         <h3>Innbetalinger:</h3>
         <Charges member={formInputs}/>
+        <VippsCharges agreementId={formInputs.vippsagreementid} />
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>

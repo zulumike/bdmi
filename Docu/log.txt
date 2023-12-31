@@ -478,6 +478,17 @@ Ny versjon av BDMI medlemsregister.
     - commit.
     To be continued....
 
+31.12.2023
+    - Tror jeg løste betalingsstatus i MemberFormUser.
+    - Begynt på å legge til liste over vipps-innbetalinger i MemberList. Slik at admins kan se og evt. kansellere/refundere
+        Sliter litt med multiple rendering. Må nok bruke useEffect her tenker jeg....
+        Bygde om VippsCharge som opprinnelig ble brukt fra MemberFormUser, da denne ikke brukes mer der.
+            Denne får agreementid og henter selv alle charges og lister dem opp med en knapp, som enten sier refunder, kanseller eller ingenting.
+        Har opprettet funksjonen som starter når denne knapp trykkes, men ikke laget funksjonaliteten enda.
+    - Commit.
+            Må lage funksjoner i api
+            Må lage funksjoner i vippsfunctions.
+            Må kalle opp disse.
     
 
 

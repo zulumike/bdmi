@@ -8,11 +8,6 @@ td {
     padding: 0.5em;
 }
 
-tr :hover {
-    cursor: pointer;
-    background-color: var(--modal-background-color);
-}
-
 input, select, button {
     margin:3px;
     border-radius: 5px;
@@ -182,6 +177,11 @@ h4 {
 
 .memberlisttable td {
     padding: 1px;
+}
+
+.memberlisttable tr :hover {
+    cursor: pointer;
+    background-color: var(--modal-background-color);
 }
 
 .emailsendingtopdiv {
