@@ -19,7 +19,7 @@ Ny versjon av BDMI medlemsregister.
     - Samme med Cosmos DB.
 
 
-22.02.2023
+22.02.2023 - 1
     - Opprettet Github repository fra denne malen: https://github.com/login?return_to=%2Fstaticwebdev%2Freact-basic%2Fgenerate
     - Klonet denne lokalt i vs code
     - Opprettet Azure static web app via vs code 
@@ -36,20 +36,20 @@ Ny versjon av BDMI medlemsregister.
         Fremdeles noen igjen pga nth-check som av en eller annen grunn vil degradere react-scripts fra 5.0.1 til 2.1.3
         Denne må bare ignoreres.
 
-23.02.2023
+23.02.2023 -2
     - Oppgraderer memberform til å benytte useState
 
-24.02.2023
+24.02.2023 -3
     - Prøve å få testet api'ene
     - DBWrite: sliter med å få riktig data overført. 
     Prøvd mye forskjellig, men obs obs: Må kjøre npm run build og swa-kommando ved endring!!!
 
-25.02.2023
+25.02.2023 -4
     - Fant ut litt mer om å sende data til api. JSON.stringify måtte gjøres litt enklere (uten {})
     - Nå må jeg bare finne ut hvordan legge til data i formData i funksjonen addMemberToDB i MemberForm.js
     - Det er jo easy-peasy. objekt.key = value 
     
-28.02.2023
+28.02.2023 -5
     - La inn litt dokumentasjon på de forskjellige funksjonene
     - Prøver å få til environment variabler.....
         Ikke rett frem det der. For en react app må key navnes REACT_APP_xxx
@@ -58,7 +58,7 @@ Ny versjon av BDMI medlemsregister.
         Endret til å lagre det i en fil som heter .env istedenfor local.settings.json. Det fungerte.
         Men får cors problemer når jeg kjører run and debug. FUngerer med å starta vha swa
 
-01.03.2023
+01.03.2023 -6
     - Funnet ut litt mer rund environment variabler.
         Legger variabler i .env fil på rota av prosjektet
         Bruker deretter en if setning for å finne ut om development eller production
@@ -77,7 +77,7 @@ Ny versjon av BDMI medlemsregister.
                 "CORS": "*"
             }
 
-02.03.2023
+02.03.2023 -7
     - Prøvd å sette opp epost-sending. 
         Foreløpig dårlig resultat.....
 
@@ -100,7 +100,7 @@ Ny versjon av BDMI medlemsregister.
     - Startet med å kopiere MemberForm.js til MemberFormAdmin.js og foretok noen justeringer.
         Mere må til....
     
-03.03.2023
+03.03.2023 -8
     - klonet repository til pc på jobb.
         Installerte node.js 16 på den pc    
             Prøvde først med 18, men da funker ikke swa...
@@ -123,7 +123,7 @@ Ny versjon av BDMI medlemsregister.
             Neste blir å "strippe" json og lagre i et array.
             Samt presentere i en tabell.
 
-04.03.2023
+04.03.2023 -9
     - Utfordringer med at react vil rendre data før de er klar.
         Løste dette vha https://www.geeksforgeeks.org/how-to-wait-for-a-reactjs-component-to-finish-updating/
     
@@ -138,7 +138,7 @@ Ny versjon av BDMI medlemsregister.
     - Ordnet kontroll slik at man ikke kan registrere duplikater (e-post og telefonnummer)
     - Opprettet en login komponent, men gjenstår en del her....
 
-05.03.2023
+05.03.2023 -10
     - Opprettet en enkel variant av login.
         prompt for e-post adresse.
         Hvis epost adresse eksisterer og bruker er admin eller superbruker
@@ -156,7 +156,7 @@ Ny versjon av BDMI medlemsregister.
         Tok litt tid før jeg fant ut hvordan man sender data til api.
         Må vel også skrive om der det sendes e-post og skrives til db... Det er gjort 06.03.2023
 
-06.03.2023
+06.03.2023 -11
     - Skrevet om DBWrite api    
         Lagt til oppslag på id, hvis id, kjøres bindingen for å oppdatere eksisterende medlem
         Hvis ikke kjøres binding for å legge til nytt medlem.
@@ -175,7 +175,7 @@ Ny versjon av BDMI medlemsregister.
 
     - Prøve å få lagt til en knapp for å slette medlem også.
 
-07.03.2023
+07.03.2023 -12
     - Forenklet api DBWrite. Istedenfor å sette const for alle verdier, så sendes alle verdier
       rett til db. Man bestemmer da i front-ende hvor mange verdier som lagres.
     - Laget knapp for å slette medlem.
@@ -194,7 +194,7 @@ Ny versjon av BDMI medlemsregister.
         - medlemskontingent
 
 
-08.03.2023
+08.03.2023 -13
     - Fortsatt med styling.
     - Lage hamburgermeny for å vise innlogget/utlogget, samt knapp 
         for å logge inn/ut.
@@ -202,18 +202,18 @@ Ny versjon av BDMI medlemsregister.
         Men tror jeg vil gjøre den om til at en modal kommer opp
         når hamburger trykkes.
 
-14.03.2023
+14.03.2023 -14
     - Flyttet hamburger funksjon inn i homepage.js.
         Dette gjorde det enklere å håndtere innlogging / utlogging.
 
-15.03.2023
+15.03.2023 -15
     - Lagt til postnr i skjema.
     - Lagt til eksport av medlemmer til csv
 
     Neste: lage en løsning som sender e-post med en link der bruker får lastet ned en pdf (faktura) (anonym link?)
     Må også legge til valg for om vedkommende vil betale via vipps eller e-post faktura.
 
-28.03.2023
+28.03.2023 -16
     - Har sendt inn søknad om vipps handel på nett m.m
     - Fått delvis godkjent og kan begynne å teste.
     - Installert Vipps-test app på telefonen min.
@@ -227,14 +227,14 @@ Ny versjon av BDMI medlemsregister.
         - Sette agreement-id til medlems id kanskje, samme med ordrenr (som jeg tror MÅ være med)
         - 
 
-29.03.2023
+29.03.2023 -17
     - Opprettet vippsfunctions.js
         Tenkt å putte alle vipps-funksjoner inn i denne som kan importeres og brukes fra andre components
     - Lagde første funksjon der. get access token - Denne for å starte en "sesjon" mot vipps.
     - Men sliter med cors Problemer....
     - Tror jeg må bruke egen api for å kalle opp vipps-apier. Dette vil antakeligvis løse cors problem pluss at jeg kan lagre keys på en sikker måte....
     
-30.03.2023
+30.03.2023 -18
     - Opprettet api Vipps.
     - Litt trøbbel med å få ting til å funke, blant annet fordi funksjonen fetch måtte installeres
         OG den må importeres som require og ikke vha import inne i funksjonen i index.js.
@@ -249,7 +249,7 @@ Ny versjon av BDMI medlemsregister.
     - Begynt med å lage funksjoner i api for de forskjellige vipps-funksjonene.
         draft agreement with initian charge.
 
-31.03.2023
+31.03.2023 -19
     - Opprettet vipps funksjon for å oprette avtale.
         Ikke fått helt til dette. Usikker om headers sendes korrekt..   
         Manglet teksten bearer foran accesstoken!!!
@@ -262,7 +262,7 @@ Ny versjon av BDMI medlemsregister.
     - Forenklet kode. Bruke samme funksjon for alle vipps-api oppkall, bare med forskjellig data (body)
 
 
-01.04.2023
+01.04.2023 -20
     - Opprettet flere apier
         charge : For å belaste medlem for årets kontingent.
         update agreement : for å endre beløp eller stoppe agreement.
@@ -278,14 +278,14 @@ Ny versjon av BDMI medlemsregister.
             Tror det er nok for da kan man hente resten fra vipps
         - Lagre beløp, slik at man enkelt kan endre kontingenten.
         
-02.04.2023
+02.04.2023 -21
     - Startet prosess med å få implementert vipps funksjoner ved registrering av medlemmer
         Startet med memberForm. 
         Problemer med å hente ut memberid, da jeg sliter med å sende dette tilbake
         Må enten gjøre om på hvordan data hentes fra response, eller opprette member-id fra memberform...
         
 
-03.04.2023
+03.04.2023 -22
     - Lagt til spørsmål om vipps eller e-post på memberform (må gjøre det samme på memberformadmin)
         Må også legge til funksjon som sjekker hva som er valgt når det skal sendes faktura
     - Prøvde å lage til funksjon som sender vipps-krav (avtale med initiell krav) når registrert.
@@ -298,12 +298,12 @@ Ny versjon av BDMI medlemsregister.
         Men når vipps-siden er ferdig eller avbrytes vil vipps redirecte til bdmi-hovedsiden (inni iframe og modal).
         Kanskje det finnes en funksjon å bruke som lytter på når iframe bytter nettside?
 
-04.04.2023
+04.04.2023 -23
     - Ide for prosess ved vipps:
         redirecte eksisterende vindu til vipps. Når vipps er ferdig, vil den åpne hovedsiden igjen.
         Bruke localstorage til å lagre bruker som pålogget, slik at vedkommende kommer rett inn på sin bruker.
 
-05.04.2023
+05.04.2023 -24
     - Prøver å gjennomføre ideen fra i går.
         Endret funksjonen som sjekker om godkjent bruker, slik at den gir tilbakemelding om bruker eksisterer
         og hva slags rolle den har. Så er det en if statement som bestemmer hvilken return som kjøres. ut ifra hvilken rolle man har.
@@ -314,7 +314,7 @@ Ny versjon av BDMI medlemsregister.
         Men har glemt å endre hvordan vipps-linken åpnes. Denne må endres fra iframe, til en redirect eller lignende
         Må også endre komponenten for å redigere seg selv (MemberFormUser). Denne åpnes uten data.
 
-30.04.2023
+30.04.2023 -25
     - Oppstart igjen etter lengre tids opphold.'
     - Endret til å redirecte til vipps confirmation url
         NB: Kunne ikke bruke usestate til dette, da denne ikke oppdatere raskt nok.
@@ -334,7 +334,7 @@ Ny versjon av BDMI medlemsregister.
 
     Må få lagt til litt på memberform og memberadmin form......
 
-07.06.2023
+07.06.2023 -26
     - Fortsetter på problemet med memberform som ikke får memberid og dermed ikke får lest ut rett medlem fra db
         Forsøker å skrive om homepage.js fordi jeg har brukt usestate helt uten grunn her... 
         Var visst ikke helt uten grunn. Trengs for å trigge if-setningen for hva som rendres i homepage.
@@ -353,13 +353,13 @@ Ny versjon av BDMI medlemsregister.
             Tekstboks pluss pdf?
         Sjekk om enkelt å importere fra excel rett i cosmos via azure, evt lage funksjon i app for dette.
 
-08.06.2023
+08.06.2023 -27
     - Laget funksjon for å resette status for alle medlemmer.
     - Ryddet opp i id-felt. Var brukt både id og memberid. Endret til KUN å bruke id.
     - Neste 
         Fortsette fra i går....
 
-14.06.2023
+14.06.2023 -28
     - Oppgraderte Node js versjon for azure-funksjonene bdmimember (cosmos) og bdmisendmail til versjon 18 via application settings.
         Resource group bdmimember.
         App funker fremdeles.
@@ -368,7 +368,7 @@ Ny versjon av BDMI medlemsregister.
         Fungerer, men formatteringen må gjøres noe med. Linjeskift blir ikke med blant annet.
         Kanskje også se på å få sendt en pdf?
 
-15.06.2023
+15.06.2023 -29
     - Endret sendmail api til å sende KUN plain text.
         Da kom linjeskift på plass.
         Hvis ønske om html, må jeg nok legge til <br> i body der det skal være linjeskift.
@@ -383,7 +383,7 @@ Ny versjon av BDMI medlemsregister.
 
             Det ble suksess etter litt om og men, som vanlig.
 
-07.07.2023
+07.07.2023 -30
     - Oppdaget to problemer i kode i forbindelse med epost-sending
         Den nye funksjonen med å sende masse-epost har ødelagt funksjonen for å sende epost i forbindelse med registrering og innlogging
             Årsak er nok at innlogging/registrering sender e-post adresse i en string, mens masse-epost sender i et array.
@@ -401,7 +401,7 @@ Ny versjon av BDMI medlemsregister.
             Hjelpe-artikkel: https://www.freecodecamp.org/news/build-dynamic-forms-in-react/
             Sende variabler (props): https://www.freecodecamp.org/news/pass-data-between-components-in-react/
             
-10.07.2023
+10.07.2023 -31
     - Fortsatte på det med registrering av familiemedlemmer.
     - Registrering av nye er OK.
     - Må få ordnet slik at man også ser de som allerede er registrert.
@@ -410,15 +410,15 @@ Ny versjon av BDMI medlemsregister.
         Evt. en teller for antall medlemmer.
     - Fått lagt til medlems-data (familiemedlemmer) konvertert til et array slik at jeg kan bruke map funksjonen.
     
-11.07.2023
+11.07.2023 -32
     - Fått fikset registrering av familiemedlemmer.
 
-14.07.2023 
+14.07.2023 -33
     - Lagt til funksjonen FamilyMembers i memberforadmin også. testet ok.
     - Fikset csv eksport til å også ta med familiemedlemmer
 
 
-20.12.2023
+20.12.2023 -34
     - Startet opp igjen etter lang tids avbrudd.
     - Lagt på igjen valg for om man vil betale via vipps eller e-post.
         Måtte rette opp html-koden for å få til at endring faktisk vistes
@@ -428,7 +428,7 @@ Ny versjon av BDMI medlemsregister.
         basert på antall registrerte familiemedlemmer pluss hovedmedlem
     - Kjørt push til github
 
-21.12.2023
+21.12.2023 -35
     - Fortsatte med vipps.
     - Laget funksjon i memberformsuser for vipps aktivering av abb med initiell betaling.
     - Laget funksjon som sender e-post med betalingsinfo hvis ikke vipps.
@@ -441,14 +441,14 @@ Ny versjon av BDMI medlemsregister.
         Må se mer på funksjon for ekstra-betaling ved e-post. Da jeg pr i dag ikke lagrer opprinnelig beløp i databasen til å sammenligne med...
     - Kjørt commit
 
-27.12.2023
+27.12.2023 -36
     - Laget funksjon calculateFamily for kalkulere antall familiemedlemmer og prisen
         Denne funksjonen kjøres fra writenewmember og updatemember funksjon og skriver dette til database.
     - Skrevet om MemberFormUser i forhold til priskalkulering.
     - Tenker lage en gjenbrukbar funksjon for å sjekke vipps-betalings status og sette medlems-status i henhold til dette.
         Sjekke om man bare kan bruke vipps agreement status...
 
-29.12.2023
+29.12.2023 -37
     - Sett mer på prisendrings-funksjonen ved vipps. Tror den skal være OK nå.
         Må nok gjøre noe med e-post også.
     - Endret idempotency key til å være memberid + dagens dato-tidspunkt.
@@ -459,7 +459,7 @@ Ny versjon av BDMI medlemsregister.
 
     Kjørte commit.
 
-30.12.2023
+30.12.2023 -38
     - Lagt til Charges component. For å liste opp og registrere manuelle innbetalinger.
     - Lag til at vipps-abb må deaktiveres før man sletter seg selv som medlem.
     - Lagt til vippsfunksjoner for hver vipps operasjon. Og endret de fleste vipps-oppkall til å bruke disse.
@@ -478,7 +478,7 @@ Ny versjon av BDMI medlemsregister.
     - commit.
     To be continued....
 
-31.12.2023
+31.12.2023 -39
     - Tror jeg løste betalingsstatus i MemberFormUser.
     - Begynt på å legge til liste over vipps-innbetalinger i MemberList. Slik at admins kan se og evt. kansellere/refundere
         Sliter litt med multiple rendering. Må nok bruke useEffect her tenker jeg....
@@ -486,14 +486,39 @@ Ny versjon av BDMI medlemsregister.
             Denne får agreementid og henter selv alle charges og lister dem opp med en knapp, som enten sier refunder, kanseller eller ingenting.
         Har opprettet funksjonen som starter når denne knapp trykkes, men ikke laget funksjonaliteten enda.
     - Commit.
-            Må lage funksjoner i api
-            Må lage funksjoner i vippsfunctions.
-            Må kalle opp disse.
     
+04.01.2023 -40
+    - Opprettet refund og cancel i egen api.
+    - Opprettet vippsRefundCharge og vippsCancelCharge i vippsfunctions.js
+    - Kalt opp refunder funksjon fra VippsCharge. Ikke komplett testet.
+    - Kalt opp kanseller funksjon også, ikke testet i det hele tatt.
+    - Lagt til Vipps agreement status i VippsCharges
+    - Noe har blitt ødelagt her..  Når jeg oppdaterer abb og som medfører ekstrakostnad, blir ikke dette lagt inn som ekstra belastning.
+        Må se på dette i sammenheng med advarsel om at når man oppdaterer abb, så blir det dyrere.
+    - Commit.
+
+ !!   Fikse updateSubscription!!
+
+    Må ordne slik at VippsCharges ikke lastes hvis det ikke finnes vipps agreementid.
+
+    Legge til et ekstra spørsmål med info om hvor mye ekstra som belastes ved oppdatering av abb.
+
+    Oppdatere database-status til aktiv når vipps er aktivert.
+
+    Legge til mulighet for admin å stoppe avtale også.
+
+
+
+
+    Huske å endre til IKKE vis randomkode i console....
+
+
 
 
     Lurer på om jeg skal lagre alle innbetalinger i databasen.
         Må registreres manuelt ved manuell betaling.
+        vipps-betalinger ligger jo hos vipps. Mulig å hente derfra.
+        Men da må jeg nok lagre ALLE agreementid'er som har vært på kunde, ikke bare siste.
     Vurdere om admins skal kunne legge til familiemedlemmer og dermed oppdatere vipps-avtale og belaste ekstra.
         Tror ikke det er i henhold og så lurt. Ved registrering/endring av admin bør medlem få e-post med informasjon om å gå inn og aktivere/oppdatere vipps-avtale selv.
     Gjennomgå rendering....
@@ -535,6 +560,8 @@ Neste:
 Tips for senere:
     - Autentisering (pluss database):
         https://dev.to/c_arnab/serverless-in-azure-using-static-web-apps-functions-and-cosmos-db-506j
+
+
 
     
 Test mobilnr: 99576014

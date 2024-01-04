@@ -47,7 +47,7 @@ export async function vippsStopAgreement(memberId,agreementId) {
 };
 
 export async function vippsCreateCharge(amount, description, dueDate, retryDays, agreementId, chargeId) {
-    const vippsResponse = await vippsApiCall({"vippsreqtype": "charge", "amount": amount, "description": description, "due": dueDate, "retryDays": retryDays, "agreementid": agreementId, "chargeid": chargeId});
+    const vippsResponse = await vippsApiCall({"vippsreqtype": "charge", "amount": amount, "description": description, "due": dueDate, "retryDays": retryDays, "agreementid": agreementId, "chargeid": chargeId}); // chargeid here is used for idempotency-key NOT vipps chargeId
     const vippsResult = JSON.parse(vippsResponse);
     return (vippsResult);
 };
@@ -60,6 +60,18 @@ export async function vippsListCharges(agreementId) {
 
 export async function vippsGetCharge(agreementId, chargeId) {
     const vippsResponse = await vippsApiCall({"vippsreqtype":"get-charge", "agreementid":agreementId, "chargeid":chargeId});
+    const vippsResult = JSON.parse(vippsResponse);
+    return (vippsResult);
+};
+
+export async function vippsRefundCharge(amount, description, agreementId, chargeId) {
+    const vippsResponse = await vippsApiCall({"vippsreqtype": "refund-charge", "amount": amount, "description": description, "agreementid": agreementId, "chargeid": chargeId});
+    const vippsResult = JSON.parse(vippsResponse);
+    return (vippsResult);
+};
+
+export async function vippsCancelCharge(agreementId, chargeId) {
+    const vippsResponse = await vippsApiCall({"vippsreqtype": "cancel-charge", "agreementid": agreementId, "chargeid": chargeId});
     const vippsResult = JSON.parse(vippsResponse);
     return (vippsResult);
 };

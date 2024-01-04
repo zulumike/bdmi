@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { vippsListCharges } from "../functions/vippsfunctions";
+import { vippsCancelCharge, vippsGetAgreement, vippsListCharges, vippsRefundCharge } from "../functions/vippsfunctions";
 
 function VippsCharges({agreementId}) {
 
     const [ charges, setCharges ] = useState([]);
+    const [ agreement, setAgreement ] = useState('');
     
     useEffect(() => {
         async function readCharges() {
-            // setCharges(await vippsListCharges(agreementId));
+            setAgreement(await vippsGetAgreement(agreementId));
             const chargesFromVipps = await vippsListCharges(agreementId);
             for (let i = 0; i < chargesFromVipps.length; i++) {
                 if (chargesFromVipps[i].status === 'PENDING' || chargesFromVipps[i].status === 'DUE' || chargesFromVipps[i].status === 'RESERVED') {
@@ -29,12 +30,32 @@ function VippsCharges({agreementId}) {
     );
 
     async function chargeAction(chargeData) {
-        console.log(chargeData);
-        
+        if (chargeData.action === "Refunder") {
+            const refundDescription = prompt('Skriv inn beskrivelse for refunderingen');
+            if (refundDescription !== '' && refundDescription !== null) {
+                const vippsResult = await vippsRefundCharge(chargeData.amount, refundDescription, chargeData.agreementId, chargeData.id);
+                if (vippsResult.status > 299 ) {
+                    alert('Noe gikk galt\nFeilmelding: ' + vippsResult.detail);
+                } else {
+                    document.location.reload();
+                };
+            };
+        } else if (chargeData.action === "Kanseller") {
+            const cancelConfirmed = window.confirm('Er du sikker på at du vil kansellere betalingen?');
+            if (cancelConfirmed) {
+                const vippsResult = await vippsCancelCharge(chargeData.agreementId, chargeData.id);
+                if (vippsResult.status > 299 ) {
+                    alert('Noe gikk galt\nFeilmelding: ' + vippsResult.detail);
+                } else {
+                    document.location.reload();
+                };
+            };
+        }
     };
 
     return (
         <div>
+            <h2>Vipps Status: {agreement.status}</h2>
             <table className='vippschargestable'>
                 <thead>
                 <tr>

@@ -129,7 +129,7 @@ function MemberFormUser(memberId) {
             const vippsAmount = (familyPrice * 100).toString();
             const vippsChargeAmount = familyPrice - vippsOldAmount;
             const vippsResult = await vippsUpdateAgreement(memberId.userLoggedIn, formInputs.vippsagreementid, vippsAmount);
-            if (!vippsResult.detail === undefined) {
+            if (vippsResult.detail !== undefined) {
                 alert('Noe gikk galt, prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
             }
             else {
@@ -140,7 +140,7 @@ function MemberFormUser(memberId) {
                 const dueDate = dateToYYYY_MM_DD(today);
                 const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
                 const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
-                if (!vippsResult2 === undefined) {
+                if (vippsResult2 !== undefined) {
                     alert('Noe gikk galt, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);
                 };
             };

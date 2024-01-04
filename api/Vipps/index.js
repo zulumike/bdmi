@@ -302,6 +302,59 @@ module.exports = async function (context, req) {
 
   };
 
+//**************************************************
+  // FUNCTION vippsRefundCharge
+  //params:
+  //    agreementId, chargeId, amount, description
+  // This function calls the vipps api to refund a charge
+
+  async function vippsRefundCharge(agreementId, chargeId, amount, description) {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    myHeaders.append("Idempotency-Key", chargeId);
+    
+    var raw = JSON.stringify({
+      "amount": amount,
+      "description": description
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId + "/charges/" + chargeId + "/refund", requestOptions)
+      .then(response => response.text())
+      .then(result => responseMessage = result)
+      .catch(error => context.log('error', error));
+
+  };
+
+
+  //**************************************************
+  // FUNCTION vippsCancelCharge
+  //params:
+  //    agreementId, chargeId
+  // This function calls the vipps api to refund a charge
+
+  async function vippsCancelCharge(agreementId, chargeId) {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    myHeaders.append("Idempotency-Key", chargeId);
+
+    var requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId + "/charges" + chargeId, requestOptions)
+      .then(response => response.text())
+      .then(result => responseMessage = result)
+      .catch(error => context.log('error', error));
+
+  };
+
   await vippsGetAccessToken();
   context.log(vippsReqType);
   if (vippsReqType === 'draft-agreement-with-initial') {
@@ -336,6 +389,15 @@ module.exports = async function (context, req) {
     context.log('Vipps list charges ', req.body.agreementid);
     await vippsListCharges(req.body.agreementid);
   }
+  else if (vippsReqType === 'refund-charge') {
+    context.log('Vipps refund charge ', req.body.chargeid);
+    await vippsRefundCharge(req.body.agreementid, req.body.chargeid, req.body.amount, req.body.description);
+  }
+  else if (vippsReqType === 'cancel-charge') {
+    context.log('Vipps cancel charge ', req.body.chargeid);
+    await vippsCancelCharge(req.body.agreementid, req.body.chargeid);
+  }
+
   context.res = {
       // status: 200, /* Defaults to 200 */
       body: responseMessage
