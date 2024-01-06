@@ -95,13 +95,25 @@ function MemberList() {
         };
     };
 
+    function VippsAgreementExist() {
+        if (formInputs.vippsagreementid !== undefined) {
+            return (
+                <VippsCharges agreementId={formInputs.vippsagreementid} />
+            )
+        }
+        else 
+        return null
+    };
+
+
 if (isLoading) {
     return (
         <div>
             <h1>{lasteTekst}</h1>
         </div>
     )
-}
+};
+
 
 return (
     <div>
@@ -207,7 +219,8 @@ return (
         <FamilyMembers member={formInputs} />
         <h3>Innbetalinger:</h3>
         <Charges member={formInputs}/>
-        <VippsCharges agreementId={formInputs.vippsagreementid} />
+        <VippsAgreementExist />
+        {/* <VippsCharges agreementId={formInputs.vippsagreementid} /> */}
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>

@@ -497,7 +497,22 @@ Ny versjon av BDMI medlemsregister.
         Må se på dette i sammenheng med advarsel om at når man oppdaterer abb, så blir det dyrere.
     - Commit.
 
- !!   Fikse updateSubscription!!
+
+05.01.2023 -41
+    - Endret cancel-charge funksjonen i vipps-apien min.
+        Manglet en / i url....
+    - Rettet opp i updateSubscription i MemberFormUser.js 
+        VippsAmountOld var brukt useRef på og da blir det til et objekt der verdien ligger i vippsAmountOld.current.
+    - Endret litt på vippsfunctions.js funksjonene cancel charge og stop og update agreement, gir ikke response hvis OK.
+        Endret derfor til at hvis ikke noe resons fra vipps, returneres {status: "succeded"},
+        hvis ikke returneres responsen fra vipps.
+    - La til ekstra komponent i MemberList som sjekker om det finnes vippsagreementid i database på medlem
+        og kun laster VippsCharge hvis så er tilfelle.
+        Endret på useEffect-setningen i VippsCharges slik at data ikke forsøkes lastes før komponenten er mountet.
+            Fikk en feilmeling i console om minne-lekkasje hvis ikke.
+    - Kjørte commit.
+
+
 
     Må ordne slik at VippsCharges ikke lastes hvis det ikke finnes vipps agreementid.
 
@@ -506,6 +521,9 @@ Ny versjon av BDMI medlemsregister.
     Oppdatere database-status til aktiv når vipps er aktivert.
 
     Legge til mulighet for admin å stoppe avtale også.
+
+    Forbedre sikkerhet i forhold til innlogging.
+        Bruke en form for token og som kanskje varer en viss tid?
 
 
 

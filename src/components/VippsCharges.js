@@ -7,24 +7,30 @@ function VippsCharges({agreementId}) {
     const [ agreement, setAgreement ] = useState('');
     
     useEffect(() => {
+        let mounted, mounted2 = true;
         async function readCharges() {
-            setAgreement(await vippsGetAgreement(agreementId));
-            const chargesFromVipps = await vippsListCharges(agreementId);
-            for (let i = 0; i < chargesFromVipps.length; i++) {
-                if (chargesFromVipps[i].status === 'PENDING' || chargesFromVipps[i].status === 'DUE' || chargesFromVipps[i].status === 'RESERVED') {
-                    chargesFromVipps[i].action = 'Kanseller';
-                }
-                else if (chargesFromVipps[i].status === 'CHARGED') {
-                    chargesFromVipps[i].action = 'Refunder';
-                }
-                else {
-                    chargesFromVipps[i].action = '';
+            if (mounted) setAgreement(await vippsGetAgreement(agreementId));
+            if (mounted2) {
+                const chargesFromVipps = await vippsListCharges(agreementId);
+                for (let i = 0; i < chargesFromVipps.length; i++) {
+                    if (chargesFromVipps[i].status === 'PENDING' || chargesFromVipps[i].status === 'DUE' || chargesFromVipps[i].status === 'RESERVED') {
+                        chargesFromVipps[i].action = 'Kanseller';
+                    }
+                    else if (chargesFromVipps[i].status === 'CHARGED') {
+                        chargesFromVipps[i].action = 'Refunder';
+                    }
+                    else {
+                        chargesFromVipps[i].action = '';
+                    };
                 };
+                if (mounted2) setCharges(chargesFromVipps);
             };
-            setCharges(chargesFromVipps);
         };
         readCharges();
-        
+        return () => {
+            mounted = false;
+            mounted2 = false;
+        }; 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []
     );
@@ -44,7 +50,7 @@ function VippsCharges({agreementId}) {
             const cancelConfirmed = window.confirm('Er du sikker på at du vil kansellere betalingen?');
             if (cancelConfirmed) {
                 const vippsResult = await vippsCancelCharge(chargeData.agreementId, chargeData.id);
-                if (vippsResult.status > 299 ) {
+                if (vippsResult.status !== 'succeded' ) {
                     alert('Noe gikk galt\nFeilmelding: ' + vippsResult.detail);
                 } else {
                     document.location.reload();

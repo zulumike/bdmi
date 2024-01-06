@@ -62,7 +62,7 @@ function MemberFormUser(memberId) {
         const confirmCancel = window.confirm("Er du sikker på at du vil kansellere vipps-avtalen?\nDitt medlemsskap vil da avsluttes ved årets slutt!");
         if (confirmCancel) {
             const vippsResult = await vippsStopAgreement(memberId.userLoggedIn, formInputs.vippsagreementid);
-            if (!vippsResult === undefined) {
+            if (vippsResult.status !== 'succeded') {
                 alert('Noe gikk galt. Prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
             };
             document.location.reload();
@@ -124,35 +124,43 @@ function MemberFormUser(memberId) {
     };
 
     async function updateSubscription() {
-        const [ , familyPrice] = calculateFamily(formInputs.family);
-        if (formInputs.invoicechannel === "vipps") {
-            const vippsAmount = (familyPrice * 100).toString();
-            const vippsChargeAmount = familyPrice - vippsOldAmount;
-            const vippsResult = await vippsUpdateAgreement(memberId.userLoggedIn, formInputs.vippsagreementid, vippsAmount);
-            if (vippsResult.detail !== undefined) {
-                alert('Noe gikk galt, prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
-            }
-            else {
-            if (vippsChargeAmount > 0) {
-                const chargeId = new Date().toISOString() + Math.random().toString().substring(2, 10);
-                const today = new Date();
-                today.setDate(today.getDate() + 5);
-                const dueDate = dateToYYYY_MM_DD(today);
-                const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
-                const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
-                if (vippsResult2 !== undefined) {
-                    alert('Noe gikk galt, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);
+        if (window.confirm('Dette oppdaterer Vipps-avtalen med nytt årlig beløp.\nHvis endringen medfører en økning i årlig beløp,\nvil ekstra beløp belastes i Vipps om 3 dager')) {
+            const [ , familyPrice] = calculateFamily(formInputs.family);
+            if (formInputs.invoicechannel === "vipps") {
+                const vippsAmount = (familyPrice * 100).toString();
+                const vippsChargeAmount = familyPrice - vippsOldAmount.current;
+
+                console.log(familyPrice);
+                console.log(vippsOldAmount.current);
+                console.log(vippsChargeAmount);
+
+                const vippsResult = await vippsUpdateAgreement(memberId.userLoggedIn, formInputs.vippsagreementid, vippsAmount);
+                if (vippsResult.status !== 'succeded') {
+                    alert('Noe gikk galt med oppdatering av vipps-avtalen, prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
+                }
+                else {
+                if (vippsChargeAmount > 0) {
+                    const chargeId = new Date().toISOString() + Math.random().toString().substring(2, 10);
+                    const today = new Date();
+                    today.setDate(today.getDate() + 5);
+                    const dueDate = dateToYYYY_MM_DD(today);
+                    const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
+                    const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
+                    console.log(vippsResult2);
+                    if (vippsResult2.detail !== undefined) {
+                        alert('Noe gikk galt med belastning av ekstra-beløp, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);
+                    };
                 };
+                };
+            }
+            else if (formInputs.invoicechannel === "email") {
+                const extraCharge = formInputs.price - familyPrice;
+                const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
+                const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nNytt års-beløp er ' + familyPrice + ',-\nVennligst betal inn mellomlegget ' + extraCharge + ',-';
+                await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             };
-            };
-        }
-        else if (formInputs.invoicechannel === "email") {
-            const extraCharge = formInputs.price - familyPrice;
-            const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
-            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nNytt års-beløp er ' + familyPrice + ',-\nVennligst betal inn mellomlegget ' + extraCharge + ',-';
-            await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
-        };
-        document.location.reload();
+            document.location.reload();
+    };
     };
 
     function familyMembers() {

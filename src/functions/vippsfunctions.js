@@ -37,13 +37,19 @@ export async function vippsGetAgreement(agreementId) {
 };
 
 export async function vippsUpdateAgreement(memberId, agreementId, amount){
-    const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId, "agreementid":agreementId, "amount":amount});
-    return (vippsResult);
-}
+    const vippsResponse = await vippsApiCall({"vippsreqtype":"agreement-update", "memberid":memberId, "agreementid":agreementId, "amount":amount});
+    if (vippsResponse) {
+        return (JSON.parse(vippsResponse));
+    }
+    else return ({status: 'succeded'});
+};
 
 export async function vippsStopAgreement(memberId,agreementId) {
-    const vippsResult = await vippsApiCall({"vippsreqtype":"agreement-stop", "memberid":memberId, "agreementid":agreementId});
-    return (vippsResult);
+    const vippsResponse = await vippsApiCall({"vippsreqtype":"agreement-stop", "memberid":memberId, "agreementid":agreementId});
+    if (vippsResponse) {
+        return (JSON.parse(vippsResponse));
+    }
+    else return ({status: 'succeded'});
 };
 
 export async function vippsCreateCharge(amount, description, dueDate, retryDays, agreementId, chargeId) {
@@ -72,8 +78,10 @@ export async function vippsRefundCharge(amount, description, agreementId, charge
 
 export async function vippsCancelCharge(agreementId, chargeId) {
     const vippsResponse = await vippsApiCall({"vippsreqtype": "cancel-charge", "agreementid": agreementId, "chargeid": chargeId});
-    const vippsResult = JSON.parse(vippsResponse);
-    return (vippsResult);
+    if (vippsResponse) {
+        return (JSON.parse(vippsResponse));
+    }
+    else return ({status: 'succeded'});
 };
 
 export async function vippsCheckIfAllPayed(agreementId) {

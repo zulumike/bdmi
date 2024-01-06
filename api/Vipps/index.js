@@ -348,7 +348,7 @@ module.exports = async function (context, req) {
       redirect: 'follow'
     };
 
-    await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId + "/charges" + chargeId, requestOptions)
+    await fetch(vippsApiURL + "/recurring/v3/agreements/" + agreementId + "/charges/" + chargeId, requestOptions)
       .then(response => response.text())
       .then(result => responseMessage = result)
       .catch(error => context.log('error', error));
