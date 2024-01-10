@@ -11,7 +11,6 @@ function calculateFamily(members) {
         };
         return length;
     };
-
     const familyCount = objectLength(members) + 1;
     const familyPrice = mainMemberPrice + ((familyCount -1) * familyMemberPrice);
 

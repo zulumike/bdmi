@@ -512,11 +512,14 @@ Ny versjon av BDMI medlemsregister.
             Fikk en feilmeling i console om minne-lekkasje hvis ikke.
     - Kjørte commit.
 
+10.01.2023 -42
+    - Lagt til tekst i varsel ved oppdatering av vipps.
+        Sier nytt årsbeløp og evt ekstra belastning.
+    - Flyttet funksjon for å sende epost hvis endring av abb fra memberformuser til FamilyMembers.
+        Noe klønete opplegg, men det funker.
+    - Kjørte commit
 
 
-    Må ordne slik at VippsCharges ikke lastes hvis det ikke finnes vipps agreementid.
-
-    Legge til et ekstra spørsmål med info om hvor mye ekstra som belastes ved oppdatering av abb.
 
     Oppdatere database-status til aktiv når vipps er aktivert.
 
@@ -525,6 +528,10 @@ Ny versjon av BDMI medlemsregister.
     Forbedre sikkerhet i forhold til innlogging.
         Bruke en form for token og som kanskje varer en viss tid?
 
+    Ved oppdatering av medlemmer som bruker e-post: bør kanskje sjekke hva som er betalt inn i stedenfor bare hva som tidligere var beløp?, men da må jeg lage funksjon for å sjekke hvor mye som er betalt inn naturligvis.
+        Dette må jo da sjekkes opp i mot dato, eller så må jeg registrere "belastninger" og om de er betalt inn.
+        Da er det lettere å sjekke om alt er betalt, og kan heller skrive i e-post hva man er skyldig.
+        Tror dette kan utsettes til en senere versjon....
 
 
 

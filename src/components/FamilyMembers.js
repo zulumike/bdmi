@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import updateMember from "../functions/updateMember";
+import calculateFamily from "../functions/calculateFamily";
+import sendEmail from "../functions/sendEmail";
 
 function FamilyMembers({member}) {
-    
+    const oldMemberData = member;
     const [formInputs, setFormInputs] = useState({});
     const formChange = (event) => {
         const name = event.target.name;
@@ -28,6 +30,19 @@ function FamilyMembers({member}) {
         setFamilyData(data);
     };
 
+    async function emailIfUpdateRequired(newPrice) {
+        if (member.invoicechannel === "email") {
+            const extraCharge = newPrice - oldMemberData.price;
+            const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
+            let extraText = 'Vennligst betal inn mellomlegget ' + extraCharge + ',-\nBruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\n';
+            if (extraCharge < 1) {
+                extraText = 'Du trenger ikke betale inn noe, da årsbeløpet ikke har økt.';
+            };
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nNytt års-beløp er ' + newPrice + ',-\n' + extraText;
+            await sendEmail(invoiceEmailTitle, invoiceEmailBody, [member.email], '', '');
+        };
+    }
+
     function submitForm(event) {
         event.preventDefault();
         const familyMemberId = new Date().toISOString() + Math.random().toString().substring(2, 10);
@@ -52,6 +67,9 @@ function FamilyMembers({member}) {
 
     async function saveMember(event) {
         event.preventDefault();
+        const [ newFamilyCount, newFamilyPrice ] = calculateFamily(familyData);
+        member.familycount = newFamilyCount;
+        emailIfUpdateRequired(newFamilyPrice);
         const writeResult = await updateMember(member.id, member);
         if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
         document.location.reload();
