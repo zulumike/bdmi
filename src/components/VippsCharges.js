@@ -7,10 +7,10 @@ function VippsCharges({agreementId}) {
     const [ agreement, setAgreement ] = useState('');
     
     useEffect(() => {
-        let mounted, mounted2 = true;
+        let mounted = true;
         async function readCharges() {
             if (mounted) setAgreement(await vippsGetAgreement(agreementId));
-            if (mounted2) {
+            if (mounted) {
                 const chargesFromVipps = await vippsListCharges(agreementId);
                 for (let i = 0; i < chargesFromVipps.length; i++) {
                     if (chargesFromVipps[i].status === 'PENDING' || chargesFromVipps[i].status === 'DUE' || chargesFromVipps[i].status === 'RESERVED') {
@@ -23,13 +23,12 @@ function VippsCharges({agreementId}) {
                         chargesFromVipps[i].action = '';
                     };
                 };
-                if (mounted2) setCharges(chargesFromVipps);
+                if (mounted) setCharges(chargesFromVipps);
             };
         };
         readCharges();
         return () => {
             mounted = false;
-            mounted2 = false;
         }; 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []

@@ -6,7 +6,20 @@ import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import EmailSending from "./EmailSending";
 import '../styles/default.css';
+import { checkAllVippsAgreements } from "../functions/checkAllVippsAgreements";
 
+
+//***********************
+// FUNCTION updateStatusFromVipps
+// reads all members from database
+// if vipps agreement id exist, check the agreement status and
+// write back to db
+
+async function updateStatusFromVipps() {
+    const result = await checkAllVippsAgreements();
+    alert(result);
+    document.location.reload();
+};
 
 
 
@@ -123,6 +136,7 @@ return (
             <input type="submit" value="Registrer" />
         </form>
         <button onClick={openEmailSender}>E-post utsending</button>
+        <button onClick={updateStatusFromVipps}>Sjekk Vipps status</button>
         <MemberList />
         <ReactModal 
             className='modal'

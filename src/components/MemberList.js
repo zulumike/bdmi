@@ -9,6 +9,7 @@ import resetStatus from "../functions/resetStatus";
 import '../styles/default.css';
 import Charges from "./Charges";
 import VippsCharges from "./VippsCharges";
+import { vippsStopAgreement } from "../functions/vippsfunctions";
 
 function MemberList() {
     Modal.setAppElement('#root')
@@ -56,6 +57,13 @@ function MemberList() {
             document.location.reload();
         };
     };
+
+    async function stopVippsAgreement() {
+        const confirmStopVipps = window.confirm("Dette avslutter medlemmets vippsavtale");
+        if (confirmStopVipps) {
+            vippsStopAgreement(memberToEdit, formInputs.vippsagreementid);
+        };
+    }
 
     function closeEditMember() {
         setModalOpen(false);
@@ -221,6 +229,8 @@ return (
         <Charges member={formInputs}/>
         <VippsAgreementExist />
         {/* <VippsCharges agreementId={formInputs.vippsagreementid} /> */}
+
+        <button onClick={stopVippsAgreement}>Stopp Vipps avtale</button>
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>

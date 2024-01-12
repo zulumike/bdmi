@@ -18,7 +18,7 @@ function MemberFormUser(memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    const [ vippsPaymentStatus, setVippsPaymentStatus ] = useState({});
+    // const [ vippsPaymentStatus, setVippsPaymentStatus ] = useState({});
 
     const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
 
@@ -44,10 +44,10 @@ function MemberFormUser(memberId) {
                             }
                             else setVippsUpdateNeeded(false);
                             setVippsAgreementStatus(vippsAgreement.status);
-                            const paymentStatus = vippsCheckIfAllPayed(vippsAgreementId);
-                            paymentStatus.then((vippsPayStatus) => {
-                                setVippsPaymentStatus(vippsPayStatus);
-                            })
+                            // const paymentStatus = vippsCheckIfAllPayed(vippsAgreementId);
+                            // paymentStatus.then((vippsPayStatus) => {
+                            //     setVippsPaymentStatus(vippsPayStatus);
+                            // })
                         })
                     };
 
@@ -230,16 +230,16 @@ function MemberFormUser(memberId) {
         else return null
     };
 
-    function PaymentStatus() {
-        if (!vippsPaymentStatus.allPayed) {
-            return (
-                <div>
-                    <h2>Gjenstående å betale: { vippsPaymentStatus.remainingAmount }</h2>
-                </div>
-            )
-        }
-        else return null
-    };
+    // function PaymentStatus() {
+    //     if (!vippsPaymentStatus.allPayed) {
+    //         return (
+    //             <div>
+    //                 <h2>Gjenstående å betale: { vippsPaymentStatus.remainingAmount }</h2>
+    //             </div>
+    //         )
+    //     }
+    //     else return null
+    // };
    
     return (
         <div className="memberformusertopdiv">
@@ -321,7 +321,7 @@ function MemberFormUser(memberId) {
             <button onClick={familyMembers}>Familiemedlemmer ( {formInputs.familycount - 1} )</button>
             <button onClick={deleteMember}>Slett meg</button>
             <SubscriptionText />
-            <PaymentStatus />
+            {/* <PaymentStatus /> */}
             <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'

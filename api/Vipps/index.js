@@ -237,6 +237,26 @@ module.exports = async function (context, req) {
 
   };
 
+//*************************************************************
+  // FUNCTION vippsListAgreements
+  // This function calls the vipps api to get a list of agreements
+
+  async function vippsListAgreements() {
+    myHeaders.append("Authorization", "bearer " + vippsAccessToken);
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    
+    await fetch(vippsApiURL + "/recurring/v3/agreements", requestOptions)
+      .then(response => response.text())
+      .then(result => responseMessage = result)
+      .catch(error => context.log('error', error));
+
+  };
+
   async function vippsCharge(agreementId, amount, description, due, retryDays, chargeId) {
     myHeaders.append("Authorization", "bearer " + vippsAccessToken);
     myHeaders.append("Idempotency-Key", chargeId);
@@ -376,6 +396,10 @@ module.exports = async function (context, req) {
   else if (vippsReqType === 'get-agreement') {
     context.log('Vipps get agreement ', req.body.agreementid);
     await vippsGetAgreement(req.body.agreementid);
+  }
+  else if (vippsReqType === 'list-agreements') {
+    context.log('Vipps list agreements ');
+    await vippsListAgreements();
   }
   else if (vippsReqType === 'charge') {
     context.log('Vipps charge ', req.body.chargeid);

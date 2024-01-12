@@ -115,7 +115,7 @@ function Charges({member}) {
                             value={chargesData.payedamount}
                             onChange={event => chargesChange(index, event)}
                             />
-                            <input
+                            {/* <input
                             type="text"
                             name='method'
                             readOnly
@@ -126,7 +126,7 @@ function Charges({member}) {
                             name='status'
                             readOnly
                             value={chargesData.status}
-                            />
+                            /> */}
                         </div>
                     )
                 } )}
