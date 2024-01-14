@@ -26,7 +26,8 @@ async function sendEmail(title, body, mailAddress, fileName, fileUrl) {
         method: "POST",
         body: JSON.stringify(messageData)
     });
-    return (responseMessage);
+    const emailResult = await responseMessage.text();
+    return (emailResult);
 };
 
 export default sendEmail;

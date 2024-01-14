@@ -533,6 +533,27 @@ Ny versjon av BDMI medlemsregister.
 13.01.2023 -44
     - Lagt til Vipps design på knapper.
 
+14.01.2023 -45
+    - Startet å lage funksjon for å belaste vipps-avtaler
+        Ser ut til å fungere
+        Lagt til en oppsummering for antall vellykkede og feilede belastninger / eposter
+    - Lagt til en api for å skrive logg over disse innkrevingene.
+    - Og skriver nå logg til database med medlemsinfo og status.
+    - Kjørte commit.
+    
+        
+
+    Lage en oversikt over regnskap?
+        Summere opp alle aktive medlemmer, total pris
+        Summere opp registrete medlemmer, med total pris.
+        Nok i første omgang. Hvis det viser seg at dette ikke stemmer med fakta,
+            så kan jo det være at et vipps-medlem ikke har betalt pga manglende dekning på konto eller lignende.
+            Pr idag, så må man da gå inn på hvert enkelt medlem for å se status på betalinger.
+            Kan ved behov lage en spørring på dette tenker jeg.
+
+    Sjekke opp første side for medlem. dbread kjøres veldig mange ganger ser det ut til..
+
+
 
     Forbedre sikkerhet i forhold til innlogging.
         Bruke en form for token og som kanskje varer en viss tid?

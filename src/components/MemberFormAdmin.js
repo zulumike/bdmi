@@ -7,6 +7,8 @@ import writeNewMember from "../functions/writeNewMember";
 import EmailSending from "./EmailSending";
 import '../styles/default.css';
 import { checkAllVippsAgreements } from "../functions/checkAllVippsAgreements";
+import { chargeMembers } from "../functions/chargeMembers";
+import { dateToYYYY_MM_DD } from "../functions/generalFunctions";
 
 
 //***********************
@@ -19,6 +21,17 @@ async function updateStatusFromVipps() {
     const result = await checkAllVippsAgreements();
     alert(result);
     document.location.reload();
+};
+
+async function chargeAnnual() {
+    const chargeDescription = prompt('Skriv inn beskrivelse av betalingen, f.eks Medlemskontingent 2024');
+    if (chargeDescription) {
+        const today = new Date();
+        today.setDate(today.getDate() + 5);
+        const dueDate = dateToYYYY_MM_DD(today);
+        const chargeSummary = await chargeMembers(chargeDescription, dueDate);
+        alert(chargeSummary);
+    };
 };
 
 
@@ -137,6 +150,8 @@ return (
         </form>
         <button onClick={openEmailSender}>E-post utsending</button>
         <button onClick={updateStatusFromVipps}>Sjekk Vipps status</button>
+        <button onClick={chargeAnnual}>Krev inn årets kontingent</button>
+
         <MemberList />
         <ReactModal 
             className='modal'
