@@ -212,3 +212,19 @@ h4 {
     margin: 0 auto !important;
     display: block;
 }
+
+.vippsbtn {
+    margin: 0 auto !important;
+    display: flex;
+    /* width: 250px; */
+    height: 35px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    border: none;
+    background: var(--orange-50, #FF5B24);
+    color: #FFFFFF;
+}

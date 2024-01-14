@@ -530,6 +530,8 @@ Ny versjon av BDMI medlemsregister.
         Bør kanskje kun vise knappen hvis det finnes vipps agreement?
     - Kjørte commit
 
+13.01.2023 -44
+    - Lagt til Vipps design på knapper.
 
 
     Forbedre sikkerhet i forhold til innlogging.
@@ -554,7 +556,6 @@ Ny versjon av BDMI medlemsregister.
     Vurdere om admins skal kunne legge til familiemedlemmer og dermed oppdatere vipps-avtale og belaste ekstra.
         Tror ikke det er i henhold og så lurt. Ved registrering/endring av admin bør medlem få e-post med informasjon om å gå inn og aktivere/oppdatere vipps-avtale selv.
     Gjennomgå rendering....
-    Legge til reload av vindu ved oppdatering av abb. Kanskje flytte den som er lagt i if epost setningen til nederst i update funksjonen...
     
 
 Neste: 
