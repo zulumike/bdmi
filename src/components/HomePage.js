@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MemberForm from './MemberForm';
 import MemberFormAdmin from './MemberFormAdmin';
 import MemberFormUser from './MemberFormUser';
@@ -13,11 +13,8 @@ import '../styles/default.css';
 
 
 function HomePage() {
-  let loggedInUser = '';
-  // const [loggedInUser, setLoggedInUser] = useState();
-  // let loggedInUserId = '';
+  let loggedInUser = useRef('');
   const [loggedInUserId, setLoggedInUserId] = useState();
-  // let loggedInUserRole = '';
   const [ loggedInUserRole, setLoggedInUserRole ] = useState();
   const [ display, setDisplay ] = useState('none')
 
@@ -25,34 +22,40 @@ function HomePage() {
 // Check if user exist in local storage.
 // also verifies that this user has rights.
 
-  if (loggedInUserRole === '' || loggedInUserRole === undefined) {
-    const userFromLocalStorage = localStorage.getItem('user');
-    // console.log('Localstorageuser?: ', userFromLocalStorage);
-    if (userFromLocalStorage) {
-      const foundUser = JSON.parse(userFromLocalStorage);
-      // console.log('founduser: ', foundUser);
-      checkIfMemberExist('', foundUser.username).then(
-        function(value) {
-          if (value[0]) {
-            loggedInUser = foundUser.username;
-            setLoggedInUserId(value[3]);
-            setLoggedInUserRole(value[2]);
+useEffect(() => {
+  async function checkLogin() {
+    if (loggedInUserRole === '' || loggedInUserRole === undefined) {
+      const userFromLocalStorage = localStorage.getItem('user');
+      if (userFromLocalStorage) {
+        const foundUser = JSON.parse(userFromLocalStorage);
+        checkIfMemberExist('', foundUser.username).then(
+          function(value) {
+            if (value[0]) {
+              loggedInUser.current = foundUser.username;
+              setLoggedInUserId(value[3]);
+              setLoggedInUserRole(value[2]);
+            }
           }
-        }
-      )
+        )
+      }
     }
-  }
+  };
+  checkLogin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []
+);
 
-   function submitLogOut(event) {
-    // event.preventDefault();
-    loggedInUser = null;
+
+  
+
+   function submitLogOut() {
+    loggedInUser.current = null;
     setLoggedInUserId(null);
     setLoggedInUserRole('');
     localStorage.clear();
   }
 
-  async function submitLogin(event) {
-    // event.preventDefault();
+  async function submitLogin() {
     const userEmailAddr = prompt('Skriv inn e-post adresse');
     if (userEmailAddr) {
       const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
@@ -62,7 +65,7 @@ function HomePage() {
         console.log(randomCode);
         const userCode = prompt('Kode fra e-post: ');
         if (parseInt(userCode) === randomCode) {
-          loggedInUser = userEmailAddr;
+          loggedInUser.current = userEmailAddr;
           setLoggedInUserRole(userRole);
           setLoggedInUserId(memberId);
           setLoggedInUserRole(loggedInUserRole);
@@ -91,12 +94,12 @@ function HomePage() {
           <div onClick={hamburgerClick} className="hamburgerdiv">
               <img src={hamburgerSymbol} height='50' width='50' alt='menu-icon' />
               <div className="hamburgerelementsdiv" style={{display:display}}>
-                  <p>{loggedInUser}</p>
+                  <p>{loggedInUser.current}</p>
                   <button onClick={submitLogOut} >Logg ut</button>
               </div>
           </div>
         </div>
-        <MemberFormAdmin userLoggedIn={loggedInUser} userRole={loggedInUserRole} />
+        <MemberFormAdmin userLoggedIn={loggedInUser.current} userRole={loggedInUserRole} />
       </div>
     )
   }
@@ -109,7 +112,7 @@ function HomePage() {
           <div onClick={hamburgerClick} className="hamburgerdiv">
               <img src={hamburgerSymbol} height='50' width='50' alt='menu-icon' />
               <div className="hamburgerelementsdiv" style={{display:display}}>
-                  <p>{loggedInUser}</p>
+                  <p>{loggedInUser.current}</p>
                   <button onClick={submitLogOut} >Logg ut</button>
               </div>
           </div>

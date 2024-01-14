@@ -540,8 +540,21 @@ Ny versjon av BDMI medlemsregister.
     - Lagt til en api for å skrive logg over disse innkrevingene.
     - Og skriver nå logg til database med medlemsinfo og status.
     - Kjørte commit.
-    
-        
+    - Endre HomePage litt for å minske antall DBRead.
+        Satte opp en useEffect.
+    - Sjekket sikkerhet.
+        Det er IKKE mulig å bare endre rolle til admin for å få adminrolle.
+        MEN det er mulig å endre e-post adresse til en med admin-rettigheter og da får man admin!!!
+    - Kjørte commit.
+           
+           
+    !!! Må legge på et token og sammenligne med i forhold til sikkerhet.
+        I HomePage, logg inn funksjonen må det legges til et token som lagres i db.
+        I homePage i useEffect setningene legge til at det sjekkes mot token
+
+    Kommer feilmeldinger i Console før det kjøres reload.
+        Har med for MemberFormUser at medlemsid ikke er kjent når readGivenMember kjøres....
+        For MemberFormAdmin har det noe med at React state forsøkes endret før komponent(antar det er MemberList) er lastet   .
 
     Lage en oversikt over regnskap?
         Summere opp alle aktive medlemmer, total pris
