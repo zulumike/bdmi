@@ -10,6 +10,8 @@ import sendCodeByEmail from '../functions/sendCodeByEmail';
 import logo from '../img/bdmi_logo.png';
 
 import '../styles/default.css';
+import updateMember from '../functions/updateMember';
+import readGivenMember from '../functions/readGivenMember';
 
 
 function HomePage() {
@@ -28,15 +30,21 @@ useEffect(() => {
       const userFromLocalStorage = localStorage.getItem('user');
       if (userFromLocalStorage) {
         const foundUser = JSON.parse(userFromLocalStorage);
-        checkIfMemberExist('', foundUser.username).then(
-          function(value) {
-            if (value[0]) {
-              loggedInUser.current = foundUser.username;
-              setLoggedInUserId(value[3]);
-              setLoggedInUserRole(value[2]);
+        const dateFromToken = foundUser.token.substring(0,24);
+        const today = new Date();
+        const tokenTimeDiffDays = (today.getTime() - Date.parse(dateFromToken)) / 1000 / 3600 / 24;
+        console.log(tokenTimeDiffDays);
+        if (tokenTimeDiffDays < 1) {
+          checkIfMemberExist('', foundUser.username).then(
+            function(value) {
+              if (value[0] && value[4] === foundUser.token) {
+                loggedInUser.current = foundUser.username;
+                setLoggedInUserId(value[3]);
+                setLoggedInUserRole(value[2]);
+              }
             }
-          }
-        )
+          )
+        }
       }
     }
   };
@@ -69,7 +77,11 @@ useEffect(() => {
           setLoggedInUserRole(userRole);
           setLoggedInUserId(memberId);
           setLoggedInUserRole(loggedInUserRole);
-          localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole }));
+          const memberData = await readGivenMember(memberId);
+          memberData[0].token = new Date().toISOString() + Math.random().toString().substring(2, 10);
+          console.log(memberData[0]);
+          updateMember(memberData[0].id, memberData[0]);
+          localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole, token: memberData[0].token }));
           window.location.reload(false);
         }
         else alert('Feil kode!');

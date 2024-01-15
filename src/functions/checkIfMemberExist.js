@@ -16,6 +16,7 @@ async function checkIfMemberExist(phoneNumber, emailAddress) {
     let phoneOrEmail = '';
     let role = 'medlem';
     let id = '';
+    let token = '';
     const memberList = await readAllMembers();
     for (let i = 0; i < memberList.length; i++) {
         if (memberList[i].phone === phoneNumber) {
@@ -23,15 +24,17 @@ async function checkIfMemberExist(phoneNumber, emailAddress) {
             phoneOrEmail = 'Telefonnummer'
             role = memberList[i].role;
             id = memberList[i].id;
+            token = memberList[i].token;
         }
         else if (memberList[i].email === emailAddress) {
             memberExist = true;
             phoneOrEmail = 'E-post adresse'
             role = memberList[i].role;
             id = memberList[i].id;
+            token = memberList[i].token;
         };
     };
-    return [memberExist, phoneOrEmail, role, id]
+    return [memberExist, phoneOrEmail, role, id, token]
 };
 
 export default checkIfMemberExist;

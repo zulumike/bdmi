@@ -553,13 +553,11 @@ Ny versjon av BDMI medlemsregister.
     - Kaller opp denne funksjonen også når vipps-app opprettes, oppdateres eller slettes.
     - Så nå skrives det logg i db når vippsavtale opprettes, oppdateres og avsluttes, samt alle belastninger som gjøres.
     - Kjørte commit.
-
+    - Skrev om HomePage litt for å få inn token i innlogging.
+        Foreløpig sjekker den om token er mindre enn ett døgn for å slippe inn,
+        Kan øke denne til mer når jeg ser det funker.
+    - Kjørte commit.
     
-           
-    !!! Må legge på et token og sammenligne med i forhold til sikkerhet.
-        I HomePage, logg inn funksjonen må det legges til et token som lagres i db.
-        I homePage i useEffect setningene legge til at det sjekkes mot token
-    Legge til i db også når vippsavtale opprettes og oppdateres.
 
     Kommer feilmeldinger i Console før det kjøres reload.
         Har med for MemberFormUser at medlemsid ikke er kjent når readGivenMember kjøres....
