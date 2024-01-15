@@ -8,6 +8,7 @@ import sendEmail from "../functions/sendEmail";
 import { vippsCreateCharge, vippsDraftAgreement, vippsGetAgreement, vippsStopAgreement, vippsUpdateAgreement } from "../functions/vippsfunctions";
 import calculateFamily from "../functions/calculateFamily";
 import { dateToYYYY_MM_DD } from "../functions/generalFunctions";
+import { writeLogToDB } from "../functions/chargeMembers";
 
 function MemberFormUser(memberId) {
    
@@ -62,6 +63,7 @@ function MemberFormUser(memberId) {
         const confirmCancel = window.confirm("Er du sikker på at du vil kansellere vipps-avtalen?\nDitt medlemsskap vil da avsluttes ved årets slutt!");
         if (confirmCancel) {
             const vippsResult = await vippsStopAgreement(memberId.userLoggedIn, formInputs.vippsagreementid);
+            writeLogToDB({'vippsagreementdeactivate': {'memberid': memberId.userLoggedIn, 'vippsresult': vippsResult}});
             if (vippsResult.status !== 'succeded') {
                 alert('Noe gikk galt. Prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
             };
@@ -103,10 +105,9 @@ function MemberFormUser(memberId) {
                 vippsIdempotencyKey = memberId.userLoggedIn + '_' + Math.random().toString().substring(2, 5);
             };
             const vippsResult = await vippsDraftAgreement(memberId.userLoggedIn, vippsAmount, vippsAmount, formInputs.phone, vippsIdempotencyKey);
-            console.log('testing', vippsResult.agreementId);
+            writeLogToDB({'vippsagreementactivate': {'memberid': memberId.userLoggedIn, 'membername': formInputs.firstname + ' ' + formInputs.lastname, 'vippsAmount': vippsAmount, 'vippsresult': vippsResult}});
             if (vippsResult.agreementId === undefined) {
-                alert('Noe gikk galt.\nFeilmelding:s' + vippsResult.detail);
-                console.log(vippsResult);
+                alert('Noe gikk galt.\nFeilmelding: ' + vippsResult.detail);
             }
             else {
                 formInputs.vippsagreementid = vippsResult.agreementId;
@@ -134,6 +135,7 @@ function MemberFormUser(memberId) {
                 };
                 if (window.confirm('Dette oppdaterer vippsavtalen til nytt årlig beløp: ' + vippsAmount / 100 + ',-\n' + vippsExtraText)) {
                     const vippsResult = await vippsUpdateAgreement(memberId.userLoggedIn, formInputs.vippsagreementid, vippsAmount);
+                    writeLogToDB({'vippsagreementupdate': {'memberid': memberId.userLoggedIn, 'membername': formInputs.firstname + ' ' + formInputs.lastname,  'vippsAmount': vippsAmount, 'vippsresult': vippsResult}});
                     if (vippsResult.status !== 'succeded') {
                         alert('Noe gikk galt med oppdatering av vipps-avtalen, prøv igjen senere.\nFeilmelding: ' + vippsResult.detail);
                     }
@@ -145,7 +147,7 @@ function MemberFormUser(memberId) {
                         const dueDate = dateToYYYY_MM_DD(today);
                         const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
                         const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
-                        console.log(vippsResult2);
+                        writeLogToDB({'vippsupdatecharge': {'memberid': memberId.userLoggedIn, 'membername': formInputs.firstname + ' ' + formInputs.lastname, 'chargeamount': vippsChargeAmountStr,  'vippsresult': vippsResult2}});
                         if (vippsResult2.detail !== undefined) {
                             alert('Noe gikk galt med belastning av ekstra-beløp, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);
                         };

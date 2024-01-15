@@ -2,6 +2,23 @@ import readAllMembers from "./readAllMembers";
 import sendEmail from "./sendEmail";
 import { vippsCreateCharge } from "./vippsfunctions";
 
+export async function writeLogToDB(data) {
+    let apiURL = '';
+    if (process.env.NODE_ENV === 'production') {
+        apiURL = '/api/DBChargeWrite';
+    }
+    else {
+        apiURL = 'http://localhost:7071/api/DBChargeWrite';
+
+    };
+
+    await fetch(apiURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+    });
+
+};
+
 export async function chargeMembers(chargeDescription, chargeDueDate) {
 
     const members = await readAllMembers();
@@ -13,14 +30,7 @@ export async function chargeMembers(chargeDescription, chargeDueDate) {
     let emailFailCount = 0;
     let vippsSuccessCount = 0;
     let vippsFailCount = 0;
-    let apiURL = '';
-    if (process.env.NODE_ENV === 'production') {
-        apiURL = '/api/DBChargeWrite';
-    }
-    else {
-        apiURL = 'http://localhost:7071/api/DBChargeWrite';
-
-    };
+    
 
     for (let i = 0; i < vippsMembers.length; i++) {
         if (!vippsMembers[i].vippsagreementid) {
@@ -53,10 +63,7 @@ export async function chargeMembers(chargeDescription, chargeDueDate) {
     };
     
     const chargeLog = {'vipps': vippsCharges, 'email': emailCharges};
-        await fetch(apiURL, {
-            method: "POST",
-            body: JSON.stringify(chargeLog)
-        });
+    writeLogToDB(chargeLog);
 
     const chargeSummary = 'Vipps: ' + vippsSuccessCount + ' vellykket, ' + vippsFailCount + ' feilet.\nE-post: ' + emailSuccessCount + ' vellykket, ' + emailFailCount + ' feilet.';
   

@@ -487,7 +487,7 @@ Ny versjon av BDMI medlemsregister.
         Har opprettet funksjonen som starter når denne knapp trykkes, men ikke laget funksjonaliteten enda.
     - Commit.
     
-04.01.2023 -40
+04.01.2024 -40
     - Opprettet refund og cancel i egen api.
     - Opprettet vippsRefundCharge og vippsCancelCharge i vippsfunctions.js
     - Kalt opp refunder funksjon fra VippsCharge. Ikke komplett testet.
@@ -498,7 +498,7 @@ Ny versjon av BDMI medlemsregister.
     - Commit.
 
 
-05.01.2023 -41
+05.01.2024 -41
     - Endret cancel-charge funksjonen i vipps-apien min.
         Manglet en / i url....
     - Rettet opp i updateSubscription i MemberFormUser.js 
@@ -512,14 +512,14 @@ Ny versjon av BDMI medlemsregister.
             Fikk en feilmeling i console om minne-lekkasje hvis ikke.
     - Kjørte commit.
 
-10.01.2023 -42
+10.01.2024 -42
     - Lagt til tekst i varsel ved oppdatering av vipps.
         Sier nytt årsbeløp og evt ekstra belastning.
     - Flyttet funksjon for å sende epost hvis endring av abb fra memberformuser til FamilyMembers.
         Noe klønete opplegg, men det funker.
     - Kjørte commit
 
-12.01.2023 -43
+12.01.2024 -43
     - Lagt til funksjon i MemberFormAdmin som kontrollerer status på alle vipps agreements og 
         oppdatere member status i database deretter.
     - Gjorde om litt på det som ble endret 05.01.2023.
@@ -530,10 +530,10 @@ Ny versjon av BDMI medlemsregister.
         Bør kanskje kun vise knappen hvis det finnes vipps agreement?
     - Kjørte commit
 
-13.01.2023 -44
+13.01.2024 -44
     - Lagt til Vipps design på knapper.
 
-14.01.2023 -45
+14.01.2024 -45
     - Startet å lage funksjon for å belaste vipps-avtaler
         Ser ut til å fungere
         Lagt til en oppsummering for antall vellykkede og feilede belastninger / eposter
@@ -546,11 +546,20 @@ Ny versjon av BDMI medlemsregister.
         Det er IKKE mulig å bare endre rolle til admin for å få adminrolle.
         MEN det er mulig å endre e-post adresse til en med admin-rettigheter og da får man admin!!!
     - Kjørte commit.
-           
+
+15.01.2024 -46           
+    - Skrev om chargeMembers til også å inneholde separat funksjon for å skrive logg til db
+        Først hadde jeg lagt dette rett i funksjonen for å ta betalt, men siden jeg ønsker å gjenbruke funksjonen så.....
+    - Kaller opp denne funksjonen også når vipps-app opprettes, oppdateres eller slettes.
+    - Så nå skrives det logg i db når vippsavtale opprettes, oppdateres og avsluttes, samt alle belastninger som gjøres.
+    - Kjørte commit.
+
+    
            
     !!! Må legge på et token og sammenligne med i forhold til sikkerhet.
         I HomePage, logg inn funksjonen må det legges til et token som lagres i db.
         I homePage i useEffect setningene legge til at det sjekkes mot token
+    Legge til i db også når vippsavtale opprettes og oppdateres.
 
     Kommer feilmeldinger i Console før det kjøres reload.
         Har med for MemberFormUser at medlemsid ikke er kjent når readGivenMember kjøres....
