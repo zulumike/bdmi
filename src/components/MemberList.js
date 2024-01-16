@@ -19,6 +19,7 @@ function MemberList() {
     const [memberArray, setMemberArray] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const [formInputs, setFormInputs] = useState({});
+    const [revenue, setRevenue] = useState({'activeMembers': 0, 'registeredMembers': 0, 'totalMembers': 0, 'amountVipps': 0, 'amountEmail': 0, 'amountTotal': 0});
     const formChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -71,8 +72,23 @@ function MemberList() {
 
     useEffect(() => {
         async function readMembers() {
-            setMemberArray(await readAllMembers());
+            const memberArrayTemp = await readAllMembers();
+            setMemberArray(memberArrayTemp);
             if (memberArray) setIsLoading(false);
+            let revenueTemp = {'activeMembers': 0, 'registeredMembers': 0, 'totalMembers': 0, 'amountVipps': 0, 'amountEmail': 0, 'amountTotal': 0};
+            for (let i = 0; i < memberArrayTemp.length; i++) {
+                if (memberArrayTemp[i].status === 'Aktiv') {
+                    revenueTemp.activeMembers = revenueTemp.activeMembers + memberArrayTemp[i].familycount;
+                    if (memberArrayTemp[i].invoicechannel === 'vipps') revenueTemp.amountVipps = revenueTemp.amountVipps + memberArrayTemp[i].price
+                    else revenueTemp.amountEmail = revenueTemp.amountEmail + memberArrayTemp[i].price;
+                }
+                else {
+                    revenueTemp.registeredMembers = revenueTemp.registeredMembers + memberArrayTemp[i].familycount;
+                };
+                revenueTemp.totalMembers = revenueTemp.activeMembers + revenueTemp.registeredMembers;
+                revenueTemp.amountTotal = revenueTemp.amountVipps + revenueTemp.amountEmail;
+            };
+            setRevenue(revenueTemp);
         };
         readMembers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,6 +250,13 @@ return (
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>
         </ReactModal>
+        <br/>
+        <h2>Medlemstall:</h2>
+        <h4>Antall aktive medlemmer: {revenue.activeMembers}</h4>
+        <h4>Antall medlemmer totalt: {revenue.totalMembers} </h4>
+        <h4>Inntektsgrunnlag Vipps: {revenue.amountVipps},-</h4>
+        <h4>Inntektsgrunnlag E-post: {revenue.amountEmail},-</h4>
+        <h3>Inntektsgrunnlag totalt: {revenue.amountTotal},- </h3>
     </div>
 )
 };
