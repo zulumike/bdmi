@@ -16,6 +16,7 @@ async function updateMember(id, member) {
     member.familycount = familyCount;
 
     member.id = id;
+    member.email = member.email.toLowerCase();
     member.name = member.lastname + ', ' + member.firstname;
     const data = await fetch(apiURL, {
         method: "POST",

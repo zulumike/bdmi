@@ -63,6 +63,7 @@ function MemberList() {
         const confirmStopVipps = window.confirm("Dette avslutter medlemmets vippsavtale");
         if (confirmStopVipps) {
             vippsStopAgreement(memberToEdit, formInputs.vippsagreementid);
+            document.location.reload();
         };
     }
 

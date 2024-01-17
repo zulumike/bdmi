@@ -562,10 +562,15 @@ Ny versjon av BDMI medlemsregister.
     - Oppsummert litt medlemstall og lagt til i MemberList.
     - Kjørte commit
 
+17.01.2024 -48
+    - Lagt til document.reload i memberlist ved funksjonen for å deaktivere abb.
+    - Endret writeNewMember og updateMember til å gjøre e-post adresse til lowercase
+    - endret prompt i homepage login slik at e-post adresse blir omgjort til lowercase.
+        Begge disse endringene er for å sørge for at man får treff på e-post adresse uansett om man bruker små eller store bokstaver.
+    - Kjørte commit.
+
 
      !!!Huske å endre til IKKE vis randomkode i console....
-
-    Ordne slik at e-post adresse alltid skrives inn med små bokstaver!
 
     Vipps generelt. Må kanskje legge inn Vipps-logo / knapper i henhold til Vipps sine retningslinjer.
 

@@ -18,6 +18,7 @@ async function writeNewMember(newMember) {
     newMember.familycount = familyCount;
 
     newMember.type = "new";
+    newMember.email = newMember.email.toLowerCase();
     newMember.name = newMember.lastname + ', ' + newMember.firstname;
     newMember.deleted = "false";
     const data = await fetch(apiURL, {

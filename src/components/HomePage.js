@@ -64,7 +64,7 @@ useEffect(() => {
   }
 
   async function submitLogin() {
-    const userEmailAddr = prompt('Skriv inn e-post adresse');
+    const userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
     if (userEmailAddr) {
       const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
       const randomCode = Math.floor(Math.random()*999999)+100001;
