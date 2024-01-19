@@ -11,8 +11,8 @@ export async function checkAllVippsAgreements() {
     for (let i=0; i < members.length; i++ ) {
         let memberStatus = 'Registrert';
         if (members[i].vippsagreementid) {
-            const vippsStatus = vippsAgreements.find(o => o.id === members[i].vippsagreementid).status;
-            if (vippsStatus === 'ACTIVE') {
+            const vippsStatus = vippsAgreements.find(o => o.id === members[i].vippsagreementid);
+            if (vippsStatus) {
                 memberStatus = 'Aktiv';
                 vippsActiveCount++;
             };

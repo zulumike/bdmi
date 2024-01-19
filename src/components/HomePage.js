@@ -33,8 +33,7 @@ useEffect(() => {
         const dateFromToken = foundUser.token.substring(0,24);
         const today = new Date();
         const tokenTimeDiffDays = (today.getTime() - Date.parse(dateFromToken)) / 1000 / 3600 / 24;
-        console.log(tokenTimeDiffDays);
-        if (tokenTimeDiffDays < 1) {
+        if (tokenTimeDiffDays < 7) {
           checkIfMemberExist('', foundUser.username).then(
             function(value) {
               if (value[0] && value[4] === foundUser.token) {

@@ -569,10 +569,49 @@ Ny versjon av BDMI medlemsregister.
         Begge disse endringene er for å sørge for at man får treff på e-post adresse uansett om man bruker små eller store bokstaver.
     - Kjørte commit.
 
+19.01.2024 -49
+    - Endret antall dager vipps skal prøve å belaste kunde til 7 (MemberFormUser.js og chargemembers.js)
+    - Endret levetid på innloggingslevetid til 7 dager (Homepage)
+    - Endret MemberForm slik at det også der skrives token til database og localstorage for enklere login
+    - Rettet feil i checkAllVippsAgreements. 
+        Denne kaller opp en vipps funksjon som henter alle aktive abb.
+        Deretter sjekker den status på abb.
+        Når abb da er ikke aktiv, så blir det krøll.
+        Endret derfor if-setningen til å bare sjekke om agreement ble listet opp.(siden den bare lister opp aktive)
+    - Endret funskjonen for refundering til å returnere "success" hvis ingen status-tekst. Da Vipps ikke returnerer tekst hvis OK.
+    - Commit.
+
 
      !!!Huske å endre til IKKE vis randomkode i console....
 
+    !!! Vipps: Ordne funksjon for å sende kvittering til kunde(i vipps)
+        Bør kanskje også lage kvittering på e-post?
+
     Vipps generelt. Må kanskje legge inn Vipps-logo / knapper i henhold til Vipps sine retningslinjer.
+
+    Kjøre test fra a til å.
+        - Registrere medlem (selv)
+        - velge e-post
+        - legge til et familiemedlem
+        - aktivere abb.
+        - legge til flere familiemedlem
+        - Oppdatere.
+        - fjerne familiemedlem
+        - oppdatere
+        - deaktivere medlem
+
+        - Registrere medlem
+        - velge vipps
+        - legge til et familiemedlem
+        - aktivere vipps
+        - legge til flere i familien
+        - oppdatere vipps.
+        - fjerne noen fra familien
+        - oppdatere vipps
+        - Deaktivere medlemsskap
+
+        - Registrere medlem (admin)
+
 
     Gjenstår nå:
         Import av medlemmer, enten rett i databasen, eller programmatisk.

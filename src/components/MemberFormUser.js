@@ -146,7 +146,7 @@ function MemberFormUser(memberId) {
                         today.setDate(today.getDate() + 5);
                         const dueDate = dateToYYYY_MM_DD(today);
                         const vippsChargeAmountStr = (vippsChargeAmount * 100).toString();
-                        const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "3", formInputs.vippsagreementid, chargeId);
+                        const vippsResult2 = await vippsCreateCharge(vippsChargeAmountStr, "Medlemskontingent BDMI", dueDate, "7", formInputs.vippsagreementid, chargeId);
                         writeLogToDB({'vippsupdatecharge': {'memberid': memberId.userLoggedIn, 'membername': formInputs.firstname + ' ' + formInputs.lastname, 'chargeamount': vippsChargeAmountStr,  'vippsresult': vippsResult2}});
                         if (vippsResult2.detail !== undefined) {
                             alert('Noe gikk galt med belastning av ekstra-beløp, prøv igjen senere\nFeilmelding: ' + vippsResult2.detail);

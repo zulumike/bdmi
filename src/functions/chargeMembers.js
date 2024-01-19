@@ -39,7 +39,7 @@ export async function chargeMembers(chargeDescription, chargeDueDate) {
         else {
             let charged = false;
             const uniqueId = new Date().toISOString() + Math.random().toString().substring(2, 10);
-            const vippsResult = await vippsCreateCharge(vippsMembers[i].price * 100, chargeDescription, chargeDueDate, '3', vippsMembers[i].vippsagreementid, uniqueId);
+            const vippsResult = await vippsCreateCharge(vippsMembers[i].price * 100, chargeDescription, chargeDueDate, '7', vippsMembers[i].vippsagreementid, uniqueId);
             if (vippsResult.chargeId) {
                 charged = true;
                 vippsSuccessCount++;

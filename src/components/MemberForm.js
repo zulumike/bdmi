@@ -44,12 +44,11 @@ function MemberForm() {
                     formInputs.createdby = formInputs.email;
                     formInputs.role = "Medlem";
                     formInputs.status = "Registrert";
-
+                    formInputs.token = new Date().toISOString() + Math.random().toString().substring(2, 10);
                     const writeResult = writeNewMember(formInputs);
                     writeResult.then((responseMessage) => {
                         if (responseMessage.status === 200) {
-                            localStorage.setItem('user', JSON.stringify({username: formInputs.email, userrole: formInputs.role }));
-                            // activateVippsAgreement(formInputs.id, formInputs.phonenumber);
+                            localStorage.setItem('user', JSON.stringify({username: formInputs.email, userrole: formInputs.role, token: formInputs.token }));
                             alert('Velkommen til Bevar Dovrefjell Mellom Istidene');
                             setFormInputs({});
                             window.location.reload(false);

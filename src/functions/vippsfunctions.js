@@ -78,8 +78,10 @@ export async function vippsGetCharge(agreementId, chargeId) {
 
 export async function vippsRefundCharge(amount, description, agreementId, chargeId) {
     const vippsResponse = await vippsApiCall({"vippsreqtype": "refund-charge", "amount": amount, "description": description, "agreementid": agreementId, "chargeid": chargeId});
-    const vippsResult = JSON.parse(vippsResponse);
-    return (vippsResult);
+    if (vippsResponse) {
+        return (JSON.parse(vippsResponse));
+    }
+    else return ({ststus: 'succeded'});
 };
 
 export async function vippsCancelCharge(agreementId, chargeId) {
