@@ -581,6 +581,20 @@ Ny versjon av BDMI medlemsregister.
     - Endret funskjonen for refundering til å returnere "success" hvis ingen status-tekst. Da Vipps ikke returnerer tekst hvis OK.
     - Commit.
 
+23.01.2024 -50
+    - Oppdaget problem på enkelte nettlesere (vha Guri)
+        Når får beskjed om å skrive inn kode sendt på e-post, kan det skje at denne
+        dialog-boksen forsvinner når man går inn på annen app på tlf, eller bytter fane i nettleser.
+        Lagt inn en while setning som looper prompt så lenge promptet returnerer "" eller null. 
+    - Commit for å teste på android.
+    - Funket dårlig. Må lage annen dialog-boks....
+    - Laget en ny component loginPrompt, som tar inn kode det skal sjekkes mot pluss medlemsdata
+        komponenten presenterer inputboks hvor bruker taster tilsendt kode.
+        hvis kode samsvarer, blir kunde lagret, evt. hvis dette er fra pålogging blir kundens token oppdatert
+         og innlogging lagret i localstorage.
+    - Ikke klart å gjøre det samme i HomePage for innlogging.....
+    - Commit
+
 
      !!!Huske å endre til IKKE vis randomkode i console....
 
