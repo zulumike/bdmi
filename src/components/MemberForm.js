@@ -37,7 +37,10 @@ function MemberForm() {
             let abort = false;
             while (abort === false) {
                 let userCode = "";
-                userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
+                while (userCode === "") {
+                    userCode = prompt("Kode er nå sendt på e-post.\nSkriv inn tilsendt kode her.\nHvis ikke mottatt, sjekk spam.\nTrykk evt avbryt og send inn på nytt");
+                    console.log(userCode);
+                };
                 if (parseInt(userCode) === randomCode) {
                     abort = true;
                     formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 5);

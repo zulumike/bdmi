@@ -70,7 +70,10 @@ useEffect(() => {
       if (memberExist) {
         sendCodeByEmail([userEmailAddr], randomCode);
         console.log(randomCode);
-        const userCode = prompt('Kode fra e-post: ');
+        let userCode = "";
+        while (userCode === "") {
+          userCode = prompt('Kode fra e-post: ');
+        };
         if (parseInt(userCode) === randomCode) {
           loggedInUser.current = userEmailAddr;
           setLoggedInUserRole(userRole);
