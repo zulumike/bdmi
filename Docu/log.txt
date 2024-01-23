@@ -616,6 +616,10 @@ Ny versjon av BDMI medlemsregister.
     - Sync
     
 
+    
+    Legge til mulighet for å betale inn ekstra støtte.
+    Bruke vipps qr og info om vippsnr og bank-kontonr.
+
 
 
      !!!Huske å endre til IKKE vis randomkode i console....
