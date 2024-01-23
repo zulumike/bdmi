@@ -19,8 +19,6 @@ function MemberFormUser(memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    // const [ vippsPaymentStatus, setVippsPaymentStatus ] = useState({});
-
     const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
 
     Modal.setAppElement('#root');
@@ -45,10 +43,6 @@ function MemberFormUser(memberId) {
                             }
                             else setVippsUpdateNeeded(false);
                             setVippsAgreementStatus(vippsAgreement.status);
-                            // const paymentStatus = vippsCheckIfAllPayed(vippsAgreementId);
-                            // paymentStatus.then((vippsPayStatus) => {
-                            //     setVippsPaymentStatus(vippsPayStatus);
-                            // })
                         })
                     };
 
@@ -155,16 +149,6 @@ function MemberFormUser(memberId) {
                     };
                     };
                 };
-            }
-            else if (formInputs.invoicechannel === "email") {
-                const extraCharge = formInputs.price - familyPrice;
-                const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
-                let extraText = 'Vennligst betal inn mellomlegget ' + extraCharge + ',-';
-                if (extraCharge < 1) {
-                    extraText = 'Du trenger ikke betale inn noe, da årsbeløpet ikke har økt.';
-                };
-                const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har endret antall familiemedlemmer.\nVennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nNytt års-beløp er ' + familyPrice + ',-\n' + extraText;
-                await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             };
             document.location.reload();
     };
