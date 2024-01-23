@@ -65,36 +65,6 @@ useEffect(() => {
     localStorage.clear();
   };
 
-  // async function submitLogin() {
-  //   const userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
-  //   if (userEmailAddr) {
-  //     const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
-  //     const randomCode = Math.floor(Math.random()*999999)+100001;
-  //     if (memberExist) {
-  //       sendCodeByEmail([userEmailAddr], randomCode);
-  //       console.log(randomCode);
-  //       let userCode = "";
-  //       while (userCode === "") {
-  //         userCode = prompt('Kode fra e-post: ');
-  //       };
-  //       if (parseInt(userCode) === randomCode) {
-  //         loggedInUser.current = userEmailAddr;
-  //         setLoggedInUserRole(userRole);
-  //         setLoggedInUserId(memberId);
-  //         setLoggedInUserRole(loggedInUserRole);
-  //         const memberData = await readGivenMember(memberId);
-  //         memberData[0].token = new Date().toISOString() + Math.random().toString().substring(2, 10);
-  //         console.log(memberData[0]);
-  //         updateMember(memberData[0].id, memberData[0]);
-  //         localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole, token: memberData[0].token }));
-  //         window.location.reload(false);
-  //       }
-  //       else alert('Feil kode!');
-  //   }
-  //   else alert('E-post eksisterer ikke');
-  //   }
-  // }
-
   function LoginUserPrompt() {
 
     const [ data, setData ] = useState('');

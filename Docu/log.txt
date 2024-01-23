@@ -597,6 +597,8 @@ Ny versjon av BDMI medlemsregister.
     - Endret noe tekst i MemberFormUser som sier litt mer om vipps-avtalen
     - Fikk endret Homepage login også til å fungere med egen dialogboks.
     - Commit.
+    - Minsket størrelse på logo fra max-width 200 til 150.
+        Dette for å få med mer innhold på mobil uten å måtte scrolle.
     
 
 

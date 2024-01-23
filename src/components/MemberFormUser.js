@@ -313,6 +313,7 @@ function MemberFormUser(memberId) {
                     required
                     onChange={formChange}
                     />
+                <br/>
                 <input
                     type="radio"
                     name="invoicechannel"
