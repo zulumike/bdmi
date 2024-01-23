@@ -16,9 +16,14 @@ import readGivenMember from '../functions/readGivenMember';
 
 function HomePage() {
   let loggedInUser = useRef('');
-  const [loggedInUserId, setLoggedInUserId] = useState();
+  const [ loggedInUserId, setLoggedInUserId ] = useState();
   const [ loggedInUserRole, setLoggedInUserRole ] = useState();
-  const [ display, setDisplay ] = useState('none')
+  const [ display, setDisplay ] = useState('none');
+  const [ loginState, setLoginState ] = useState(0);
+
+  let userEmailAddr = '';
+
+  const randomCode = useRef(Math.floor(Math.random()*999999)+100001);
 
 //*****************
 // Check if user exist in local storage.
@@ -53,40 +58,90 @@ useEffect(() => {
 );
 
 
-  
-
    function submitLogOut() {
     loggedInUser.current = null;
     setLoggedInUserId(null);
     setLoggedInUserRole('');
     localStorage.clear();
-  }
+  };
 
+  // async function submitLogin() {
+  //   const userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
+  //   if (userEmailAddr) {
+  //     const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
+  //     const randomCode = Math.floor(Math.random()*999999)+100001;
+  //     if (memberExist) {
+  //       sendCodeByEmail([userEmailAddr], randomCode);
+  //       console.log(randomCode);
+  //       let userCode = "";
+  //       while (userCode === "") {
+  //         userCode = prompt('Kode fra e-post: ');
+  //       };
+  //       if (parseInt(userCode) === randomCode) {
+  //         loggedInUser.current = userEmailAddr;
+  //         setLoggedInUserRole(userRole);
+  //         setLoggedInUserId(memberId);
+  //         setLoggedInUserRole(loggedInUserRole);
+  //         const memberData = await readGivenMember(memberId);
+  //         memberData[0].token = new Date().toISOString() + Math.random().toString().substring(2, 10);
+  //         console.log(memberData[0]);
+  //         updateMember(memberData[0].id, memberData[0]);
+  //         localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole, token: memberData[0].token }));
+  //         window.location.reload(false);
+  //       }
+  //       else alert('Feil kode!');
+  //   }
+  //   else alert('E-post eksisterer ikke');
+  //   }
+  // }
+
+  function LoginUserPrompt() {
+
+    const [ data, setData ] = useState('');
+
+    function dataChange(event) {
+        setData(event.target.value);
+    };
+
+    async function submitData() {
+      if (parseInt(data) === randomCode.current) {
+        loggedInUser.current = userEmailAddr;
+        const memberData = await readGivenMember(loggedInUserId);
+        setLoggedInUserRole(memberData[0].role);
+        setLoggedInUserId(memberData[0].id);
+        memberData[0].token = new Date().toISOString() + Math.random().toString().substring(2, 10);
+        updateMember(memberData[0].id, memberData[0]);
+        localStorage.setItem('user', JSON.stringify({username: memberData[0].email, userrole: memberData[0].role, token: memberData[0].token }));
+        // window.location.reload(false);
+      }
+      else alert('Feil kode angitt!');
+      setLoginState(2);
+     
+  };
+
+  function closeLoginuserPrompt() {
+    setLoginState(0);
+  };
+
+    return (
+      <div>
+            <h2>Skriv inn tilsendt kode</h2>
+            <input type="text" value={data} onChange={dataChange} autoFocus />
+            <button onClick={submitData}>Logg inn</button>
+            <button onClick={closeLoginuserPrompt}>Avbryt</button>
+      </div>
+    )
+  };
+  
   async function submitLogin() {
-    const userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
+    userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
     if (userEmailAddr) {
-      const [memberExist, , userRole, memberId] = await checkIfMemberExist('', userEmailAddr);
-      const randomCode = Math.floor(Math.random()*999999)+100001;
+      const [memberExist, , , memberId] = await checkIfMemberExist('', userEmailAddr);
+      setLoggedInUserId(memberId);
       if (memberExist) {
-        sendCodeByEmail([userEmailAddr], randomCode);
-        console.log(randomCode);
-        let userCode = "";
-        while (userCode === "") {
-          userCode = prompt('Kode fra e-post: ');
-        };
-        if (parseInt(userCode) === randomCode) {
-          loggedInUser.current = userEmailAddr;
-          setLoggedInUserRole(userRole);
-          setLoggedInUserId(memberId);
-          setLoggedInUserRole(loggedInUserRole);
-          const memberData = await readGivenMember(memberId);
-          memberData[0].token = new Date().toISOString() + Math.random().toString().substring(2, 10);
-          console.log(memberData[0]);
-          updateMember(memberData[0].id, memberData[0]);
-          localStorage.setItem('user', JSON.stringify({username: userEmailAddr, userrole: userRole, token: memberData[0].token }));
-          window.location.reload(false);
-        }
-        else alert('Feil kode!');
+        sendCodeByEmail([userEmailAddr], randomCode.current);
+        console.log(randomCode.current);
+        setLoginState(1);
     }
     else alert('E-post eksisterer ikke');
     }
@@ -99,7 +154,11 @@ useEffect(() => {
         setDisplay( 'none' )
     }
 }
-  
+  if (loginState === 1) {
+    return (
+      <LoginUserPrompt />
+    )
+  }
   if (loggedInUserRole === "Admin" || loggedInUserRole === "Superuser") {
     return (
       <div className='homepagetopdiv'>

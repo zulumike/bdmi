@@ -35,7 +35,7 @@ function LoginPrompt({codeToCheck, memberData}) {
     return (
         <div>
             <h2>Skriv inn tilsendt kode</h2>
-            <input type="text" value={data} onChange={dataChange} />
+            <input type="text" value={data} onChange={dataChange} autoFocus />
             <button onClick={submitData}>OK</button>
         </div>
     )
