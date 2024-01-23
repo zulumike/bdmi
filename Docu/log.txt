@@ -608,38 +608,22 @@ Ny versjon av BDMI medlemsregister.
     - Lagt til funksjon i FamilyMembers og ved oppdatering av medlem
         Hvis ikke endring i pris, så sendes det ikke nå e-post til medlem om endringene.
     - Commit (uten sync)
+    - Sjekket litt rundt problem med at e-post fra løsningen som sendes til f.eks zmmaskin.no eller dingseboms.no er veldig forsinket.
+        Dette er da domeneshop e-post. Samme som det egentlig sendes fra... bevardovrefjell.no er også i domeneshop.
+        Har nå lagt til i eksisterende spf føring i dns sonefila til bevardovrefjell.no.
+            include:sendgrid.net
+            ref: https://mxtoolbox.com/c/outboundemailsources?public=SendGrid
+    - Sync
     
+
 
 
      !!!Huske å endre til IKKE vis randomkode i console....
 
    
-    Kjøre test fra a til å.
-        - Registrere medlem (selv)
-        - velge e-post
-        - legge til et familiemedlem
-        - aktivere abb.
-        - legge til flere familiemedlem
-        - Oppdatere.
-        - fjerne familiemedlem
-        - oppdatere
-        - deaktivere medlem
-
-        - Registrere medlem
-        - velge vipps
-        - legge til et familiemedlem
-        - aktivere vipps
-        - legge til flere i familien
-        - oppdatere vipps.
-        - fjerne noen fra familien
-        - oppdatere vipps
-        - Deaktivere medlemsskap
-
-        - Registrere medlem (admin)
-
-
-    Gjenstår nå:
+      Gjenstår nå?:
         Import av medlemmer, enten rett i databasen, eller programmatisk.
+        Tror ikke det er hensiktsmessig....
 
     Benytte Vipps login?
 
