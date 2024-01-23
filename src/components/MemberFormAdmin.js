@@ -5,6 +5,7 @@ import MemberList from './MemberList';
 import checkIfMemberExist from "../functions/checkIfMemberExist";
 import writeNewMember from "../functions/writeNewMember";
 import EmailSending from "./EmailSending";
+import sendEmail from "../functions/sendEmail";
 import '../styles/default.css';
 import { checkAllVippsAgreements } from "../functions/checkAllVippsAgreements";
 import { chargeMembers } from "../functions/chargeMembers";
@@ -36,6 +37,7 @@ async function chargeAnnual() {
 
 
 
+
 //*************************
 // FUNCTION MemberFormAdmin
 // Creates form and upon submit stores data to db
@@ -59,6 +61,16 @@ function MemberFormAdmin(user) {
         setModalOpen(false);
     };
 
+    async function emailNewMember(emailAddr, totalPrice) {
+        if (window.confirm('Skal det sendes e-post med betalingsinfo til medlem?')) {
+            const invoiceEmailTitle = 'Bevar Dovrefjell mellom istidene kontingent';
+            const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nDu har blitt registrert inn av ' + user.userLoggedIn + '.Ta kontakt med vedkommende hvis spørsmål.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + totalPrice + ',-';
+            await sendEmail(invoiceEmailTitle, invoiceEmailBody, [emailAddr], '', '');
+        };
+        document.location.reload();
+    };
+    
+
     //********************
     // FUNCTION submitForm
     // Calls addMemberToDB with data to be stored
@@ -69,11 +81,14 @@ function MemberFormAdmin(user) {
         console.log(formInputs.phone);
         if ((memberExist) && (formInputs.phone !== undefined)) alert(phoneOrEmail + ' er registert fra før!')
         else {
+            formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
             formInputs.createdby = user.userLoggedIn;
             formInputs.role = 'Medlem';
+            formInputs.invoicechannel = 'email';
             const writeResult = writeNewMember(formInputs);
             writeResult.then((responseMessage) => {
-                if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);
+                if (responseMessage.status !== 200) alert('Lagring feilet! Feilmelding: ', responseMessage.statusText)
+                else emailNewMember(formInputs.email, formInputs.price)
                 setFormInputs({'status': 'Registrert', 'role': 'Medlem'});
                 document.location.reload();
             });
@@ -132,18 +147,6 @@ return (
                 required
                 onChange={formChange}
                 />
-            <label htmlFor='idstatus'>Status: </label>
-            <select 
-                name="status"
-                id="idstatus"
-                form="memberform"
-                required
-                value={formInputs.status || ""}
-                onChange={formChange}
-                >
-                <option value = "Registrert">Registrert</option>
-                <option value = "Aktiv">Aktiv</option>
-            </select>
             <br/>
             <br/>
             <input type="submit" value="Registrer" />

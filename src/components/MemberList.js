@@ -29,7 +29,7 @@ function MemberList() {
     async function submitForm(event) {
         event.preventDefault();
         const writeResult = await updateMember(memberToEdit, formInputs);
-        if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText);
+        if (writeResult.status !== 200) alert('Lagring feilet! Feilmelding: ', writeResult.statusText)
         setFormInputs({});
         setModalOpen(false);
         document.location.reload();
@@ -152,6 +152,7 @@ return (
                     <th>E-post</th>
                     <th>Telefonnummer</th>
                     <th>Postnr</th>
+                    <th>Betalingskanal</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -164,6 +165,7 @@ return (
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
                         <td>{item.zipcode}</td>
+                        <td>{item.invoicechannel}</td>
                         <td>{item.status}</td>
                     </tr>
                 ))}
@@ -245,8 +247,6 @@ return (
         <h3>Innbetalinger:</h3>
         <Charges member={formInputs}/>
         <VippsAgreementExist />
-        {/* <VippsCharges agreementId={formInputs.vippsagreementid} /> */}
-
         <button onClick={stopVippsAgreement}>Stopp Vipps avtale</button>
         <button onClick={deleteMember}>Slett medlem</button>
         <button onClick={closeEditMember}>Avbryt</button>

@@ -599,7 +599,16 @@ Ny versjon av BDMI medlemsregister.
     - Commit.
     - Minsket størrelse på logo fra max-width 200 til 150.
         Dette for å få med mer innhold på mobil uten å måtte scrolle.
-
+    - Commit
+    - Ryddet opp litt i MemberFormUser, tatt bort noe unødvendig kode.
+    - Commit (uten sync)
+    - Lagt til funksjon som kan sende e-post til medlem registrert av admin'
+    - Tatt bort status i MemberFormAdmin skjema.
+        Setter uansett ikke et medlem aktivt før man registrerer betaling tenker jeg.
+    - Lagt til funksjon i FamilyMembers og ved oppdatering av medlem
+        Hvis ikke endring i pris, så sendes det ikke nå e-post til medlem om endringene.
+    - Commit (uten sync)
+    
 
 
      !!!Huske å endre til IKKE vis randomkode i console....
