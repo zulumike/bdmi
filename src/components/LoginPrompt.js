@@ -7,7 +7,7 @@ function LoginPrompt({codeToCheck, memberData}) {
 
     function dataChange(event) {
         setData(event.target.value);
-    }
+    };
 
     function submitData() {
 

@@ -594,6 +594,7 @@ Ny versjon av BDMI medlemsregister.
          og innlogging lagret i localstorage.
     - Ikke klart å gjøre det samme i HomePage for innlogging.....
     - Commit
+    - Endret noe tekst i MemberFormUser som sier litt mer om vipps-avtalen
 
 
      !!!Huske å endre til IKKE vis randomkode i console....
