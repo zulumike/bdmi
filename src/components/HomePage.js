@@ -12,6 +12,7 @@ import logo from '../img/bdmi_logo.png';
 import '../styles/default.css';
 import updateMember from '../functions/updateMember';
 import readGivenMember from '../functions/readGivenMember';
+import Donation from './Donation';
 
 
 function HomePage() {
@@ -73,7 +74,8 @@ useEffect(() => {
         setData(event.target.value);
     };
 
-    async function submitData() {
+    async function submitData(e) {
+      e.preventDefault();
       if (parseInt(data) === randomCode.current) {
         loggedInUser.current = userEmailAddr;
         const memberData = await readGivenMember(loggedInUserId);
@@ -96,9 +98,11 @@ useEffect(() => {
     return (
       <div>
             <h2>Skriv inn tilsendt kode</h2>
-            <input type="text" value={data} onChange={dataChange} autoFocus />
-            <button onClick={submitData}>Logg inn</button>
-            <button onClick={closeLoginuserPrompt}>Avbryt</button>
+            <form onSubmit={submitData}>
+              <input type="text" value={data} onChange={dataChange} autoFocus />
+              <button type="submit">Logg inn</button>
+              <button onClick={closeLoginuserPrompt}>Avbryt</button>
+            </form>
       </div>
     )
   };
@@ -161,6 +165,10 @@ useEffect(() => {
           </div>
         </div>
         <MemberFormUser userLoggedIn={loggedInUserId} />
+        <Donation />
+      <div className="homepagebottomdiv">
+        <h4>Kontakt: post@bevardovrefjell.no</h4>
+      </div>
       </div>
     )
   }
@@ -179,6 +187,10 @@ useEffect(() => {
         </div>
       </div>
       <MemberForm />
+      <Donation />
+      <div className="homepagebottomdiv">
+        <h4>Kontakt: post@bevardovrefjell.no</h4>
+      </div>
     </div>
   )
 }

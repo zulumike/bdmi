@@ -9,8 +9,10 @@ function LoginPrompt({codeToCheck, memberData}) {
         setData(event.target.value);
     };
 
-    function submitData() {
-
+    function submitData(e) {
+        e.preventDefault();
+        console.log(codeToCheck);
+        console.log(parseInt(data));
         if (codeToCheck === parseInt(data)) {
             memberData.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
             memberData.createdby = memberData.email;
@@ -28,16 +30,19 @@ function LoginPrompt({codeToCheck, memberData}) {
                     alert('Lagring feilet! Feilmelding: ', responseMessage.statusText);    
                 }
                     });
-        };
+        }
+        else alert('Feil kode angitt!')
     };
 
 
     return (
         <div>
             <h2>Skriv inn tilsendt kode</h2>
-            <input type="text" value={data} onChange={dataChange} autoFocus />
-            <button onClick={submitData}>OK</button>
-        </div>
+            <form onSubmit={submitData}>
+              <input type="text" value={data} onChange={dataChange} autoFocus />
+              <button type="submit">Logg inn</button>
+            </form>
+      </div>
     )
 };
 

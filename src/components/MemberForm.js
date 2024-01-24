@@ -132,7 +132,6 @@ function MemberForm() {
                 opplysningene du har oppgitt. Opplysningene kan benyttes til å sende ut informasjon,
                 samt kreve inn kontingent. <a href = {salgsbetingelser} target = "_blank" rel="noreferrer">Salgsbetingelser</a>
             </p>
-            <h2>Kontakt: post@bevardovrefjell.no</h2>
             <ReactModal 
                 className='modal'
                 ovarlayClassName='modaloverlay'

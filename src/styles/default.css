@@ -228,3 +228,17 @@ h4 {
     background: var(--orange-50, #FF5B24);
     color: #FFFFFF;
 }
+
+.donationdiv {
+    text-align: center;
+}
+
+.vippsqrimg {
+    max-width: 150px;
+}
+
+.homepagebottomdiv {
+    margin-top: 50px;
+    text-align: center;
+    margin-bottom: 10px;
+}

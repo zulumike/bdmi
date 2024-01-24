@@ -615,12 +615,12 @@ Ny versjon av BDMI medlemsregister.
             ref: https://mxtoolbox.com/c/outboundemailsources?public=SendGrid
     - Sync
     
-
+24.01.2024 -51
+    - Lagt inn tekst med info og qrkode om hvordan man kan gi støtte til foreningen i HomePage
+    - Endret de nye dialogboksene jeg laget for å taste inn tilsendt kode slik at skjema aktiveres ved enter
+    - Commit og sync
     
-    Legge til mulighet for å betale inn ekstra støtte.
-    Bruke vipps qr og info om vippsnr og bank-kontonr.
-
-
+    !!! E-post til domeneshop domener er veldig forsinket....
 
      !!!Huske å endre til IKKE vis randomkode i console....
 
