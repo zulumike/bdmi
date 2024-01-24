@@ -14,6 +14,7 @@ function Donation() {
             <h3>Bankkonto: 9365 19 94150</h3>
             <h3>Eller Vipps: </h3>
             <img src={vippsQR} alt="VippsQR" className="vippsqrimg" ></img>
+            <h4>(Skann kode i vipps-appen eller trykk og hold inne på qr-koden hvis du ser dette på telefonen)</h4>
             
         </div>
     )
