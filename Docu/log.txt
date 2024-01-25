@@ -619,6 +619,10 @@ Ny versjon av BDMI medlemsregister.
     - Lagt inn tekst med info og qrkode om hvordan man kan gi støtte til foreningen i HomePage
     - Endret de nye dialogboksene jeg laget for å taste inn tilsendt kode slik at skjema aktiveres ved enter
     - Commit og sync
+
+25.01.2024 -52
+    - opprettet staging environment.
+    
     
     !!! E-post til domeneshop domener er veldig forsinket....
 
