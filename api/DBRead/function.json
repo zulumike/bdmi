@@ -19,7 +19,7 @@
       "name": "allDocuments",
       "type": "cosmosDB",
       "direction": "in",
-      "databaseName": "bdmi",
+      "databaseName": "bdmi_staging",
       "collectionName": "members",
       "sqlQuery": "SELECT * FROM Documents WHERE Documents.deleted = 'false'",
       "connectionStringSetting": "bdmiDBConnectionString"
@@ -28,7 +28,7 @@
       "name": "givenMember",
       "type": "cosmosDB",
       "direction": "in",
-      "databaseName": "bdmi",
+      "databaseName": "bdmi_staging",
       "collectionName": "members",
       "sqlQuery": "SELECT * FROM Documents WHERE Documents.id = {id}",
       "connectionStringSetting": "bdmiDBConnectionString"
