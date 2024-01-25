@@ -78,7 +78,6 @@ function MemberFormAdmin(user) {
     async function submitForm(event) {
         event.preventDefault();
         const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
-        console.log(formInputs.phone);
         if ((memberExist) && (formInputs.phone !== undefined)) alert(phoneOrEmail + ' er registert fra før!')
         else {
             formInputs.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
