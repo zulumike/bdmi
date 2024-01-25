@@ -621,8 +621,11 @@ Ny versjon av BDMI medlemsregister.
     - Commit og sync
 
 25.01.2024 -52
-    - opprettet staging environment.
-    
+    - Opprettet staging environment.
+    - Opprettet en staging db
+    - Oppdatert staging apier til å gå på staging db.
+    - Oppdatert application settings for production til å gå på production api-nøkler og secrets mm for vipps.
+        NB: Må skrive til dem for å få funksjonen recurring aktivert.
     
     !!! E-post til domeneshop domener er veldig forsinket....
 
