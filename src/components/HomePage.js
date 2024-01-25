@@ -189,7 +189,7 @@ useEffect(() => {
       <MemberForm />
       <Donation />
       <div className="homepagebottomdiv">
-        <h4>Kontakt: post@bevardovrefjell.no</h4>
+        <h4>Kontaktinfo: post@bevardovrefjell.no</h4>
       </div>
     </div>
   )
