@@ -19,7 +19,7 @@
       "type": "cosmosDB",
       "direction": "out",
       "name": "outputDocument",
-      "databaseName": "bdmi_staging",
+      "databaseName": "%bdmiDBName%",
       "collectionName": "members",
       "createIfNotExists": false,
       "connectionStringSetting": "bdmiDBConnectionString"
@@ -28,7 +28,7 @@
       "type": "cosmosDB",
       "direction": "out",
       "name": "updateDocument",
-      "databaseName": "bdmi_staging",
+      "databaseName": "%bdmiDBName%",
       "collectionName": "members",
       "createIfNotExists": false,
       "id": "{id}",

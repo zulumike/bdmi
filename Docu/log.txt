@@ -626,6 +626,14 @@ Ny versjon av BDMI medlemsregister.
     - Oppdatert staging apier til å gå på staging db.
     - Oppdatert application settings for production til å gå på production api-nøkler og secrets mm for vipps.
         NB: Må skrive til dem for å få funksjonen recurring aktivert.
+        Dette ble gjort idag.
+    - commit
+
+26.01.2024 -53
+    Staging:
+    - Endret functions.json i db-apiene slik at de bruker env variabel.
+        På denne måten kan jeg ha lik kode i staging og main, men sette forskjellige variabler i config(local.settings for lokal testing)
+    - La til denne variabel i local settings og i azure, både for staging og main.
     
 
 
