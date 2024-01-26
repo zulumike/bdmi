@@ -621,42 +621,32 @@ Ny versjon av BDMI medlemsregister.
     - Commit og sync
 
 25.01.2024 -52
-    - opprettet staging environment.
+    - Opprettet staging environment.
+    - Opprettet en staging db
+    - Oppdatert staging apier til å gå på staging db.
+    - Oppdatert application settings for production til å gå på production api-nøkler og secrets mm for vipps.
+        NB: Må skrive til dem for å få funksjonen recurring aktivert.
+        Dette ble gjort idag.
+    - commit
+
+26.01.2024 -53
+    Staging:
+    - Endret functions.json i db-apiene slik at de bruker env variabel.
+        På denne måten kan jeg ha lik kode i staging og main, men sette forskjellige variabler i config(local.settings for lokal testing)
+    - La til denne variabel i local settings og i azure, både for staging og main.
     
-    
+
+
+NB: Nå har jeg to branch. main og staging.
+    På staging så ligger det i api-ene at database skrivnig og lesing går til en annen database enn for main.
+    Så når staging og main skal merges, MÅ jeg huske å endre dette.
+    Kanskje se om det er mulig med en if-setning her....
+
     !!! E-post til domeneshop domener er veldig forsinket....
-
-     !!!Huske å endre til IKKE vis randomkode i console....
-
-   
-      Gjenstår nå?:
-        Import av medlemmer, enten rett i databasen, eller programmatisk.
-        Tror ikke det er hensiktsmessig....
-
-    Benytte Vipps login?
 
     Vipps: Ordne funksjon for å sende kvittering til kunde(i vipps)
         Bør kanskje også lage kvittering på e-post?
         Tar dette hvis det dukker opp spørsmål....
-
-    Vipps generelt. Må kanskje legge inn Vipps-logo / knapper i henhold til Vipps sine retningslinjer.
-        Tror det jeg har er greit nok.
-
-
-    Kommer feilmeldinger i Console før det kjøres reload.
-        Har med for MemberFormUser at medlemsid ikke er kjent når readGivenMember kjøres....
-        For MemberFormAdmin har det noe med at React state forsøkes endret før komponent(antar det er MemberList) er lastet   .
-
-    Lage en oversikt over regnskap?
-        Nok i første omgang. Hvis det viser seg at dette ikke stemmer med fakta,
-            så kan jo det være at et vipps-medlem ikke har betalt pga manglende dekning på konto eller lignende.
-            Pr idag, så må man da gå inn på hvert enkelt medlem for å se status på betalinger.
-            Kan ved behov lage en spørring på dette tenker jeg.
-
-    Ved oppdatering av medlemmer som bruker e-post: bør kanskje sjekke hva som er betalt inn i stedenfor bare hva som tidligere var beløp?, men da må jeg lage funksjon for å sjekke hvor mye som er betalt inn naturligvis.
-        Dette må jo da sjekkes opp i mot dato, eller så må jeg registrere "belastninger" og om de er betalt inn.
-        Da er det lettere å sjekke om alt er betalt, og kan heller skrive i e-post hva man er skyldig.
-        Tror dette kan utsettes til en senere versjon...
 
     Vurdere om admins skal kunne legge til familiemedlemmer og dermed oppdatere vipps-avtale og belaste ekstra.
         Tror ikke det er i henhold og så lurt. Ved registrering/endring av admin bør medlem få e-post med informasjon om å gå inn og aktivere/oppdatere vipps-avtale selv.    

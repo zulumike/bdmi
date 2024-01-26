@@ -19,7 +19,7 @@
       "type": "cosmosDB",
       "direction": "out",
       "name": "outputDocument",
-      "databaseName": "bdmi",
+      "databaseName": "%bdmiDBName%",
       "collectionName": "charges",
       "createIfNotExists": true,
       "connectionStringSetting": "bdmiDBConnectionString"
