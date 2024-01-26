@@ -114,7 +114,6 @@ useEffect(() => {
       setLoggedInUserId(memberId);
       if (memberExist) {
         sendCodeByEmail([userEmailAddr], randomCode.current);
-        console.log(randomCode.current);
         setLoginState(1);
     }
     else alert('E-post eksisterer ikke');
@@ -189,7 +188,7 @@ useEffect(() => {
       <MemberForm />
       <Donation />
       <div className="homepagebottomdiv">
-        <h4>Kontakt: post@bevardovrefjell.no</h4>
+        <h4>Kontaktinfo: post@bevardovrefjell.no</h4>
       </div>
     </div>
   )
