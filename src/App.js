@@ -13,7 +13,7 @@ function App() {
   else {
     return (
       <div className="apptopdiv">
-        <h2 style={{color: "red", textAlign: "center"}}>STAGING</h2>
+        <h2 style={{color: "red", textAlign: "center"}}>!!STAGING!!</h2>
         <HomePage />
       </div>
     )
