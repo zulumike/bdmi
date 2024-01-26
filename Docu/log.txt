@@ -634,6 +634,12 @@ Ny versjon av BDMI medlemsregister.
     - Endret functions.json i db-apiene slik at de bruker env variabel.
         På denne måten kan jeg ha lik kode i staging og main, men sette forskjellige variabler i config(local.settings for lokal testing)
     - La til denne variabel i local settings og i azure, både for staging og main.
+    - Kjørte commit på staging
+    - deretter merge main fra staging.
+        local.settings i api ble også merget.......
+    - La til funksjon i app.js som legger til teksten STAGING når ikke produksjon.
+        Dette for at jeg ser om jeg er i stagin eller main.
+    - Commit.
     
 
 
