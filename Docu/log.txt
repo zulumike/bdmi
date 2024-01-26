@@ -638,8 +638,10 @@ Ny versjon av BDMI medlemsregister.
     - deretter merge main fra staging.
         local.settings i api ble også merget.......
     - La til funksjon i app.js som legger til teksten STAGING når ikke produksjon.
-        Dette for at jeg ser om jeg er i stagin eller main.
+        Dette for at jeg ser om jeg er i staging eller main.
     - Commit.
+    - Lagt til ekstra status tekst hvis kunde har en aktiv vipps-avtale, men endrer til å betale via e-post.
+    - Commit
     
 
 
