@@ -97,12 +97,13 @@ useEffect(() => {
 
     return (
       <div>
-            <h2>Skriv inn tilsendt kode</h2>
-            <form onSubmit={submitData}>
-              <input type="text" value={data} onChange={dataChange} autoFocus />
-              <button type="submit">Logg inn</button>
-              <button onClick={closeLoginuserPrompt}>Avbryt</button>
-            </form>
+        <h2>Vi har sendt deg en kode via e-post. Om den ikke kommer innen kort tid, sjekk søppelpost.</h2>
+        <h2>Skriv inn tilsendt kode</h2>
+        <form onSubmit={submitData}>
+          <input type="text" value={data} onChange={dataChange} autoFocus />
+          <button type="submit">Logg inn</button>
+          <button onClick={closeLoginuserPrompt}>Avbryt</button>
+        </form>
       </div>
     )
   };
@@ -113,7 +114,7 @@ useEffect(() => {
       const [memberExist, , , memberId] = await checkIfMemberExist('', userEmailAddr);
       setLoggedInUserId(memberId);
       if (memberExist) {
-        sendCodeByEmail([userEmailAddr], randomCode.current);
+        sendCodeByEmail(userEmailAddr, randomCode.current);
         setLoginState(1);
     }
     else alert('E-post eksisterer ikke');
