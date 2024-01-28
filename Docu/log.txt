@@ -666,6 +666,17 @@ Ny versjon av BDMI medlemsregister.
 
         Står igjen å legge til fil-vedlegg og kanskje endre (ihvertfall teste) EmailSending komponenten.
     - Commit
+    - Forsøker å legge til fil-vedlegg, men sliter veldig.
+        Får ingen tilbakemelding i api om hva som går galt. E-post med vedlegg sendes ikke.
+        Hvis jeg i attachment array har et objekt med data: "tilfeldige tegn", så ser det ut til å funke.
+        Så variabelen textBuffered har tydeligvis en feil..
+        Får ikke lest den ut i context.log da det er noe forsinkelse og jeg ikke får til å vente på den,.....
+
+28.01.2024 -55
+    - Problemet for å få med vedlegg, var å legge til toString('base64').
+    - Har ikke klart å få logg til å fungere, da det tydeligvis ikke ventes på svar....
+        Det driter jeg i nå. Ikke kritisk dette.
+    - Commit.
 
 
 NB: Legge til tekst på kode-innskriving slik at det går frem 
