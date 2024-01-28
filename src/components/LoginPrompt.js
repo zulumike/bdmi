@@ -11,8 +11,6 @@ function LoginPrompt({codeToCheck, memberData}) {
 
     function submitData(e) {
         e.preventDefault();
-        console.log(codeToCheck);
-        console.log(parseInt(data));
         if (codeToCheck === parseInt(data)) {
             memberData.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
             memberData.createdby = memberData.email;
@@ -37,6 +35,7 @@ function LoginPrompt({codeToCheck, memberData}) {
 
     return (
         <div>
+            <h2>Vi har sendt deg en kode via e-post. Om den ikke kommer innen kort tid, sjekk søppelpost.</h2>
             <h2>Skriv inn tilsendt kode</h2>
             <form onSubmit={submitData}>
               <input type="text" value={data} onChange={dataChange} autoFocus />

@@ -44,7 +44,7 @@ function MemberForm() {
         const [memberExist, phoneOrEmail] = await checkIfMemberExist(formInputs.phone, formInputs.email);
         if (memberExist) alert(phoneOrEmail + ' er registert fra før!\nPrøv en annen eller kontakt post@bevardovrefjell.no')
         else {
-            sendCodeByEmail([formInputs.email], randomCode.current);
+            sendCodeByEmail(formInputs.email, randomCode.current);
             setModalOpen(true);
         };
     };

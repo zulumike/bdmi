@@ -8,15 +8,24 @@
 async function sendCodeByEmail(mailAddress, code) {
     let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
-        apiURL = '/api/SendEmail';
+        apiURL = '/api/SparkPost';
     }
     else {
-        apiURL = 'http://localhost:7071/api/SendEmail';
+        apiURL = 'http://localhost:7071/api/SparkPost';
 
-    }
+    };
+    
+    
+    // if (process.env.NODE_ENV === 'production') {
+    //     apiURL = '/api/SendEmail';
+    // }
+    // else {
+    //     apiURL = 'http://localhost:7071/api/SendEmail';
+
+    // }
 
     let messageData = {};
-    messageData.mailAddress = mailAddress;
+    messageData.mailAddress = [{'address': mailAddress}];
     messageData.subject = 'Velkommen til Bevar Dovrefjell';
     messageData.text = 'Tast inn følgende kode for å fullføre innlogging/registrering: ' + code;
     
@@ -24,7 +33,8 @@ async function sendCodeByEmail(mailAddress, code) {
         method: "POST",
         body: JSON.stringify(messageData)
     });
-    return (responseMessage);
+    const emailResult = await responseMessage.text();
+    return (emailResult);
 };
 
 export default sendCodeByEmail;

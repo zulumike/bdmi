@@ -642,8 +642,45 @@ Ny versjon av BDMI medlemsregister.
     - Commit.
     - Lagt til ekstra status tekst hvis kunde har en aktiv vipps-avtale, men endrer til å betale via e-post.
     - Commit
-    
+    - Og Merge.
 
+    - Skal teste ut Sparkpost i stedenfor sendgrid. Denne tar 500 sendinger pr måned uten kostnad.
+    - Opprettet bruker for BevarDovrefjell på itansvarlig@bevardovrefjell.no.
+    - npm install sparkpost i api mappen
+    - Satt opp ny api vha azure static web apps create http function
+        SparkPost
+        Får ikke særlig tilbakemelding i min api.
+        Forsøkt via postman. Ser mer info der. Manglet rett verifisering av domenet bevardovrefjell.no.
+        Testet ok mot ole@mifo.no
+        Testet ok mot ole@zmmaskin.no.
+        Får ikke til via egen api.
+            Fikk sendt en gang, usikker hva som var annerledes da.
+            Har etterhvert fått inn feilmelding og sier unconfigured sending domain <bevardovrefjell.no>.....
+            Får prøve igjen i morgen....
+    
+27.01.2024 -54
+    - Fortsatte testing av Sparkpost.
+        Måtte reverifisere domenet..... Da ser det ut til å fungere.
+    - Fortsetter å utvikle denne e-post slik at det fungerer på samme vis som sendgrid med å kunne legge til mange adresser.
+        Samt må få lagt til pdf også etterhvert.
+
+        Står igjen å legge til fil-vedlegg og kanskje endre (ihvertfall teste) EmailSending komponenten.
+    - Commit
+    - Forsøker å legge til fil-vedlegg, men sliter veldig.
+        Får ingen tilbakemelding i api om hva som går galt. E-post med vedlegg sendes ikke.
+        Hvis jeg i attachment array har et objekt med data: "tilfeldige tegn", så ser det ut til å funke.
+        Så variabelen textBuffered har tydeligvis en feil..
+        Får ikke lest den ut i context.log da det er noe forsinkelse og jeg ikke får til å vente på den,.....
+
+28.01.2024 -55
+    - Problemet for å få med vedlegg, var å legge til toString('base64').
+    - Har ikke klart å få logg til å fungere, da det tydeligvis ikke ventes på svar....
+        Det driter jeg i nå. Ikke kritisk dette.
+    - Commit.
+
+
+NB: Legge til tekst på kode-innskriving slik at det går frem 
+    at kode sendes på e-post.
 
 NB: Nå har jeg to branch. main og staging.
     På staging så ligger det i api-ene at database skrivnig og lesing går til en annen database enn for main.
