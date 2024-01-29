@@ -679,8 +679,6 @@ Ny versjon av BDMI medlemsregister.
     - Commit.
 
 
-NB: Legge til tekst på kode-innskriving slik at det går frem 
-    at kode sendes på e-post.
 
 NB: Nå har jeg to branch. main og staging.
     På staging så ligger det i api-ene at database skrivnig og lesing går til en annen database enn for main.

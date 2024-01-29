@@ -4,7 +4,7 @@ module.exports = async function (context, req) {
   const fetch = require("node-fetch");
 
   const vippsReqType = req.body.vippsreqtype;
-  const vippsApiURL = "https://apitest.vipps.no";
+  const vippsApiURL = process.env.VippsApiUrl;
 
   var myHeaders = new fetch.Headers();
   myHeaders.append("Content-Type", "application/json");
