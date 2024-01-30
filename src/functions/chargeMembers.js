@@ -12,6 +12,8 @@ export async function writeLogToDB(data) {
 
     };
 
+    data.id = new Date().toISOString() + Math.random().toString().substring(2, 5);
+    
     await fetch(apiURL, {
         method: "POST",
         body: JSON.stringify(data)
