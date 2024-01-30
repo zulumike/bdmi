@@ -689,6 +689,10 @@ Ny versjon av BDMI medlemsregister.
     - Lagt til css for tabell i MemberList slik at tekst ikke wrappes (hopper til ny linje)
 
 
+NB: Johnny GV opplevde at når han hadde gjort ferdig betaling, så kunne han trykke aktiver en gang til. Dette medførte
+    at avtale ble opprettet to ganger og den siste ble da avbrutt. Systemet sjekket da kun siste avtale....
+    Må gjøre en oppdatering her.... kanskje bare en alert-melding før refresh av siden?
+
 NB: Ved belastning av årets kontingent: Er vel idag ikke noe funksjon som sjekker om kunde nylig har betalt på annen måte eller 
     om det er et nytt medlem som da allerede har betalt årets kontingent...
     hvis vi kjører belastning første dag i året, så er vel ikke dette noe problem.
