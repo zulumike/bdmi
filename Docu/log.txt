@@ -678,7 +678,23 @@ Ny versjon av BDMI medlemsregister.
         Det driter jeg i nå. Ikke kritisk dette.
     - Commit.
 
+30.01.2024 -56
+    - Lagt til dato-tid i id når det skrives logg for vipps i db.
+    - commit.
+    - Fjernet test epost funksjon fra MemberFormAdmin
+    - Fjernet STAGING tekst hvis ikke production.
+        Fungerte uansett ikke. viste kun staging hvis lokalt.
+    - Justert heading tekster i MemberList for å få med mer tekst i navne-kolonne.
+    - Økt max-width i homepagetopdiv til 1024.
+    - Lagt til css for tabell i MemberList slik at tekst ikke wrappes (hopper til ny linje)
 
+
+NB: Ved belastning av årets kontingent: Er vel idag ikke noe funksjon som sjekker om kunde nylig har betalt på annen måte eller 
+    om det er et nytt medlem som da allerede har betalt årets kontingent...
+    hvis vi kjører belastning første dag i året, så er vel ikke dette noe problem.
+    Men må nok lage en bedre løsning rundt dette.
+        Lagre i database hvilket år det har blitt betalt for.
+        Når kjøre belastning eller kanskje heller når nullstille status, sjekke om dette samsvarer med nytt år.
 
 NB: Nå har jeg to branch. main og staging.
     På staging så ligger det i api-ene at database skrivnig og lesing går til en annen database enn for main.

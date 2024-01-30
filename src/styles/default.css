@@ -67,7 +67,7 @@ h4 {
 /* ************************* */
 .homepagetopdiv {
     width: 100%;
-    max-width: 800px;
+    max-width: 1024px;
     margin: auto;
 }
 
@@ -173,6 +173,8 @@ h4 {
     margin-right: auto;
     border-spacing: 20px 1px;
     text-align: left;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .memberlisttable td {

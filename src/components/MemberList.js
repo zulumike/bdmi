@@ -150,9 +150,9 @@ return (
                 <tr>
                     <th>Navn</th>
                     <th>E-post</th>
-                    <th>Telefonnummer</th>
+                    <th>Mobil</th>
                     <th>Postnr</th>
-                    <th>Betalingskanal</th>
+                    <th>Betaling</th>
                     <th>Status</th>
                 </tr>
             </thead>
