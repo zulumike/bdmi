@@ -94,11 +94,6 @@ function MemberFormAdmin(user) {
         };
     };
 
-    function testMail() {
-        const testAdresses = ['ole@zmmaskin.no', 'ole@mifo.no'];
-        sendEmail('Tittel', 'Dette er en test', testAdresses, '', '');
-    };
-
 return (
     <div className='memberformadmintoppdiv'>
         <form className="memberadminform" id="memberform" onSubmit={submitForm}>
@@ -158,7 +153,6 @@ return (
         <button onClick={openEmailSender}>E-post utsending</button>
         <button onClick={updateStatusFromVipps}>Sjekk Vipps status</button>
         <button onClick={chargeAnnual}>Krev inn årets kontingent</button>
-        <button onClick={testMail}>Test epost</button>
 
         <MemberList />
         <ReactModal 
