@@ -688,6 +688,9 @@ Ny versjon av BDMI medlemsregister.
     - Økt max-width i homepagetopdiv til 1024.
     - Lagt til css for tabell i MemberList slik at tekst ikke wrappes (hopper til ny linje)
 
+I forbindelse med punktet under her, så tenker jeg det i tillegg bør legges inn en sjekk når man trykker på aktiver abb. 
+    Der man sjekker om det allerede eksisterer en agreement og evt status på denne. Hvis pending, spørsmål om å starte på nytt? Eller bruke samme key og prøve på nytt...
+        Hvis aktiv, melde om dette.
 
 NB: Johnny GV opplevde at når han hadde gjort ferdig betaling, så kunne han trykke aktiver en gang til. Dette medførte
     at avtale ble opprettet to ganger og den siste ble da avbrutt. Systemet sjekket da kun siste avtale....
@@ -700,12 +703,7 @@ NB: Ved belastning av årets kontingent: Er vel idag ikke noe funksjon som sjekk
         Lagre i database hvilket år det har blitt betalt for.
         Når kjøre belastning eller kanskje heller når nullstille status, sjekke om dette samsvarer med nytt år.
 
-NB: Nå har jeg to branch. main og staging.
-    På staging så ligger det i api-ene at database skrivnig og lesing går til en annen database enn for main.
-    Så når staging og main skal merges, MÅ jeg huske å endre dette.
-    Kanskje se om det er mulig med en if-setning her....
-
-    !!! E-post til domeneshop domener er veldig forsinket....
+NB: Nå har jeg to branch. main og staging
 
     Vipps: Ordne funksjon for å sende kvittering til kunde(i vipps)
         Bør kanskje også lage kvittering på e-post?
