@@ -688,6 +688,11 @@ Ny versjon av BDMI medlemsregister.
     - Økt max-width i homepagetopdiv til 1024.
     - Lagt til css for tabell i MemberList slik at tekst ikke wrappes (hopper til ny linje)
 
+31.01.2024 - 56
+    - Litt usikker rundt hele merge-prosessen.
+        Konkludert foreløpig med at jeg fortsetter med staging branch, men må prøve å sette main som active tror jeg.
+        
+
 I forbindelse med punktet under her, så tenker jeg det i tillegg bør legges inn en sjekk når man trykker på aktiver abb. 
     Der man sjekker om det allerede eksisterer en agreement og evt status på denne. Hvis pending, spørsmål om å starte på nytt? Eller bruke samme key og prøve på nytt...
         Hvis aktiv, melde om dette.
