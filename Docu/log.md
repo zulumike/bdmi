@@ -691,7 +691,7 @@ Ny versjon av BDMI medlemsregister.
 31.01.2024 * 56
 * Litt usikker rundt hele merge-prosessen.
         Konkludert foreløpig med at jeg fortsetter med staging branch slik jeg har gjort.
-
+Test
 
 I forbindelse med punktet under her, så tenker jeg det i tillegg bør legges inn en sjekk når man trykker på aktiver abb. 
     Der man sjekker om det allerede eksisterer en agreement og evt status på denne. Hvis pending, spørsmål om å starte på nytt? Eller bruke samme key og prøve på nytt...
