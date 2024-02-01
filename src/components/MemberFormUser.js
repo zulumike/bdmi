@@ -92,10 +92,13 @@ function MemberFormUser(memberId) {
     };
 
     async function activateSubscription() {
-        if (formInputs.invoicechannel === "vipps") {            
+        if(vippsAgreementStatus === 'ACTIVE') {
+            alert('Det er allerede aktivert Vipps-avtale!');
+        };
+        if (formInputs.invoicechannel === "vipps" && vippsAgreementStatus !== 'ACTIVE') {            
             const vippsAmount = (formInputs.price * 100).toString();
             let vippsIdempotencyKey = memberId.userLoggedIn;
-            if (formInputs.vippsagreementid !== undefined) {
+            if (formInputs.vippsagreementid !== undefined && vippsAgreementStatus !== 'PENDING') {
                 vippsIdempotencyKey = memberId.userLoggedIn + '_' + Math.random().toString().substring(2, 5);
             };
             const vippsResult = await vippsDraftAgreement(memberId.userLoggedIn, vippsAmount, vippsAmount, formInputs.phone, vippsIdempotencyKey);
@@ -115,8 +118,8 @@ function MemberFormUser(memberId) {
             const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + formInputs.price.toString() + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             alert('Vi har nå sendt deg en e-post med informasjon om hvordan du skal betale');
-            document.location.reload();
         };
+        document.location.reload();
     };
 
     async function updateSubscription() {
@@ -196,7 +199,8 @@ function MemberFormUser(memberId) {
     function TextIfPending() {
         return (
             <div className="subscriptionactivediv">
-                <h2>Vipps avtale/krav er under utførelse. Oppdater siden når fullført</h2>
+                <h2>Vipps avtale/krav er under utførelse. Hvis avbrutt, kan du fortsette ved å trykke her</h2>
+                <button className='centerbtn'>Fortsett aktivering</button>
             </div>
         )
     };
