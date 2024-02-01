@@ -72,7 +72,7 @@ function MemberFormUser(memberId) {
     async function deleteMember() {
         const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?\nNB: registrerte familiemedlemmer blir også slettet!\nHar du valgt Vipps vil du få eget spørsmål om å avslutte avtalen der.");
         if (confirmDelete) {
-            if (formInputs.invoicechannel === "vipps") {
+            if (formInputs.invoicechannel === "vipps" && vippsAgreementStatus === 'ACTIVE') {
                 deActivateSubscription();
             };
             formInputs.firstname = 'Slettet';
