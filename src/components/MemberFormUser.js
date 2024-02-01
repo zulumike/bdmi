@@ -19,7 +19,7 @@ function MemberFormUser(memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
+    const [vippsAgreementStatus, setVippsAgreementStatus] = useState('LOADING')
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
@@ -224,6 +224,14 @@ function MemberFormUser(memberId) {
         )
     };
 
+    function TextIfVippsLoading() {
+        return (
+            <div className="subscriptionnotactivediv">
+                <h2>Sjekker Vipps status.....</h2>
+            </div>
+        )
+    };
+
 
     function SubscriptionText() {
 
@@ -243,8 +251,12 @@ function MemberFormUser(memberId) {
         else if (vippsAgreementStatus === "PENDING") {
             return <TextIfPending/>
         }
-        else if (formInputs.invoicechannel === 'vipps')
-        return <TextIfNotActive />
+        else if (formInputs.invoicechannel === 'vipps' && vippsAgreementStatus === 'LOADING') {
+            return <TextIfVippsLoading />
+        }
+        else if (formInputs.invoicechannel === 'vipps') {
+            return <TextIfNotActive />
+        }
         else return null
     };
    
