@@ -118,8 +118,8 @@ function MemberFormUser(memberId) {
             const invoiceEmailBody = 'Tusen takk for at du er medlem og støtter oss.\nFor å betale årets kontingent vennligst bruk vipps #551769.\nEller bankoverføring til konto 9365 19 94150.\nBeløpet som skal betales er ' + formInputs.price.toString() + ',-';
             await sendEmail(invoiceEmailTitle, invoiceEmailBody, [formInputs.email], '', '');
             alert('Vi har nå sendt deg en e-post med informasjon om hvordan du skal betale');
+            document.location.reload();
         };
-        document.location.reload();
     };
 
     async function updateSubscription() {
