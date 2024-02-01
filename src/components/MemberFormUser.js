@@ -200,7 +200,7 @@ function MemberFormUser(memberId) {
         return (
             <div className="subscriptionactivediv">
                 <h2>Vipps avtale/krav er under utførelse. Hvis avbrutt, kan du fortsette ved å trykke her</h2>
-                <button className='centerbtn'>Fortsett aktivering</button>
+                <button className='centerbtn' onClick={activateSubscription}>Fortsett aktivering</button>
             </div>
         )
     };
