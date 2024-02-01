@@ -199,8 +199,7 @@ function MemberFormUser(memberId) {
     function TextIfPending() {
         return (
             <div className="subscriptionactivediv">
-                <h2>Vipps avtale/krav er under utførelse. Hvis avbrutt, kan du fortsette ved å trykke her</h2>
-                <button className='centerbtn' onClick={activateSubscription}>Fortsett aktivering</button>
+                <h2>Vipps avtale/krav er under utførelse. Hvis aktiveringen ble avbrutt eller lignende, vent i 10 minutter, oppdater siden og prøv igjen.</h2>
             </div>
         )
     };
