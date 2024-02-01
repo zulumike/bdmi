@@ -197,7 +197,6 @@ function MemberFormUser(memberId) {
         return (
             <div className="subscriptionactivediv">
                 <h2>Vipps avtale/krav er under utførelse. Oppdater siden når fullført</h2>
-                <button className="centerbtn" onClick={activateSubscription}>Start aktivering på nytt</button>
             </div>
         )
     };
@@ -245,17 +244,6 @@ function MemberFormUser(memberId) {
         return <TextIfNotActive />
         else return null
     };
-
-    // function PaymentStatus() {
-    //     if (!vippsPaymentStatus.allPayed) {
-    //         return (
-    //             <div>
-    //                 <h2>Gjenstående å betale: { vippsPaymentStatus.remainingAmount }</h2>
-    //             </div>
-    //         )
-    //     }
-    //     else return null
-    // };
    
     return (
         <div className="memberformusertopdiv">
