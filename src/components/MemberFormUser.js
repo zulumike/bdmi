@@ -44,6 +44,9 @@ function MemberFormUser(memberId) {
                             else setVippsUpdateNeeded(false);
                             setVippsAgreementStatus(vippsAgreement.status);
                         })
+                    }
+                    else {
+                        setVippsAgreementStatus(undefined);
                     };
 
                 })
