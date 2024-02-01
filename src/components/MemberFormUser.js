@@ -19,7 +19,7 @@ function MemberFormUser(memberId) {
         setFormInputs(values => ({...values, [name]: value}))
     };
 
-    const [vippsAgreementStatus, setVippsAgreementStatus] = useState('')
+    const [vippsAgreementStatus, setVippsAgreementStatus] = useState('LOADING')
 
     Modal.setAppElement('#root');
     const [modalOpen, setModalOpen] = useState(false);
@@ -44,6 +44,9 @@ function MemberFormUser(memberId) {
                             else setVippsUpdateNeeded(false);
                             setVippsAgreementStatus(vippsAgreement.status);
                         })
+                    }
+                    else {
+                        setVippsAgreementStatus(undefined);
                     };
 
                 })
@@ -69,7 +72,7 @@ function MemberFormUser(memberId) {
     async function deleteMember() {
         const confirmDelete = window.confirm("Vil du virkelig melde deg ut av vårt register?\nNB: registrerte familiemedlemmer blir også slettet!\nHar du valgt Vipps vil du få eget spørsmål om å avslutte avtalen der.");
         if (confirmDelete) {
-            if (formInputs.invoicechannel === "vipps") {
+            if (formInputs.invoicechannel === "vipps" && vippsAgreementStatus === 'ACTIVE') {
                 deActivateSubscription();
             };
             formInputs.firstname = 'Slettet';
@@ -92,10 +95,13 @@ function MemberFormUser(memberId) {
     };
 
     async function activateSubscription() {
-        if (formInputs.invoicechannel === "vipps") {            
+        if(vippsAgreementStatus === 'ACTIVE') {
+            alert('Det er allerede aktivert Vipps-avtale!');
+        };
+        if (formInputs.invoicechannel === "vipps" && vippsAgreementStatus !== 'ACTIVE') {            
             const vippsAmount = (formInputs.price * 100).toString();
             let vippsIdempotencyKey = memberId.userLoggedIn;
-            if (formInputs.vippsagreementid !== undefined) {
+            if (formInputs.vippsagreementid !== undefined && vippsAgreementStatus !== 'PENDING') {
                 vippsIdempotencyKey = memberId.userLoggedIn + '_' + Math.random().toString().substring(2, 5);
             };
             const vippsResult = await vippsDraftAgreement(memberId.userLoggedIn, vippsAmount, vippsAmount, formInputs.phone, vippsIdempotencyKey);
@@ -196,8 +202,7 @@ function MemberFormUser(memberId) {
     function TextIfPending() {
         return (
             <div className="subscriptionactivediv">
-                <h2>Vipps avtale/krav er under utførelse. Oppdater siden når fullført</h2>
-                <button className="centerbtn" onClick={activateSubscription}>Start aktivering på nytt</button>
+                <h2>Vipps avtale/krav er under utførelse. Hvis aktiveringen ble avbrutt eller lignende, vent i 10 minutter, oppdater siden og prøv igjen.</h2>
             </div>
         )
     };
@@ -222,6 +227,14 @@ function MemberFormUser(memberId) {
         )
     };
 
+    function TextIfVippsLoading() {
+        return (
+            <div className="subscriptionnotactivediv">
+                <h2>Sjekker Vipps status.....</h2>
+            </div>
+        )
+    };
+
 
     function SubscriptionText() {
 
@@ -241,21 +254,14 @@ function MemberFormUser(memberId) {
         else if (vippsAgreementStatus === "PENDING") {
             return <TextIfPending/>
         }
-        else if (formInputs.invoicechannel === 'vipps')
-        return <TextIfNotActive />
+        else if (formInputs.invoicechannel === 'vipps' && vippsAgreementStatus === 'LOADING') {
+            return <TextIfVippsLoading />
+        }
+        else if (formInputs.invoicechannel === 'vipps') {
+            return <TextIfNotActive />
+        }
         else return null
     };
-
-    // function PaymentStatus() {
-    //     if (!vippsPaymentStatus.allPayed) {
-    //         return (
-    //             <div>
-    //                 <h2>Gjenstående å betale: { vippsPaymentStatus.remainingAmount }</h2>
-    //             </div>
-    //         )
-    //     }
-    //     else return null
-    // };
    
     return (
         <div className="memberformusertopdiv">
