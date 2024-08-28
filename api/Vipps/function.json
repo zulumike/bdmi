@@ -2,18 +2,18 @@
   "bindings": [
     {
       "authLevel": "anonymous",
-      "type": "httpTrigger",
-      "direction": "in",
-      "name": "req",
+      "type": "httpTriggerStop",
+      "direction": "instop",
+      "name": "reqstop",
       "methods": [
-        "get",
-        "post"
+        "getstop",
+        "poststop"
       ]
     },
     {
-      "type": "http",
-      "direction": "out",
-      "name": "res"
+      "type": "httpstop",
+      "direction": "outstop",
+      "name": "resstop"
     }
   ]
 }
