@@ -104,7 +104,7 @@ function MemberForm() {
                     onChange={formChange}
                     />
                 <h4>Ønsker å betale via:</h4>
-                <input
+                {/* <input
                     type="radio"
                     name="invoicechannel"
                     id="invoicechannelvipps"
@@ -114,13 +114,14 @@ function MemberForm() {
                     onChange={formChange}
                     />
                 <label
-                    htmlFor="invoicechannelvipps"> Vipps  </label>
+                    htmlFor="invoicechannelvipps"> Vipps  </label> */}
                 <input
                     type="radio"
                     name="invoicechannel"
                     id="invoicechannelemail"
                     value="email"
-                    checked={formInputs.invoicechannel === "email"}
+                    checked
+                    // checked={formInputs.invoicechannel === "email"}
                     onChange={formChange}
                     />
                 <label
