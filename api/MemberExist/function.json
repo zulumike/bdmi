@@ -1,0 +1,46 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "name": "emailCheck",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "%bdmiDBName%",
+      "collectionName": "members",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.email = {email}",
+      "connectionStringSetting": "bdmiDBConnectionString"
+    },
+    {
+      "name": "phoneCheck",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "%bdmiDBName%",
+      "collectionName": "members",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.phone = {phone}",
+      "connectionStringSetting": "bdmiDBConnectionString"
+    },
+    {
+      "name": "givenMember",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "%bdmiDBName%",
+      "collectionName": "members",
+      "sqlQuery": "SELECT * FROM Documents WHERE Documents.id = {id}",
+      "connectionStringSetting": "bdmiDBConnectionString"
+    }
+  ]
+}

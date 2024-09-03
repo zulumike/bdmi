@@ -15,6 +15,7 @@ module.exports = async function (context, req) {
     const fileUrl = (req.query.fileUrl || (req.body && req.body.fileUrl));
     const subject = (req.query.subject || (req.body && req.body.subject));
     const text = (req.query.text || (req.body && req.body.text));
+    const login = (req.query.login || (req.body && req.body.login));
 
     let responseMessage = '';
     let status = 0;
@@ -60,6 +61,11 @@ module.exports = async function (context, req) {
     };
 
     async function email() {
+        const d = new Date();
+        const emailCode = d.getDate() * d.getMonth() * mailAddress[0].address.length + 1024
+        const messageText = (login == 0)
+            ? text
+            : 'Tast inn følgende kode for å fullføre innlogging/registrering: ' + emailCode
         await client.transmissions.send({
             options: {
             sandbox: false,
@@ -71,7 +77,7 @@ module.exports = async function (context, req) {
                 name: 'Bevar Dovrefjell mellom istidene'
             },
             subject: subject,
-            html:'<html><body><p>' + text + '</p></body></html>'
+            html:'<html><body><p>' + messageText + '</p></body></html>'
             },
             recipients: mailAddresses
         })

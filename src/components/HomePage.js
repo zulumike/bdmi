@@ -21,10 +21,13 @@ function HomePage() {
   const [ loggedInUserRole, setLoggedInUserRole ] = useState();
   const [ display, setDisplay ] = useState('none');
   const [ loginState, setLoginState ] = useState(0);
+  const [ randomCode, setRandomCode ] = useState(0);
 
   let userEmailAddr = '';
 
-  const randomCode = useRef(Math.floor(Math.random()*999999)+100001);
+  // const randomCode = useRef(Math.floor(Math.random()*999999)+100001);
+  // const d = new Date();
+  // const randomCode = useRef(d.getDate() * d.getMonth() * mailAddress.length)
 
 //*****************
 // Check if user exist in local storage.
@@ -76,8 +79,9 @@ useEffect(() => {
 
     async function submitData(e) {
       e.preventDefault();
-      if (parseInt(data) === randomCode.current) {
+      if (parseInt(data) === randomCode) {
         loggedInUser.current = userEmailAddr;
+        console.log(loggedInUserId);
         const memberData = await readGivenMember(loggedInUserId);
         setLoggedInUserRole(memberData[0].role);
         setLoggedInUserId(memberData[0].id);
@@ -112,9 +116,12 @@ useEffect(() => {
     userEmailAddr = prompt('Skriv inn e-post adresse').toLowerCase();
     if (userEmailAddr) {
       const [memberExist, , , memberId] = await checkIfMemberExist('', userEmailAddr);
+      console.log('memberid = ', memberId);
       setLoggedInUserId(memberId);
       if (memberExist) {
-        sendCodeByEmail(userEmailAddr, randomCode.current);
+        const d = new Date();
+        setRandomCode(d.getDate() * d.getMonth() * userEmailAddr.length + 1024);
+        sendCodeByEmail(userEmailAddr);
         setLoginState(1);
     }
     else alert('E-post eksisterer ikke');

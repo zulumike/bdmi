@@ -5,7 +5,7 @@
 //      code: string with random code from memberForm
 // Calls api to send random code by email
 
-async function sendCodeByEmail(mailAddress, code) {
+async function sendCodeByEmail(mailAddress) {
     let apiURL = '';
     if (process.env.NODE_ENV === 'production') {
         apiURL = '/api/SparkPost';
@@ -27,7 +27,7 @@ async function sendCodeByEmail(mailAddress, code) {
     let messageData = {};
     messageData.mailAddress = [{'address': mailAddress}];
     messageData.subject = 'Velkommen til Bevar Dovrefjell';
-    messageData.text = 'Tast inn følgende kode for å fullføre innlogging/registrering: ' + code;
+    // messageData.text = 'Tast inn følgende kode for å fullføre innlogging/registrering: ' + code;
     
     const responseMessage = await fetch(apiURL, {
         method: "POST",
