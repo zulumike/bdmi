@@ -1,4 +1,4 @@
-import readAllMembers from "../functions/readAllMembers";
+// import readAllMembers from "../functions/readAllMembers";
 
 //***********************
 // FUNCTION checkIfPhoneExist
@@ -29,10 +29,10 @@ async function checkIfMemberExist(phoneNumber, emailAddress) {
 
     }
 
-    if (emailAddress != '') {
+    if (emailAddress !== '') {
         dataBody = JSON.stringify({"email": emailAddress, "phone": '', "id": ''});
     }
-    else if (phoneNumber != '') {
+    else if (phoneNumber !== '') {
         dataBody = JSON.stringify({"phone": phoneNumber, "email": '', "id": ''});
     }
 
@@ -42,17 +42,17 @@ async function checkIfMemberExist(phoneNumber, emailAddress) {
     }
     )).json();
     console.log(data);
-    if (data.result == 'no user') {
+    if (data.result === 'no user') {
         memberExist = false;
     }
-    else if (data.result == 'email exist') {
+    else if (data.result === 'email exist') {
         memberExist = true;
         phoneOrEmail = 'E-post adresse';
         role = data.role;
         id = data.id;
         token = data.token;
     }
-    else if (data.result == 'phone exist') {
+    else if (data.result === 'phone exist') {
         memberExist = true;
         phoneOrEmail = 'Telefonnummer';
         role = data.role;
